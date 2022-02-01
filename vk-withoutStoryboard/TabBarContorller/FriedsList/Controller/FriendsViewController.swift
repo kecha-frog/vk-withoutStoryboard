@@ -54,9 +54,7 @@ class FriendsViewController: UIViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let friend = dataFriends[indexPath.row] as? FriendModel else {
-            return
-        }
+        let friend = dataFriends[indexPath.row]
         
         let friendCollectionVC = FriendCollectionViewController()
         friendCollectionVC.configure(title: friend.title, dataImages: friend.imageUser )

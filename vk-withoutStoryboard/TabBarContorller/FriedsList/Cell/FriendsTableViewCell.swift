@@ -23,6 +23,7 @@ class FriendsTableViewCell: UITableViewCell {
         imageView.clipsToBounds = true
         imageView.layer.borderWidth = 2.0
         imageView.layer.borderColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1).cgColor
+        
         return  imageView
     }()
     

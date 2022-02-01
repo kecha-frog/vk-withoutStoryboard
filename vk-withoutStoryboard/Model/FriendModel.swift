@@ -10,6 +10,7 @@ import Foundation
 struct ImageModel{
     let name:String
     var like: Int
+    var youLike: Bool
 }
 
 struct FriendModel{

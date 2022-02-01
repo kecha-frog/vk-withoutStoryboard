@@ -16,6 +16,12 @@ class FriendCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    let likeView: LikePhoto = {
+        let view = LikePhoto()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     static let identifier = "FriendCollectionViewCell"
     
     override init(frame: CGRect) {
@@ -41,10 +47,18 @@ class FriendCollectionViewCell: UICollectionViewCell {
             imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
         ])
-    
+        
+        addSubview(likeView)
+        NSLayoutConstraint.activate([
+            likeView.widthAnchor.constraint(equalToConstant: 25),
+            likeView.heightAnchor.constraint(equalToConstant: 25),
+            likeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            likeView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -8)
+        ])
     }
     
     func configure(_ image:ImageModel){
         imageView.image = UIImage(named: image.name)
+        likeView.configure(image.like, youLike: image.youLike)
     }
 }
