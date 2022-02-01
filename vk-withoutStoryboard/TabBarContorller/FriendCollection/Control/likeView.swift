@@ -78,7 +78,7 @@ class LikePhoto: UIControl {
     }
     
     @objc func likeAction(_ sender: UITapGestureRecognizer){
-        self.youLike = !youLike!
+        self.youLike?.toggle()
         if !youLike! {
             imageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
             likeCount -= 1
