@@ -25,7 +25,7 @@ class LikePhoto: UIControl {
     
     var label: UILabel = {
         let text = UILabel()
-        text.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+        text.font = UIFont.systemFont(ofSize: 11, weight: .bold)
         text.textColor = .white
         text.textAlignment = .center
         text.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +53,7 @@ class LikePhoto: UIControl {
         
         self.addSubview(label)
         NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1),
             label.rightAnchor.constraint(equalTo: rightAnchor),
             label.leftAnchor.constraint(equalTo: leftAnchor),
         ])
