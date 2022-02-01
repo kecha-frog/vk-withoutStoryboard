@@ -53,15 +53,15 @@ class LikePhoto: UIControl {
         NSLayoutConstraint.activate([
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.rightAnchor.constraint(equalTo: rightAnchor),
-            imageView.leftAnchor.constraint(equalTo: leftAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
         ])
         
         self.addSubview(label)
         NSLayoutConstraint.activate([
             label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1),
-            label.rightAnchor.constraint(equalTo: rightAnchor),
-            label.leftAnchor.constraint(equalTo: leftAnchor),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor),
         ])
     }
     

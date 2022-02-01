@@ -33,25 +33,25 @@ class FriendsTableViewCell: UITableViewCell {
     
     func setupUI(){
         contentView.addSubview(AvatarViewCell)
-        let widthConstraint = AvatarViewCell.widthAnchor.constraint(equalToConstant: 82)
-        widthConstraint.priority = UILayoutPriority(rawValue: 999)
-        let heightConstraint = AvatarViewCell.heightAnchor.constraint(equalToConstant: 82)
-        heightConstraint.priority = UILayoutPriority(rawValue: 999)
+        let topConstraint = AvatarViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
+        topConstraint.priority = UILayoutPriority(rawValue: 999)
+        let bottomConstraint = AvatarViewCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+        bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         
         NSLayoutConstraint.activate([
-            heightConstraint,
-            widthConstraint,
-            AvatarViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            AvatarViewCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            AvatarViewCell.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+            AvatarViewCell.widthAnchor.constraint(equalToConstant: 82),
+            AvatarViewCell.heightAnchor.constraint(equalToConstant: 82),
+            topConstraint,
+            bottomConstraint,
+            AvatarViewCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             AvatarViewCell.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
         
         contentView.addSubview(textLabelCell)
         NSLayoutConstraint.activate([
-            textLabelCell.leftAnchor.constraint(equalTo: AvatarViewCell.rightAnchor, constant: 8),
+            textLabelCell.leadingAnchor.constraint(equalTo: AvatarViewCell.trailingAnchor, constant: 8),
             textLabelCell.centerYAnchor.constraint(equalTo: AvatarViewCell.centerYAnchor),
-            textLabelCell.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16)
+            textLabelCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     

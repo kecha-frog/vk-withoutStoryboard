@@ -51,16 +51,16 @@ class LoginViewController: UIViewController {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            scrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
         scrollView.addSubview(loginView)
         NSLayoutConstraint.activate([
             loginView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             loginView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            loginView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            loginView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            loginView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            loginView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             loginView.widthAnchor.constraint(equalTo:scrollView.widthAnchor),
         ])
     }

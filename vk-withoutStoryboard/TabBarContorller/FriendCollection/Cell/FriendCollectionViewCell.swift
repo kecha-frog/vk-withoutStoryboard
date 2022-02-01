@@ -35,17 +35,18 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     func setupUI(){
         addSubview(imageView)
-        let widthConstraint = imageView.widthAnchor.constraint(equalToConstant: 160)
-        widthConstraint.priority = UILayoutPriority(rawValue: 999)
-        let heightConstraint = imageView.heightAnchor.constraint(equalToConstant: 160)
-        heightConstraint.priority = UILayoutPriority(rawValue: 999)
+        let topConstraint = imageView.topAnchor.constraint(equalTo: contentView.topAnchor)
+        topConstraint.priority = UILayoutPriority(rawValue: 999)
+        let bottomConstraint = imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        bottomConstraint.priority = UILayoutPriority(rawValue: 999)
+        
         NSLayoutConstraint.activate([
-            widthConstraint,
-            heightConstraint,
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 160),
+            imageView.heightAnchor.constraint(equalToConstant: 160),
+            topConstraint,
+            bottomConstraint,
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
         ])
         
         addSubview(likeView)
@@ -53,7 +54,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
             likeView.widthAnchor.constraint(equalToConstant: 25),
             likeView.heightAnchor.constraint(equalToConstant: 25),
             likeView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            likeView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -8)
+            likeView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
     }
     
