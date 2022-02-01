@@ -14,13 +14,13 @@ class LikePhoto: UIControl {
             label.text = String(likeCount)
         }
     }
-    
-    var button: UIButton = {
-        let button = UIButton()
+   
+    var imageView: UIImageView = {
+        let imageView = UIImageView()
         let image = UIImage(named: "like")
-        button.setImage(image, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        imageView.image = image
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     var label: UILabel = {
@@ -35,6 +35,16 @@ class LikePhoto: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupUI()
+        
+        let tapGestureRecognizer: UITapGestureRecognizer = {
+                let recognizer = UITapGestureRecognizer(target: self,
+                                                        action: #selector(likeAction))
+                recognizer.numberOfTapsRequired = 1    // Количество нажатий, необходимое для распознавания
+                recognizer.numberOfTouchesRequired = 1 // Количество пальцев, которые должны коснуться экрана для распознавания
+                return recognizer
+        }()
+        
+       addGestureRecognizer(tapGestureRecognizer)
     }
     
     required init?(coder: NSCoder) {
@@ -42,14 +52,14 @@ class LikePhoto: UIControl {
     }
     
     func setupUI(){
-        self.addSubview(button)
+        self.addSubview(imageView)
         NSLayoutConstraint.activate([
-            button.bottomAnchor.constraint(equalTo: bottomAnchor),
-            button.topAnchor.constraint(equalTo: topAnchor),
-            button.rightAnchor.constraint(equalTo: rightAnchor),
-            button.leftAnchor.constraint(equalTo: leftAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.rightAnchor.constraint(equalTo: rightAnchor),
+            imageView.leftAnchor.constraint(equalTo: leftAnchor),
         ])
-        button.addTarget(self, action: #selector(likeAction), for: .touchUpInside)
+      
         
         self.addSubview(label)
         NSLayoutConstraint.activate([
@@ -57,21 +67,23 @@ class LikePhoto: UIControl {
             label.rightAnchor.constraint(equalTo: rightAnchor),
             label.leftAnchor.constraint(equalTo: leftAnchor),
         ])
+        
     }
+    
     
     func configure(_ likeCount: Int, youLike:Bool){
         self.likeCount = likeCount
         self.youLike = youLike
-        button.tintColor = youLike ? .red : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        imageView.tintColor = youLike ? .red : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
     }
     
-    @objc func likeAction(){
+    @objc func likeAction(_ sender: UITapGestureRecognizer){
         self.youLike = !youLike!
         if !youLike! {
-            button.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+            imageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
             likeCount -= 1
         }else if youLike!{
-            button.tintColor = .red
+            imageView.tintColor = .red
             likeCount += 1
         }
     }
