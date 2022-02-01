@@ -25,6 +25,7 @@ class AvatarView: UIView {
     }
     
     func setupUI(){
+        addSubview(imageView)
         self.layer.borderWidth = 1
         self.layer.borderColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         
@@ -33,7 +34,6 @@ class AvatarView: UIView {
         self.layer.shadowRadius = 3
         self.layer.shadowOpacity = 0.5
         imageView.clipsToBounds = true
-        addSubview(imageView)
     }
     
     override func layoutSubviews() {
