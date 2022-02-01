@@ -8,6 +8,12 @@
 import UIKit
 
 class LikePhoto: UIControl {
+    //var youLike: Bool? {
+    //        didSet {
+    //            self.sendActions(for: .valueChanged)
+    //        }
+    //    }
+    
     var youLike: Bool?
     var likeCount: Int = 0{
         didSet{

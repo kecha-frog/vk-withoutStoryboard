@@ -60,5 +60,13 @@ class FriendCollectionViewCell: UICollectionViewCell {
     func configure(_ image:ImageModel){
         imageView.image = UIImage(named: image.name)
         likeView.configure(image.like, youLike: image.youLike)
+        //likeView.addTarget(self, action: #selector(likePhotoAction(_:)), for: .valueChanged)
     }
+
+//    @objc func likePhotoAction(_ sender:LikePhoto){
+//        guard let like = likePhotoView.youLike else {
+//            return
+//        }
+//        print(like)
+//    }
 }
