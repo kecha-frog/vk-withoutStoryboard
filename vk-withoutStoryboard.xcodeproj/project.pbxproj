@@ -28,7 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F210040B27A1352A00073B94 /* firstApp-withoutStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "firstApp-withoutStoryboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vk-withoutStoryboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F210040E27A1352A00073B94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F210041027A1352A00073B94 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F210041227A1352A00073B94 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 		F210040227A1352A00073B94 = {
 			isa = PBXGroup;
 			children = (
-				F210040D27A1352A00073B94 /* firstApp-withoutStoryboard */,
+				F210040D27A1352A00073B94 /* vk-withoutStoryboard */,
 				F210040C27A1352A00073B94 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,12 +73,12 @@
 		F210040C27A1352A00073B94 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F210040B27A1352A00073B94 /* firstApp-withoutStoryboard.app */,
+				F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F210040D27A1352A00073B94 /* firstApp-withoutStoryboard */ = {
+		F210040D27A1352A00073B94 /* vk-withoutStoryboard */ = {
 			isa = PBXGroup;
 			children = (
 				F21EB5AF27A80E2B003698CD /* TabBarContorller */,
@@ -92,7 +92,7 @@
 				F210041C27A1352B00073B94 /* Info.plist */,
 				F210042327A139D600073B94 /* readmi.md */,
 			);
-			path = "firstApp-withoutStoryboard";
+			path = "vk-withoutStoryboard";
 			sourceTree = "<group>";
 		};
 		F210042227A1379800073B94 /* Login */ = {
@@ -252,9 +252,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F210040A27A1352A00073B94 /* firstApp-withoutStoryboard */ = {
+		F210040A27A1352A00073B94 /* vk-withoutStoryboard */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F210041F27A1352B00073B94 /* Build configuration list for PBXNativeTarget "firstApp-withoutStoryboard" */;
+			buildConfigurationList = F210041F27A1352B00073B94 /* Build configuration list for PBXNativeTarget "vk-withoutStoryboard" */;
 			buildPhases = (
 				F210040727A1352A00073B94 /* Sources */,
 				F210040827A1352A00073B94 /* Frameworks */,
@@ -264,9 +264,9 @@
 			);
 			dependencies = (
 			);
-			name = "firstApp-withoutStoryboard";
+			name = "vk-withoutStoryboard";
 			productName = "firstApp-withoutStoryboard";
-			productReference = F210040B27A1352A00073B94 /* firstApp-withoutStoryboard.app */;
+			productReference = F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -284,7 +284,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F210040627A1352A00073B94 /* Build configuration list for PBXProject "firstApp-withoutStoryboard" */;
+			buildConfigurationList = F210040627A1352A00073B94 /* Build configuration list for PBXProject "vk-withoutStoryboard" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -297,7 +297,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F210040A27A1352A00073B94 /* firstApp-withoutStoryboard */,
+				F210040A27A1352A00073B94 /* vk-withoutStoryboard */,
 			);
 		};
 /* End PBXProject section */
@@ -477,7 +477,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 97UL48L835;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "firstApp-withoutStoryboard/Info.plist";
+				INFOPLIST_FILE = "vk-withoutStoryboard/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "vk-no-storyboard";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -487,7 +488,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "gb.firstApp-withoutStoryboard";
+				PRODUCT_BUNDLE_IDENTIFIER = "gb.vk-withoutStoryboard";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -504,7 +505,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 97UL48L835;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "firstApp-withoutStoryboard/Info.plist";
+				INFOPLIST_FILE = "vk-withoutStoryboard/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "vk-no-storyboard";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -514,7 +516,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "gb.firstApp-withoutStoryboard";
+				PRODUCT_BUNDLE_IDENTIFIER = "gb.vk-withoutStoryboard";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -525,7 +527,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F210040627A1352A00073B94 /* Build configuration list for PBXProject "firstApp-withoutStoryboard" */ = {
+		F210040627A1352A00073B94 /* Build configuration list for PBXProject "vk-withoutStoryboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F210041D27A1352B00073B94 /* Debug */,
@@ -534,7 +536,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F210041F27A1352B00073B94 /* Build configuration list for PBXNativeTarget "firstApp-withoutStoryboard" */ = {
+		F210041F27A1352B00073B94 /* Build configuration list for PBXNativeTarget "vk-withoutStoryboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F210042027A1352B00073B94 /* Debug */,
