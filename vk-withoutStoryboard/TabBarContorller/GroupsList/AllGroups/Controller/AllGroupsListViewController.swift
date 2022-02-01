@@ -32,7 +32,7 @@ class AllGroupsListViewController: UIViewController {
     }
     
     func setupUI(){
-        self.title = "All Groups"
+        title = "All Groups"
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([

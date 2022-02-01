@@ -41,7 +41,7 @@ class FriendsViewController: UIViewController {
     }
 
     func setupUI(){
-        self.title = "Friends"
+        title = "Friends"
         dataFriends = storage.friends
         
         view.addSubview(tableView)

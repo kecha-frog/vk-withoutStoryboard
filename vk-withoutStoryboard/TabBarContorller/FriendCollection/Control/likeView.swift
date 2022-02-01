@@ -40,7 +40,8 @@ class LikePhoto: UIControl {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.setupUI()
+        setupUI()
+        addGestureRecognizer()
     }
     
     required init?(coder: NSCoder) {
@@ -56,18 +57,17 @@ class LikePhoto: UIControl {
             imageView.leftAnchor.constraint(equalTo: leftAnchor),
         ])
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeAction))
-        addGestureRecognizer(tapGestureRecognizer)
-        
         self.addSubview(label)
         NSLayoutConstraint.activate([
             label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1),
             label.rightAnchor.constraint(equalTo: rightAnchor),
             label.leftAnchor.constraint(equalTo: leftAnchor),
         ])
-        
-        
-        
+    }
+    
+    func addGestureRecognizer(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(likeAction))
+        addGestureRecognizer(tap)
     }
     
     

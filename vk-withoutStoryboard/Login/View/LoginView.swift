@@ -42,7 +42,12 @@ class LoginView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        //настройки
         self.setupUI()
+        self.setupTextField()
+        self.setupButton()
+        //  Прописал для удобной проверки
+        self.fastEntry()
     }
     
     required init?(coder: NSCoder) {
@@ -53,11 +58,6 @@ class LoginView: UIView {
     var delegate: LoginViewDelegate?
     
     func setupUI(){
-        //настройки
-        self.setupTextField()
-        self.setupButton()
-        //  Прописал для удобной проверки
-        self.fastEntry()
         
         addSubview(imageLogo)
         NSLayoutConstraint.activate([
