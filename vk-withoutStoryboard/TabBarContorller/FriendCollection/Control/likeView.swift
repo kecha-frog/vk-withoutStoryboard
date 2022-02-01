@@ -35,16 +35,6 @@ class LikePhoto: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupUI()
-        
-        let tapGestureRecognizer: UITapGestureRecognizer = {
-                let recognizer = UITapGestureRecognizer(target: self,
-                                                        action: #selector(likeAction))
-                recognizer.numberOfTapsRequired = 1    // Количество нажатий, необходимое для распознавания
-                recognizer.numberOfTouchesRequired = 1 // Количество пальцев, которые должны коснуться экрана для распознавания
-                return recognizer
-        }()
-        
-       addGestureRecognizer(tapGestureRecognizer)
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +49,9 @@ class LikePhoto: UIControl {
             imageView.rightAnchor.constraint(equalTo: rightAnchor),
             imageView.leftAnchor.constraint(equalTo: leftAnchor),
         ])
-      
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeAction))
+        addGestureRecognizer(tapGestureRecognizer)
         
         self.addSubview(label)
         NSLayoutConstraint.activate([
@@ -67,6 +59,8 @@ class LikePhoto: UIControl {
             label.rightAnchor.constraint(equalTo: rightAnchor),
             label.leftAnchor.constraint(equalTo: leftAnchor),
         ])
+        
+        
         
     }
     
