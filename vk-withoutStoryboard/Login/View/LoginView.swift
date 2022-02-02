@@ -69,16 +69,16 @@ class LoginView: UIView {
         let indentVerticalConstraint:CGFloat = 20
         NSLayoutConstraint.activate([
             loginTextField.topAnchor.constraint(equalTo: imageLogo.bottomAnchor, constant: indentVerticalConstraint),
-            loginTextField.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
-            loginTextField.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
+            loginTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            loginTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             loginTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         addSubview(passTextField)
         NSLayoutConstraint.activate([
             passTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: 1),
-            passTextField.leftAnchor.constraint(equalTo: loginTextField.leftAnchor),
-            passTextField.rightAnchor.constraint(equalTo: loginTextField.rightAnchor),
+            passTextField.leadingAnchor.constraint(equalTo: loginTextField.leadingAnchor),
+            passTextField.trailingAnchor.constraint(equalTo: loginTextField.trailingAnchor),
             passTextField.heightAnchor.constraint(equalTo: loginTextField.heightAnchor)
         ])
         
@@ -86,8 +86,8 @@ class LoginView: UIView {
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: passTextField.bottomAnchor, constant: indentVerticalConstraint),
             button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: indentVerticalConstraint),
-            button.leftAnchor.constraint(equalTo: passTextField.leftAnchor),
-            button.rightAnchor.constraint(equalTo: passTextField.rightAnchor),
+            button.leadingAnchor.constraint(equalTo: passTextField.leadingAnchor),
+            button.trailingAnchor.constraint(equalTo: passTextField.trailingAnchor),
             button.heightAnchor.constraint(equalTo: passTextField.heightAnchor),
         ])
     }

@@ -32,25 +32,25 @@ class GroupTableViewCell: UITableViewCell {
     
     func setupUi(){
         contentView.addSubview(imageViewCell)
-        let widthConstraint = imageViewCell.widthAnchor.constraint(equalToConstant: 82)
-        widthConstraint.priority = UILayoutPriority(rawValue: 999)
-        let heightConstraint = imageViewCell.heightAnchor.constraint(equalToConstant: 82)
-        heightConstraint.priority = UILayoutPriority(rawValue: 999)
+        let topConstraint = imageViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
+        topConstraint.priority = UILayoutPriority(rawValue: 999)
+        let bottomConstraint = imageViewCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+        bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         
         NSLayoutConstraint.activate([
-            heightConstraint,
-            widthConstraint,
-            imageViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            imageViewCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            imageViewCell.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+            imageViewCell.widthAnchor.constraint(equalToConstant: 82),
+            imageViewCell.heightAnchor.constraint(equalToConstant: 82),
+            topConstraint,
+            bottomConstraint,
+            imageViewCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             imageViewCell.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
         
         contentView.addSubview(nameLabel)
         NSLayoutConstraint.activate([
-            nameLabel.leftAnchor.constraint(equalTo: imageViewCell.rightAnchor, constant: 8),
+            nameLabel.leadingAnchor.constraint(equalTo: imageViewCell.trailingAnchor, constant: 8),
             nameLabel.centerYAnchor.constraint(equalTo: imageViewCell.centerYAnchor),
-            nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16)
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     

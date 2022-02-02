@@ -8,9 +8,9 @@
 import UIKit
 
 class FriendCollectionViewController: UIViewController {
-    var dataUserImage:[ImageModel] = []
+    private var dataUserImage:[ImageModel] = []
     
-    let collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
         viewLayout.sectionInset = UIEdgeInsets(top: 3, left: 10, bottom: 0, right: 10)
         viewLayout.itemSize = CGSize(width: 160, height: 160)
@@ -28,13 +28,13 @@ class FriendCollectionViewController: UIViewController {
         collectionView.dataSource = self
     }
     
-    func setupUI(){
+    private func setupUI(){
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 10),
-            collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
         ])
     }
     
@@ -51,8 +51,21 @@ extension FriendCollectionViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.identifier, for: indexPath) as! FriendCollectionViewCell
-        cell.configure(dataUserImage[indexPath.item])
+        cell.configure(dataUserImage[indexPath.item], index:indexPath.row)
+        cell.delegate = self
         return cell
+    }
+}
+
+extension FriendCollectionViewController: FriendCollectionViewCellDelegate{
+    func actionLikePhoto(_ like: Bool, indexPhoto: Int) {
+        dataUserImage[indexPhoto].youLike.toggle()
+        if like {
+            dataUserImage[indexPhoto].like += 1
+        }else if !like {
+            dataUserImage[indexPhoto].like -= 1
+        }
+        collectionView.reloadItems(at: [IndexPath(item: indexPhoto, section: 0)])
     }
 }
 

@@ -8,7 +8,7 @@
 import UIKit
 
 class AvatarView: UIView {
-    var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +24,7 @@ class AvatarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupUI(){
+    private func setupUI(){
         addSubview(imageView)
         imageView.clipsToBounds = true
         layer.borderWidth = 1
