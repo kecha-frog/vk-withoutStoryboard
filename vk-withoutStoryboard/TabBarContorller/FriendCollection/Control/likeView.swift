@@ -8,20 +8,14 @@
 import UIKit
 
 class LikePhoto: UIControl {
-    //var youLike: Bool? {
-    //        didSet {
-    //            self.sendActions(for: .valueChanged)
-    //        }
-    //    }
-    
     var youLike: Bool?
-    var likeCount: Int = 0{
+    private var likeCount: Int = 0{
         didSet{
             label.text = String(likeCount)
         }
     }
    
-    var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         let image = UIImage(named: "like")
         imageView.image = image
@@ -29,7 +23,7 @@ class LikePhoto: UIControl {
         return imageView
     }()
     
-    var label: UILabel = {
+    private var label: UILabel = {
         let text = UILabel()
         text.font = UIFont.systemFont(ofSize: 11, weight: .bold)
         text.textColor = .white
@@ -48,7 +42,7 @@ class LikePhoto: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupUI(){
+    private func setupUI(){
         self.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -65,7 +59,7 @@ class LikePhoto: UIControl {
         ])
     }
     
-    func addGestureRecognizer(){
+    private func addGestureRecognizer(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(likeAction))
         addGestureRecognizer(tap)
     }
@@ -77,14 +71,8 @@ class LikePhoto: UIControl {
         imageView.tintColor = youLike ? .red : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
     }
     
-    @objc func likeAction(_ sender: UITapGestureRecognizer){
+    @objc private func likeAction(_ sender: UITapGestureRecognizer){
         self.youLike?.toggle()
-        if !youLike! {
-            imageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-            likeCount -= 1
-        }else if youLike!{
-            imageView.tintColor = .red
-            likeCount += 1
-        }
+        self.sendActions(for: .valueChanged)
     }
 }

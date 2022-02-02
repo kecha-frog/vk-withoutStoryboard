@@ -10,13 +10,13 @@ import UIKit
 class FriendsTableViewCell: UITableViewCell {
     static var identifier = "FriendsTableViewCell"
     
-    let textLabelCell:UILabel = {
+    private let textLabelCell:UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     
-    let AvatarViewCell:AvatarView = {
+    private let AvatarViewCell:AvatarView = {
         let imageView = AvatarView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return  imageView
@@ -31,7 +31,7 @@ class FriendsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupUI(){
+    private func setupUI(){
         contentView.addSubview(AvatarViewCell)
         let topConstraint = AvatarViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
         topConstraint.priority = UILayoutPriority(rawValue: 999)

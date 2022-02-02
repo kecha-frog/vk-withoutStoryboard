@@ -8,7 +8,7 @@
 import UIKit
 
 class FriendCollectionViewCell: UICollectionViewCell {
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -16,12 +16,12 @@ class FriendCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    let likeView: LikePhoto = {
+    private let likeView: LikePhoto = {
         let view = LikePhoto()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+    private var indexImage:Int?
     static let identifier = "FriendCollectionViewCell"
     
     override init(frame: CGRect) {
@@ -32,8 +32,8 @@ class FriendCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func setupUI(){
+    var delegate: FriendCollectionViewCellDelegate?
+    private func setupUI(){
         addSubview(imageView)
         let topConstraint = imageView.topAnchor.constraint(equalTo: contentView.topAnchor)
         topConstraint.priority = UILayoutPriority(rawValue: 999)
@@ -58,16 +58,21 @@ class FriendCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(_ image:ImageModel){
+    func configure(_ image:ImageModel, index: Int){
+        indexImage = index
         imageView.image = UIImage(named: image.name)
         likeView.configure(image.like, youLike: image.youLike)
-        //likeView.addTarget(self, action: #selector(likePhotoAction(_:)), for: .valueChanged)
+        likeView.addTarget(self, action: #selector(likePhotoAction), for: .valueChanged)
     }
 
-//    @objc func likePhotoAction(_ sender:LikePhoto){
-//        guard let like = likePhotoView.youLike else {
-//            return
-//        }
-//        print(like)
-//    }
+    @objc private func likePhotoAction(){
+        guard let like = likeView.youLike, let index = indexImage else {
+            return
+        }
+        delegate?.actionLikePhoto(like, indexPhoto: index)
+    }
+}
+
+protocol FriendCollectionViewCellDelegate: AnyObject{
+    func actionLikePhoto(_ like:Bool, indexPhoto: Int)
 }

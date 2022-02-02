@@ -8,14 +8,14 @@
 import UIKit
 
 class FriendsViewController: UIViewController {
-    let tableView:UITableView = {
+    private let tableView:UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    let storage = FriendsStorage()
-    var dataFriends:[FriendModel] = []
+    private let storage = FriendsStorage()
+    private var dataFriends:[FriendModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,15 @@ class FriendsViewController: UIViewController {
         return UISwipeActionsConfiguration(actions: [delete])
     }
     
-    func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let friend = dataFriends[indexPath.row]
+        
+        let friendCollectionVC = FriendCollectionViewController()
+        friendCollectionVC.configure(title: friend.title, dataImages: friend.imageUser )
+        navigationController?.pushViewController(friendCollectionVC, animated: true)
+    }
+    
+    private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             self.dataFriends.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .fade)
@@ -40,7 +48,7 @@ class FriendsViewController: UIViewController {
         return action
     }
 
-    func setupUI(){
+    private func setupUI(){
         title = "Friends"
         dataFriends = storage.friends
         
@@ -51,14 +59,6 @@ class FriendsViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let friend = dataFriends[indexPath.row]
-        
-        let friendCollectionVC = FriendCollectionViewController()
-        friendCollectionVC.configure(title: friend.title, dataImages: friend.imageUser )
-        navigationController?.pushViewController(friendCollectionVC, animated: true)
     }
     
 }
