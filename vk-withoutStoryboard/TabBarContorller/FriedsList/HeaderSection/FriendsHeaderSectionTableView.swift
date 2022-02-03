@@ -19,9 +19,7 @@ class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
         return text
     }()
     
-    func confugure(_ text: String){
-        label.text = text
-    }
+
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -29,6 +27,10 @@ class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setText(_ text: String){
+        label.text = text
     }
     
     private func setupUI(){

@@ -15,6 +15,7 @@ class FriendsViewController: UIViewController {
     }()
     
     private let storage = FriendsStorage()
+    // массив для хедера
     private var firstLetters = [Character]()
     private var dataFriends:[[FriendModel]] = []
     
@@ -22,6 +23,7 @@ class FriendsViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
+        // регистрирую хедер
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -99,7 +101,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
     // хедер
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
-        header.confugure(String(firstLetters[section]))
+        header.setText(String(firstLetters[section]))
         return header
     }
     

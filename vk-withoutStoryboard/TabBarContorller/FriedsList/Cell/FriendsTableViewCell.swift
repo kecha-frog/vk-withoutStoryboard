@@ -31,6 +31,11 @@ class FriendsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        textLabelCell.text = nil
+    }
+    
     private func setupUI(){
         contentView.addSubview(AvatarViewCell)
         let topConstraint = AvatarViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)

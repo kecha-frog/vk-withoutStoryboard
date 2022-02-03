@@ -13,17 +13,21 @@ class FavoriteGroupsListViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
-
+    // backup групп для востановления
+    let searchBar: UISearchBar = GroupsSearchBar()
+    var backupFavoriteGroup: [GroupModel] = []
     var dataFavoriteGroup: [GroupModel] = []
     let storage = GroupsStorage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+    
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
+        tableView.tableHeaderView = searchBar
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        searchBar.delegate = self
     }
     
     func setupUI(){
@@ -72,7 +76,6 @@ class FavoriteGroupsListViewController: UIViewController {
         action.image = UIImage(systemName: "trash.fill")
         return action
     }
-    
 }
 
 extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataSource {
@@ -90,6 +93,30 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
 extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
     func selectGroup(_ sender: GroupModel) {
         dataFavoriteGroup.append(sender)
+        tableView.reloadData()
+    }
+}
+
+
+extension FavoriteGroupsListViewController: UISearchBarDelegate{
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        backupFavoriteGroup = dataFavoriteGroup
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar){
+        searchBar.text = nil
+        searchBar.endEditing(true)
+        dataFavoriteGroup = backupFavoriteGroup
+        tableView.reloadData()
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        dataFavoriteGroup = backupFavoriteGroup
+        if searchText == "" {
+            searchBar.endEditing(true)
+        }else{
+            dataFavoriteGroup = dataFavoriteGroup.filter { $0.name.lowercased().contains(searchText.lowercased())}
+        }
         tableView.reloadData()
     }
 }
