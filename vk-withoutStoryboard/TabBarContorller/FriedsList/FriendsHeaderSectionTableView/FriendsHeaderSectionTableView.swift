@@ -14,6 +14,8 @@ class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
     private let label: UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
+        text.alpha = 0.7
+        text.textColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         return text
     }()
     

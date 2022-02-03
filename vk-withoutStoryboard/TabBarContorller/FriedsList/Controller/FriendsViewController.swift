@@ -43,7 +43,7 @@ class FriendsViewController: UIViewController {
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             self.dataFriends[indexPath.section].remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
             if self.dataFriends[indexPath.section].isEmpty {
                 self.firstLetters.remove(at: indexPath.section)
                 self.dataFriends.remove(at: indexPath.section)
@@ -56,6 +56,9 @@ class FriendsViewController: UIViewController {
     }
 
     private func setupUI(){
+        // убрал пустоту
+        tableView.sectionHeaderTopPadding = 5
+        
         title = "Friends"
         let friendsStorage = storage.friends
         firstLetters = firstLettersArray(friendsStorage)
