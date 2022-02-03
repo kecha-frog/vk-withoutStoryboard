@@ -95,6 +95,7 @@ extension LoginViewController:LoginViewDelegate{
         }
         alertController.addAction(closeAction)
         present(alertController, animated: true, completion: nil)
+        
     }
     
     func checkLoginPassword(_ sender: Bool) {
