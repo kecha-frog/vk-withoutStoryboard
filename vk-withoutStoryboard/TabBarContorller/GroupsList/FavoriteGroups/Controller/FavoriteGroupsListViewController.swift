@@ -13,8 +13,10 @@ class FavoriteGroupsListViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    let searchBar =  SearchBarHeaderTableView()
+    
     // backup групп для востановления
-    let searchBar: UISearchBar = GroupsSearchBar()
     var backupFavoriteGroup: [GroupModel] = []
     var dataFavoriteGroup: [GroupModel] = []
     let storage = GroupsStorage()
@@ -22,9 +24,7 @@ class FavoriteGroupsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-    
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
-        tableView.tableHeaderView = searchBar
         self.tableView.delegate = self
         self.tableView.dataSource = self
         searchBar.delegate = self
@@ -32,7 +32,10 @@ class FavoriteGroupsListViewController: UIViewController {
     
     func setupUI(){
         dataFavoriteGroup = storage.userGroups
+        
         self.title = "Groups"
+        tableView.tableHeaderView = searchBar
+        
         self.view.addSubview(self.tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -97,19 +100,16 @@ extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
     }
 }
 
-
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         backupFavoriteGroup = dataFavoriteGroup
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar){
-        searchBar.text = nil
-        searchBar.endEditing(true)
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         dataFavoriteGroup = backupFavoriteGroup
         tableView.reloadData()
     }
-
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         dataFavoriteGroup = backupFavoriteGroup
         if searchText == "" {
