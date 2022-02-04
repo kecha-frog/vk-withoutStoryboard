@@ -9,8 +9,6 @@ import UIKit
 
 
 class SearchBarHeaderTableView: UIView{
-    private var isON = false
-    
     private let button:UIButton = {
         let image = UIImage(systemName: "magnifyingglass")
         let button = UIButton(type: .system)
@@ -76,13 +74,12 @@ class SearchBarHeaderTableView: UIView{
     
     // появление поиска
     @objc private func searchBarFunc(){
-        if isON {
+        if subviews.contains(searchBar) {
             searchBar.removeFromSuperview()
             button.backgroundColor = .lightGray
         }else{
             addSearchBar()
             button.backgroundColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         }
-        isON.toggle()
     }
 }
