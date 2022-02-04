@@ -29,6 +29,8 @@
 		F25869ED27A934F100A86D87 /* likeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25869EC27A934F100A86D87 /* likeView.swift */; };
 		F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */; };
 		F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */; };
+		F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */; };
+		F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +59,8 @@
 		F25869EC27A934F100A86D87 /* likeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = likeView.swift; sourceTree = "<group>"; };
 		F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderTableView.swift; sourceTree = "<group>"; };
+		F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
+		F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +185,7 @@
 		F21EB5AF27A80E2B003698CD /* TabBarContorller */ = {
 			isa = PBXGroup;
 			children = (
+				F2890BDF27AD76950038AF8F /* NewsList */,
 				F21EB5A027A7D581003698CD /* FriendCollection */,
 				F22E014627A6BDB900B0FB27 /* FriedsList */,
 				F22E014A27A6BE3900B0FB27 /* GroupsList */,
@@ -293,6 +298,31 @@
 			path = Control;
 			sourceTree = "<group>";
 		};
+		F2890BDF27AD76950038AF8F /* NewsList */ = {
+			isa = PBXGroup;
+			children = (
+				F2890BE327AD78B50038AF8F /* Cell */,
+				F2890BE227AD78A60038AF8F /* Controller */,
+			);
+			path = NewsList;
+			sourceTree = "<group>";
+		};
+		F2890BE227AD78A60038AF8F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		F2890BE327AD78B50038AF8F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -372,8 +402,10 @@
 				F24E7A7327AC12D400E12148 /* FriendsHeaderSectionTableView.swift in Sources */,
 				F210042827A17DED00073B94 /* LoginView.swift in Sources */,
 				F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */,
+				F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */,
 				F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */,
 				F25869ED27A934F100A86D87 /* likeView.swift in Sources */,
+				F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */,
 				F22E015527A6BFCD00B0FB27 /* FriendModel.swift in Sources */,
 				F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */,
 				F21EB5A327A7D5D3003698CD /* FriendCollectionViewController.swift in Sources */,

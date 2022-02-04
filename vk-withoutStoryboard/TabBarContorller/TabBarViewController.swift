@@ -29,6 +29,17 @@ class TabBarViewController: UITabBarController {
         viewController.tabBarItem = tarBarItem
         return viewController
     }()
+    
+    private let itemNews: UIViewController = {
+        let image = UIImage(systemName: "newspaper")
+        let imageFill = UIImage(systemName: "newspaper.fill")
+        let tarBarItem = UITabBarItem(title: "News", image: image, selectedImage: imageFill)
+        
+        let viewController = UINavigationController(rootViewController: NewsTableViewController())
+        viewController.view.backgroundColor = .white
+        viewController.tabBarItem = tarBarItem
+        return viewController
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +49,6 @@ class TabBarViewController: UITabBarController {
     private func setupUI(){
         tabBar.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         tabBar.backgroundColor = .white
-        viewControllers = [itemFriends, itemGroups]
+        viewControllers = [itemFriends, itemNews, itemGroups]
     }
 }
