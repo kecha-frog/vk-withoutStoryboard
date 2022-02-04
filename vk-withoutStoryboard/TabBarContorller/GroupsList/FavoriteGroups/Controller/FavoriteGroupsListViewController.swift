@@ -130,9 +130,7 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         dataFavoriteGroup = backupFavoriteGroup
-        if searchText == "" {
-            searchBar.endEditing(true)
-        }else{
+        if searchText != "" {
             dataFavoriteGroup = dataFavoriteGroup.filter { $0.name.lowercased().contains(searchText.lowercased())}
         }
         tableView.reloadData()
