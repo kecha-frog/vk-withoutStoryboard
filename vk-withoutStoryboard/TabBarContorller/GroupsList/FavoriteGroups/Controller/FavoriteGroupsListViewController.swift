@@ -52,6 +52,7 @@ class FavoriteGroupsListViewController: UIViewController {
         navigationItem.setLeftBarButton(button, animated: true)
     }
     
+    // вкл/выкл поиска
     @objc private func showSearchBar(){
         if tableView.tableHeaderView != nil {
             tableView.tableHeaderView = nil
@@ -62,7 +63,6 @@ class FavoriteGroupsListViewController: UIViewController {
         }
         
     }
-    
     
     //для делегата
     private var AllGroupsVC : AllGroupsListViewController? = nil
@@ -117,6 +117,7 @@ extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
     }
 }
 
+// делегат для поиска
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         backupFavoriteGroup = dataFavoriteGroup
