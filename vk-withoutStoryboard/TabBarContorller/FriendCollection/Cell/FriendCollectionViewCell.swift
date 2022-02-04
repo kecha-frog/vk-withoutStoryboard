@@ -39,6 +39,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
     }
     
     var delegate: FriendCollectionViewCellDelegate?
+    
     private func setupUI(){
         addSubview(imageView)
         let topConstraint = imageView.topAnchor.constraint(equalTo: contentView.topAnchor)
@@ -46,9 +47,12 @@ class FriendCollectionViewCell: UICollectionViewCell {
         let bottomConstraint = imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         
+    
+        
+        let width = (UIScreen.main.bounds.width - 9) / 2 
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 160),
-            imageView.heightAnchor.constraint(equalToConstant: 160),
+            imageView.widthAnchor.constraint(equalToConstant: width),
+            imageView.heightAnchor.constraint(equalToConstant: width),
             topConstraint,
             bottomConstraint,
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

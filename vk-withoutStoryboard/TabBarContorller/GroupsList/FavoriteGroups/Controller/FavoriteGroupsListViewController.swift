@@ -34,7 +34,6 @@ class FavoriteGroupsListViewController: UIViewController {
         dataFavoriteGroup = storage.userGroups
         
         self.title = "Groups"
-        tableView.tableHeaderView = searchBar
         
         self.view.addSubview(self.tableView)
         NSLayoutConstraint.activate([
@@ -45,8 +44,25 @@ class FavoriteGroupsListViewController: UIViewController {
         ])
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(actionAddGroup))
+        addButton.tintColor = .black
         navigationItem.setRightBarButton(addButton, animated: true)
+        
+        let button = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
+        button.tintColor = .black
+        navigationItem.setLeftBarButton(button, animated: true)
     }
+    
+    @objc private func showSearchBar(){
+        if tableView.tableHeaderView != nil {
+            tableView.tableHeaderView = nil
+            navigationItem.leftBarButtonItem!.tintColor = .black
+        } else{
+            navigationItem.leftBarButtonItem!.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
+            tableView.tableHeaderView = searchBar
+        }
+        
+    }
+    
     
     //для делегата
     private var AllGroupsVC : AllGroupsListViewController? = nil
