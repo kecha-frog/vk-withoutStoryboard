@@ -89,6 +89,7 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupTableViewCell.identifier) as! GroupTableViewCell
         cell.configure(group: dataFavoriteGroup[indexPath.row])
+        cell.selectionStyle = .none
         return cell
     }
 }
