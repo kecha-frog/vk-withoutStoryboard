@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
     }
     
     private func setupUI(){
-        // делегат
+        
         loginView.delegate = self
         
         view.addSubview(scrollView)
@@ -84,7 +84,6 @@ class LoginViewController: UIViewController {
     }
 }
 
-// делегат
 extension LoginViewController:LoginViewDelegate{
     func showAlert(tittle: String, message: String){
         let alertController = UIAlertController(title: tittle, message: message, preferredStyle: .alert)

@@ -7,7 +7,6 @@
 
 import UIKit
 
-// делегат
 protocol LoginViewDelegate: AnyObject{
     func checkLoginPassword(_ sender: Bool)
 }
@@ -42,7 +41,6 @@ class LoginView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //настройки
         self.setupUI()
         self.setupTextField()
         self.setupButton()
@@ -54,7 +52,6 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // делегат
     var delegate: LoginViewDelegate?
     
     func setupUI(){
@@ -125,12 +122,12 @@ class LoginView: UIView {
         }
         
         guard loginTextField.text == "admin" && passTextField.text == "admin" else{
-            // делегат
+            
             delegate?.checkLoginPassword(false)
             return
         }
         
-        // делегат
+        
         delegate?.checkLoginPassword(true)
     }
     

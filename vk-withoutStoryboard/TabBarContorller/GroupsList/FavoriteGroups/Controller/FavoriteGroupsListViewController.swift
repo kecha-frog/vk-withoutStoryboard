@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: 2
 class FavoriteGroupsListViewController: UIViewController {
     private let tableView: UITableView = {
        let tableView = UITableView()
@@ -47,6 +48,7 @@ class FavoriteGroupsListViewController: UIViewController {
         addButton.tintColor = .black
         navigationItem.setRightBarButton(addButton, animated: true)
         
+        // Добавляю кнопку для поиска
         let button = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
         button.tintColor = .black
         navigationItem.setLeftBarButton(button, animated: true)
