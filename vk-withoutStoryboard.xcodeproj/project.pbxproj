@@ -219,7 +219,7 @@
 		F22E014A27A6BE3900B0FB27 /* GroupsList */ = {
 			isa = PBXGroup;
 			children = (
-				F24E7A7427AC406400E12148 /* SearchBar */,
+				F24E7A7427AC406400E12148 /* SearchBarHeader */,
 				F21EB5A727A7F0C7003698CD /* CommonCell */,
 				F21EB5AB27A7FC1B003698CD /* AllGroups */,
 				F21EB5AA27A7FC0E003698CD /* FavoriteGroups */,
@@ -269,12 +269,12 @@
 			path = HeaderSection;
 			sourceTree = "<group>";
 		};
-		F24E7A7427AC406400E12148 /* SearchBar */ = {
+		F24E7A7427AC406400E12148 /* SearchBarHeader */ = {
 			isa = PBXGroup;
 			children = (
 				F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */,
 			);
-			path = SearchBar;
+			path = SearchBarHeader;
 			sourceTree = "<group>";
 		};
 		F252990B27A93E9600E10CEF /* CustomView */ = {

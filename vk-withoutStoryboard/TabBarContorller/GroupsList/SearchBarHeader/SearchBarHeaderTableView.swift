@@ -55,8 +55,8 @@ class SearchBarHeaderTableView: UIView{
     private func addButton(){
         addSubview(button)
         NSLayoutConstraint.activate([
-            button.centerYAnchor.constraint(equalTo: centerYAnchor),
-            button.heightAnchor.constraint(equalTo: heightAnchor),
+            button.topAnchor.constraint(equalTo: topAnchor),
+            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
             button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             button.widthAnchor.constraint(equalToConstant: frame.height)
         ])
@@ -64,7 +64,7 @@ class SearchBarHeaderTableView: UIView{
     
     private func addSearchBar() {
         addSubview(searchBar)
-        let leadingAnchorSearchBar = searchBar.leadingAnchor.constraint(equalTo: button.trailingAnchor, constant: -5)
+        let leadingAnchorSearchBar = searchBar.leadingAnchor.constraint(equalTo: button.trailingAnchor)
         leadingAnchorSearchBar.priority = UILayoutPriority(999)
         NSLayoutConstraint.activate([
             searchBar.centerYAnchor.constraint(equalTo: button.centerYAnchor),
@@ -74,6 +74,7 @@ class SearchBarHeaderTableView: UIView{
         ])
     }
     
+    // появление поиска
     @objc private func searchBarFunc(){
         if isON {
             searchBar.removeFromSuperview()

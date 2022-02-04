@@ -8,18 +8,18 @@
 import UIKit
 
 class FavoriteGroupsListViewController: UIViewController {
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
        let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    let searchBar =  SearchBarHeaderTableView()
+    private let searchBar =  SearchBarHeaderTableView()
     
     // backup групп для востановления
-    var backupFavoriteGroup: [GroupModel] = []
-    var dataFavoriteGroup: [GroupModel] = []
-    let storage = GroupsStorage()
+    private var backupFavoriteGroup: [GroupModel] = []
+    private var dataFavoriteGroup: [GroupModel] = []
+    private let storage = GroupsStorage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,7 @@ class FavoriteGroupsListViewController: UIViewController {
         searchBar.delegate = self
     }
     
-    func setupUI(){
+    private func setupUI(){
         dataFavoriteGroup = storage.userGroups
         
         self.title = "Groups"
@@ -49,9 +49,9 @@ class FavoriteGroupsListViewController: UIViewController {
     }
     
     //для делегата
-    var AllGroupsVC : AllGroupsListViewController? = nil
+    private var AllGroupsVC : AllGroupsListViewController? = nil
     
-    @objc func actionAddGroup(){
+    @objc private func actionAddGroup(){
         //фильтрую повторов не было
         let dataFavoriteGroups = dataFavoriteGroup.map { $0.name }
         let dataAllGroups = storage.allGroups.filter { group in
@@ -70,7 +70,7 @@ class FavoriteGroupsListViewController: UIViewController {
         return UISwipeActionsConfiguration(actions: [delete])
     }
     
-    func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+    private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             self.dataFavoriteGroup.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .fade)
