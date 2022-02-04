@@ -122,12 +122,12 @@ class LoginView: UIView {
         }
         
         guard loginTextField.text == "admin" && passTextField.text == "admin" else{
-            
             delegate?.checkLoginPassword(false)
             return
         }
         
-        
+        // для логина
+        UserDefaults.standard.set(true, forKey: "isLogin")
         delegate?.checkLoginPassword(true)
     }
     

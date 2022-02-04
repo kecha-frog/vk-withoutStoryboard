@@ -19,8 +19,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        // Стартовый ViewController
-        window?.rootViewController = LoginViewController()
+        // Сделал логин
+        if UserDefaults.standard.bool(forKey: "isLogin"){
+            // Стартовый ViewController
+            window?.rootViewController = TabBarViewController()
+        }else{
+            window?.rootViewController = LoginViewController()
+        }
         window?.makeKeyAndVisible()
     }
 
