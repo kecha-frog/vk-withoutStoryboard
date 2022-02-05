@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: 1
 class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
     
     static let identifier = "FriendsHeaderSectionTableView"
