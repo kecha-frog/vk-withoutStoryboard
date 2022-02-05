@@ -12,7 +12,7 @@ class FriendsStorage{
     var friends:[FriendModel] = []
     init(){
         friends = [
-            .init(name: "Borat", surname: "Sagdiyev",
+            .init(id: 0, name: "Borat", surname: "Sagdiyev",
                   imageUser: [
                     .init(name: "borat-0", like: Int.random(in: 0...50), youLike:Bool.random()),
                   .init(name: "borat-1", like: Int.random(in: 0...50), youLike:Bool.random()),
@@ -21,7 +21,7 @@ class FriendsStorage{
                   .init(name: "borat-4", like: Int.random(in: 0...50), youLike:Bool.random())
             ],
                   avatar:.init(name: "borat-avatar", like: 0, youLike:Bool.random())),
-            .init(name: "Ali", surname: "G",
+            .init(id: 1, name: "Ali", surname: "G",
                   imageUser: [
                 .init(name: "aliG-0", like: Int.random(in: 0...50), youLike:Bool.random()),
                 .init(name: "aliG-1", like: Int.random(in: 0...50), youLike:Bool.random()),
@@ -31,7 +31,7 @@ class FriendsStorage{
                 .init(name: "aliG-5", like: Int.random(in: 0...50), youLike:Bool.random()),
             ],
                   avatar:.init(name: "aliG-avatar", like: 0, youLike:Bool.random())),
-            .init(name: "Aladdin", surname: "Dictator",
+            .init(id: 2, name: "Aladdin", surname: "Dictator",
                   imageUser: [
                 .init(name: "aladin-0", like: Int.random(in: 0...50), youLike:Bool.random()),
                 .init(name: "aladin-1", like: Int.random(in: 0...50), youLike:Bool.random()),
@@ -41,12 +41,12 @@ class FriendsStorage{
                 .init(name: "aladin-5", like: Int.random(in: 0...50), youLike:Bool.random()),
             ],
                   avatar:.init(name: "aladin-avatar", like: 0, youLike:Bool.random())),
-            .init(name: "Big", surname: "Boss",
+            .init(id: 3, name: "Big", surname: "Boss",
                   imageUser: [
                 .init(name: "bigBoss-0", like: Int.random(in: 0...50), youLike:Bool.random())
             ],
                   avatar:.init(name: "bigBoss-avatar", like: 0, youLike:Bool.random())),
-            .init(name: "Bruno", surname: "Gehard",
+            .init(id: 4, name: "Bruno", surname: "Gehard",
                   imageUser: [
                 .init(name: "bruno-0", like: Int.random(in: 0...50), youLike:Bool.random()),
                 .init(name: "bruno-1", like: Int.random(in: 0...50), youLike:Bool.random()),
@@ -55,7 +55,7 @@ class FriendsStorage{
                 .init(name: "bruno-4", like: Int.random(in: 0...50), youLike:Bool.random()),
             ],
                   avatar:.init(name: "bruno-avatar", like: 0, youLike:Bool.random())),
-            .init(name: "Herceg", surname: "Five",
+            .init(id: 5, name: "Herceg", surname: "Five",
                   imageUser: [
                 .init(name: "herceg-0", like: Int.random(in: 0...50), youLike:Bool.random())
             ],

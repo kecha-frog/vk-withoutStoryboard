@@ -16,8 +16,8 @@ class FriendCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let likeView: LikePhoto = {
-        let view = LikePhoto()
+    private let likeView: LikeControl = {
+        let view = LikeControl()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

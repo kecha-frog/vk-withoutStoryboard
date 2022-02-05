@@ -7,14 +7,14 @@
 
 import UIKit
 
-class LikePhoto: UIControl {
+class LikeControl: UIControl {
     var youLike: Bool?
     private var likeCount: Int = 0{
         didSet{
             label.text = String(likeCount)
         }
     }
-   
+    
     private var imageView: UIImageView = {
         let imageView = UIImageView()
         let image = UIImage(named: "like")
@@ -63,7 +63,6 @@ class LikePhoto: UIControl {
         let tap = UITapGestureRecognizer(target: self, action: #selector(likeAction))
         addGestureRecognizer(tap)
     }
-    
     
     func configure(_ likeCount: Int, youLike:Bool){
         self.likeCount = likeCount
