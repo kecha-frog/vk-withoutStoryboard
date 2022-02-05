@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+// MARK: 3
 class NewsTableViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
