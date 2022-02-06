@@ -82,14 +82,14 @@ class LikeControl: UIControl {
     //MARK: 3
     private func animationLike(){
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
-        scaleAnimation.duration = 0.3
+        scaleAnimation.duration = 0.2
         scaleAnimation.fromValue = 1
-        scaleAnimation.toValue = 1.5
+        scaleAnimation.toValue = 1.3
         scaleAnimation.autoreverses = true
-        self.imageView.layer.add(scaleAnimation, forKey: "transform.scale")
-        self.label.layer.add(scaleAnimation, forKey: "transform.scale")
+        self.imageView.layer.add(scaleAnimation, forKey: nil)
+        self.label.layer.add(scaleAnimation, forKey: nil)
         
-        UIView.transition(with: label, duration: 0.4, options: [.transitionFlipFromBottom, .curveEaseInOut] ){
+        UIView.transition(with: label, duration: 0.5, options: [.transitionFlipFromBottom, .curveEaseInOut] ){
             self.imageView.tintColor = self.youLike ? .red : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         }
     }
