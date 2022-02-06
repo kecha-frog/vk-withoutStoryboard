@@ -8,7 +8,7 @@
 import UIKit
 
 class LikeControl: UIControl {
-    var youLike: Bool = false
+    private(set) var youLike: Bool = false
     
     private var likeCount: Int = 0{
         didSet{
@@ -89,9 +89,8 @@ class LikeControl: UIControl {
         self.imageView.layer.add(scaleAnimation, forKey: "transform.scale")
         self.label.layer.add(scaleAnimation, forKey: "transform.scale")
         
-        UIView.animate(withDuration: 0.3) {
+        UIView.transition(with: label, duration: 0.4, options: [.transitionFlipFromBottom, .curveEaseInOut] ){
             self.imageView.tintColor = self.youLike ? .red : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         }
-        
     }
 }
