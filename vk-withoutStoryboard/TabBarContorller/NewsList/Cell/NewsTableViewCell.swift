@@ -69,6 +69,7 @@ class NewsTableViewCell: UITableViewCell {
     }
     
     private func setupUI(){
+        selectionStyle = .none
         let constraint: CGFloat = 12
         contentView.addSubview(avatarPost)
         NSLayoutConstraint.activate([

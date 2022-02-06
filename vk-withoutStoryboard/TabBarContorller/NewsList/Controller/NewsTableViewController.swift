@@ -55,7 +55,6 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
         let author = friendsStorage.friends.filter { $0.id == post.authorId}
         cell.configure(author: author[0], post: post, index: indexPath.row)
         cell.delegate = self
-        cell.selectionStyle = .none
         return cell
     }
 }
