@@ -6,7 +6,6 @@
 //
 
 import UIKit
-// MARK: 3
 class NewsTableViewController: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
@@ -67,6 +66,5 @@ extension NewsTableViewController: NewsTableViewCellDelegate{
         }else if !like {
             postsData[indexPost].like -= 1
         }
-        tableView.reloadRows(at: [IndexPath(item: indexPost, section: 0)], with: .none)
     }
 }

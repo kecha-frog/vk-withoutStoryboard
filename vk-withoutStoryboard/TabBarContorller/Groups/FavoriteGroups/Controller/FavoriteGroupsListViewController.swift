@@ -7,7 +7,7 @@
 
 import UIKit
 
-// MARK: 2
+
 class FavoriteGroupsListViewController: UIViewController {
     private let tableView: UITableView = {
        let tableView = UITableView()

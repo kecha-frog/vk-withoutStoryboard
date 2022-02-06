@@ -7,7 +7,6 @@
 
 import UIKit
 
-// MARK: 1
 class FriendsViewController: UIViewController {
     private let tableView:UITableView = {
         let tableView = UITableView()

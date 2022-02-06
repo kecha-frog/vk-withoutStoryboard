@@ -68,7 +68,6 @@ extension FriendCollectionViewController: FriendCollectionViewCellDelegate{
         }else if !like {
             dataUserImage[indexPhoto].like -= 1
         }
-        collectionView.reloadItems(at: [IndexPath(item: indexPhoto, section: 0)])
     }
 }
 
