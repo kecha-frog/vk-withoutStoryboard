@@ -60,11 +60,15 @@ class AvatarView: UIView {
     // MARK: 2
     @objc private func clickAnimation(){
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0.7, options: [.autoreverse,], animations: {
-            self.frame.origin.x -=  1
-            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            self.transform = CGAffineTransform(translationX: 1, y: 0)
         }){_ in
-            self.frame.origin.x +=  1
-            self.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.transform = .identity
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0.7, options: [.autoreverse,], animations: {
+                self.transform = CGAffineTransform(translationX: -1, y: 0)
+            }){_ in
+                self.transform = .identity
+            }
         }
+       
     }
 }

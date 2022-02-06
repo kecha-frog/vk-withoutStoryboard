@@ -21,7 +21,7 @@ class FriendsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        loading()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         // регистрирую хедер
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
@@ -88,6 +88,30 @@ class FriendsViewController: UIViewController {
     // массив с первыми буквами
     private func firstLettersArray(_ friends: [FriendModel]) -> [Character] {
         return Array(Set(friends.compactMap { $0.surname.first })).sorted()
+    }
+    
+    //TODO:  Вынести в отдельный вью
+    private func loading(){
+        let viewTest = UIView()
+        viewTest.backgroundColor = .red
+        viewTest.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        view.addSubview(viewTest)
+        NSLayoutConstraint.activate([
+            viewTest.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewTest.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewTest.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+        ])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.setupUI()
+            UIView.transition(from: viewTest, to: self.tableView, duration: 1, options: .transitionCrossDissolve) { _ in
+                viewTest.removeFromSuperview()
+            }
+        }
+        
     }
     
 }

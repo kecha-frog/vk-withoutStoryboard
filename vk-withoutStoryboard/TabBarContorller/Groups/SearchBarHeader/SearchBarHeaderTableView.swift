@@ -34,6 +34,7 @@ class SearchBarHeaderTableView: UISearchBar{
         animation.fillMode = .forwards
         animation.fromValue = on ? 0 : 1
         animation.toValue = on ? 1 : 0
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         layer.add(animation, forKey: nil)
     }
 }
