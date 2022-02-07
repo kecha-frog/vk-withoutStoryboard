@@ -58,6 +58,7 @@ class FriendsViewController: UIViewController {
     }
 
     private func setupUI(){
+        self.tabBarController?.tabBar.isHidden = false
         // убрал пустоту
         tableView.sectionHeaderTopPadding = 5
         
@@ -75,6 +76,30 @@ class FriendsViewController: UIViewController {
         ])
     }
     
+    // MARK: 1 имитация загрузки данных
+    private func loading(){
+        self.tabBarController?.tabBar.isHidden = true
+        
+        let viewTest = LoadingView()
+        viewTest.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(viewTest)
+        NSLayoutConstraint.activate([
+            viewTest.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewTest.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewTest.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            self.setupUI()
+            UIView.transition(from: viewTest, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
+                viewTest.removeFromSuperview()
+            }
+        }
+    }
+    
+    
     // получаем массив массивов с друзьями по буквам
     private func sortedFriends(_ friends: [FriendModel], firstLetters: [Character]) -> [[FriendModel]]{
         var sortedFriends = [[FriendModel]]()
@@ -89,28 +114,6 @@ class FriendsViewController: UIViewController {
     private func firstLettersArray(_ friends: [FriendModel]) -> [Character] {
         return Array(Set(friends.compactMap { $0.surname.first })).sorted()
     }
-    
-    // MARK: 1 имитация загрузки данных
-    private func loading(){
-        let viewTest = LoadingView()
-        viewTest.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(viewTest)
-        NSLayoutConstraint.activate([
-            viewTest.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            viewTest.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewTest.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.setupUI()
-            UIView.transition(from: viewTest, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
-                viewTest.removeFromSuperview()
-            }
-        }
-    }
-    
 }
 
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
