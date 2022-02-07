@@ -90,7 +90,7 @@ class FriendsViewController: UIViewController {
         return Array(Set(friends.compactMap { $0.surname.first })).sorted()
     }
     
-    // MARK: 1 эмитация загрузки данных
+    // MARK: 1 имитация загрузки данных
     private func loading(){
         let viewTest = LoadingView()
         viewTest.translatesAutoresizingMaskIntoConstraints = false
