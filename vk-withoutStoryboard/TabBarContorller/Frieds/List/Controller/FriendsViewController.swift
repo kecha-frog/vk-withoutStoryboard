@@ -90,28 +90,25 @@ class FriendsViewController: UIViewController {
         return Array(Set(friends.compactMap { $0.surname.first })).sorted()
     }
     
-    //TODO:  Вынести в отдельный вью
+    // MARK: 1 эмитация загрузки данных
     private func loading(){
-        let viewTest = UIView()
-        viewTest.backgroundColor = .red
+        let viewTest = LoadingView()
         viewTest.translatesAutoresizingMaskIntoConstraints = false
-        
         
         view.addSubview(viewTest)
         NSLayoutConstraint.activate([
             viewTest.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             viewTest.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewTest.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            viewTest.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.setupUI()
-            UIView.transition(from: viewTest, to: self.tableView, duration: 1, options: .transitionCrossDissolve) { _ in
+            UIView.transition(from: viewTest, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewTest.removeFromSuperview()
             }
         }
-        
     }
     
 }
