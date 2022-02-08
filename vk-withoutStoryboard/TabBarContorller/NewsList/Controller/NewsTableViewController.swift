@@ -12,13 +12,14 @@ class NewsTableViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
-    
-    private let friendsStorage = FriendsStorage()
+    private let coreDate = FriendsCoreData()
+    private var friendsStorage = [UserModel]()
     private let postStorage = PostStorage()
     private var postsData: [PostModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        friendsStorage = coreDate.fetch()
         setupUI()
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
         tableView.delegate = self
@@ -51,7 +52,8 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier) as! NewsTableViewCell
         let post = postsData[indexPath.row]
-        let author = friendsStorage.friends.filter { $0.id == post.authorId}
+        let author = friendsStorage.filter { $0.id == post.authorId}
+        // TODO:  Решить ошибку
         cell.configure(author: author[0], post: post, index: indexPath.row)
         cell.delegate = self
         return cell

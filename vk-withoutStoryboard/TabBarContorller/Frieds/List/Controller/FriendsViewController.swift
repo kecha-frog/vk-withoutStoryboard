@@ -16,6 +16,8 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
+    var coreData = FriendsCoreData()
+    
     private var storage:[UserModel]!
     // массив для хедера
     private var firstLetters = [Character]()
@@ -24,7 +26,7 @@ class FriendsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loading()
-        fetchCoreData()
+        fetchUsersCoreData()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         // регистрирую хедер
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
@@ -41,19 +43,20 @@ class FriendsViewController: UIViewController {
         let friend = dataFriends[indexPath.section][indexPath.row]
         
         let friendCollectionVC = FriendCollectionViewController()
-        //friendCollectionVC.configure(title: friend.title, dataImages: friend.imageUser )
+        friendCollectionVC.configure(friendId: friend.id, title: "\(friend.name!) \(friend.surname!)")
         navigationController?.pushViewController(friendCollectionVC, animated: true)
     }
     
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
-            self.deleteUserCoreData(user)
+            
+            self.coreData.delete(user)
             if self.dataFriends[indexPath.section].isEmpty {
                 self.firstLetters.remove(at: indexPath.section)
                 self.dataFriends.remove(at: indexPath.section)
             }
-            self.fetchCoreData()
+            self.fetchUsersCoreData()
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
@@ -143,37 +146,9 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
     }
 }
 
-
 extension FriendsViewController {
-    func fetchCoreData(){
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        do{
-            let request = UserModel.fetchRequest()
-            let result = try context.fetch(request)
-//            result.forEach { item in
-//                context.delete(item)
-//                updateData()
-//            }
-            if result.isEmpty{
-                print("Наполнил друзьями базу")
-                addFriendDataCore()
-                fetchCoreData()
-            }else{
-                storage = result
-                tableView.reloadData()
-            }
-        }catch let error{
-            debugPrint(error)
-        }
-    }
-    
-    func deleteUserCoreData(_ user: UserModel){
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        context.delete(user)
-        updateData()
-    }
-    
-    func updateData(){
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    func fetchUsersCoreData(){
+        storage = coreData.fetch()
+        tableView.reloadData()
     }
 }

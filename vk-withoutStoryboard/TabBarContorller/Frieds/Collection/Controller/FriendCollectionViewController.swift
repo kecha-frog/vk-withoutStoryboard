@@ -41,9 +41,10 @@ class FriendCollectionViewController: UIViewController {
         ])
     }
     
-    func configure(title:String, dataImages : [ImageModel]){
+    func configure(friendId : Int16, title:String){
         self.title = title
-        dataUserImage = dataImages
+        let data = FriendStorageImage(friendId)
+        dataUserImage = data.imagesDict
     }
 }
 

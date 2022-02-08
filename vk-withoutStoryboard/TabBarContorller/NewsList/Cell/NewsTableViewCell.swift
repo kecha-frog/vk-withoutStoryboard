@@ -116,10 +116,10 @@ class NewsTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(author:FriendModel, post: PostModel, index:Int){
+    func configure(author:UserModel, post: PostModel, index:Int){
         indexPost = index
-        avatarPost.setImage(author.avatar.name)
-        authorPost.text = author.title
+        avatarPost.setImage(author.avatarName!)
+        authorPost.text = "\(author.name!) \(author.surname!)"
         textPost.text = post.text
         imagePost.image = UIImage(named: post.imageName)
         watchPost.text = String(post.watch)

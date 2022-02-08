@@ -60,8 +60,8 @@ class GroupTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(group:GroupModel){
+    func configure(group:AllGroupModel){
         nameLabel.text = group.name
-        imageViewCell.image = UIImage(named: group.imageName)
+        imageViewCell.image = UIImage(named: group.category)
     }
 }

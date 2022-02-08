@@ -17,13 +17,15 @@ class FavoriteGroupsListViewController: UIViewController {
     
     private let searchBar =  SearchBarHeaderTableView()
     
+    private let coreData = FavotiteGroupsCoreData()
+    
     // backup групп для востановления
     private var backupFavoriteGroup: [GroupModel] = []
     private var dataFavoriteGroup: [GroupModel] = []
-    private let storage = GroupsStorage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchUsersCoreData()
         self.setupUI()
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
@@ -32,8 +34,6 @@ class FavoriteGroupsListViewController: UIViewController {
     }
     
     private func setupUI(){
-        dataFavoriteGroup = storage.userGroups
-        
         self.title = "Groups"
         
         self.view.addSubview(self.tableView)
@@ -74,15 +74,9 @@ class FavoriteGroupsListViewController: UIViewController {
     private var AllGroupsVC : AllGroupsListViewController? = nil
     
     @objc private func actionAddGroup(){
-        //фильтрую повторов не было
-        let dataFavoriteGroups = dataFavoriteGroup.map { $0.name }
-        let dataAllGroups = storage.allGroups.filter { group in
-            !dataFavoriteGroups.contains {$0 == group.name}
-        }
-        
         AllGroupsVC = AllGroupsListViewController()
         AllGroupsVC?.delegate = self
-        AllGroupsVC!.configure(dataAllGroups)
+        AllGroupsVC!.configure(dataFavoriteGroup)
         navigationController?.pushViewController(AllGroupsVC!, animated: true)
     }
     
@@ -94,8 +88,9 @@ class FavoriteGroupsListViewController: UIViewController {
     
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            self.dataFavoriteGroup.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            let group = self.dataFavoriteGroup.remove(at: indexPath.row)
+            self.coreData.delete(group)
+            self.fetchUsersCoreData()
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
@@ -110,16 +105,17 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupTableViewCell.identifier) as! GroupTableViewCell
-        cell.configure(group: dataFavoriteGroup[indexPath.row])
+        let group = dataFavoriteGroup[indexPath.row]
+        cell.configure(group: AllGroupModel(id: Int(group.id) ,name: group.name!, category: group.category!))
         cell.selectionStyle = .none
         return cell
     }
 }
 
 extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
-    func selectGroup(_ sender: GroupModel) {
-        dataFavoriteGroup.append(sender)
-        tableView.reloadData()
+    func selectGroup(_ sender: AllGroupModel) {
+        coreData.add(sender)
+        fetchUsersCoreData()
     }
 }
 
@@ -137,8 +133,15 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         dataFavoriteGroup = backupFavoriteGroup
         if searchText != "" {
-            dataFavoriteGroup = dataFavoriteGroup.filter { $0.name.lowercased().contains(searchText.lowercased())}
+            dataFavoriteGroup = dataFavoriteGroup.filter { $0.name!.lowercased().contains(searchText.lowercased())}
         }
+        tableView.reloadData()
+    }
+}
+
+extension FavoriteGroupsListViewController{
+    func fetchUsersCoreData(){
+        dataFavoriteGroup = coreData.fetch()
         tableView.reloadData()
     }
 }
