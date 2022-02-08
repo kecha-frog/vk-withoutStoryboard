@@ -7,16 +7,20 @@
 
 import UIKit
 
+// MARK: 2
 class FavoriteGroupsListViewController: UIViewController {
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
        let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-
-    var dataFavoriteGroup: [GroupModel] = []
-    let storage = GroupsStorage()
+    private let searchBar =  SearchBarHeaderTableView()
+    
+    // backup групп для востановления
+    private var backupFavoriteGroup: [GroupModel] = []
+    private var dataFavoriteGroup: [GroupModel] = []
+    private let storage = GroupsStorage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +28,14 @@ class FavoriteGroupsListViewController: UIViewController {
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        searchBar.delegate = self
     }
     
-    func setupUI(){
+    private func setupUI(){
         dataFavoriteGroup = storage.userGroups
+        
         self.title = "Groups"
+        
         self.view.addSubview(self.tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -38,13 +45,31 @@ class FavoriteGroupsListViewController: UIViewController {
         ])
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(actionAddGroup))
+        addButton.tintColor = .black
         navigationItem.setRightBarButton(addButton, animated: true)
+        
+        // Добавляю кнопку для поиска
+        let button = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
+        button.tintColor = .black
+        navigationItem.setLeftBarButton(button, animated: true)
+    }
+    
+    // вкл/выкл поиска
+    @objc private func showSearchBar(){
+        if tableView.tableHeaderView != nil {
+            tableView.tableHeaderView = nil
+            navigationItem.leftBarButtonItem!.tintColor = .black
+        } else{
+            navigationItem.leftBarButtonItem!.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
+            tableView.tableHeaderView = searchBar
+        }
+        
     }
     
     //для делегата
-    var AllGroupsVC : AllGroupsListViewController? = nil
+    private var AllGroupsVC : AllGroupsListViewController? = nil
     
-    @objc func actionAddGroup(){
+    @objc private func actionAddGroup(){
         //фильтрую повторов не было
         let dataFavoriteGroups = dataFavoriteGroup.map { $0.name }
         let dataAllGroups = storage.allGroups.filter { group in
@@ -63,7 +88,7 @@ class FavoriteGroupsListViewController: UIViewController {
         return UISwipeActionsConfiguration(actions: [delete])
     }
     
-    func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+    private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             self.dataFavoriteGroup.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .fade)
@@ -72,7 +97,6 @@ class FavoriteGroupsListViewController: UIViewController {
         action.image = UIImage(systemName: "trash.fill")
         return action
     }
-    
 }
 
 extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataSource {
@@ -83,6 +107,7 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupTableViewCell.identifier) as! GroupTableViewCell
         cell.configure(group: dataFavoriteGroup[indexPath.row])
+        cell.selectionStyle = .none
         return cell
     }
 }
@@ -90,6 +115,26 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
 extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
     func selectGroup(_ sender: GroupModel) {
         dataFavoriteGroup.append(sender)
+        tableView.reloadData()
+    }
+}
+
+// делегат для поиска
+extension FavoriteGroupsListViewController: UISearchBarDelegate{
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        backupFavoriteGroup = dataFavoriteGroup
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        dataFavoriteGroup = backupFavoriteGroup
+        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        dataFavoriteGroup = backupFavoriteGroup
+        if searchText != "" {
+            dataFavoriteGroup = dataFavoriteGroup.filter { $0.name.lowercased().contains(searchText.lowercased())}
+        }
         tableView.reloadData()
     }
 }

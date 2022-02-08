@@ -30,6 +30,12 @@ class GroupTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        nameLabel.text = nil
+        imageViewCell.image = nil
+    }
+    
     func setupUi(){
         contentView.addSubview(imageViewCell)
         let topConstraint = imageViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)

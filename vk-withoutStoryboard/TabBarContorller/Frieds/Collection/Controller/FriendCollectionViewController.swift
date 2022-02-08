@@ -12,9 +12,12 @@ class FriendCollectionViewController: UIViewController {
     
     private let collectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
-        viewLayout.sectionInset = UIEdgeInsets(top: 3, left: 10, bottom: 0, right: 10)
-        viewLayout.itemSize = CGSize(width: 160, height: 160)
-        viewLayout.scrollDirection = .vertical
+        let width = (UIScreen.main.bounds.width - 9) / 2
+        let spancing: CGFloat = 3
+        viewLayout.sectionInset = UIEdgeInsets(top: 5, left: spancing, bottom: 5, right: spancing)
+        viewLayout.itemSize = CGSize(width: width , height: width)
+        viewLayout.minimumInteritemSpacing = spancing
+        viewLayout.minimumLineSpacing = spancing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -33,8 +36,8 @@ class FriendCollectionViewController: UIViewController {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
         ])
     }
     

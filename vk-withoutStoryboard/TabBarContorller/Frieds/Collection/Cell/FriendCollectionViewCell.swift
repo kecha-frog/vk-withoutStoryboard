@@ -16,8 +16,8 @@ class FriendCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let likeView: LikePhoto = {
-        let view = LikePhoto()
+    private let likeView: LikeControl = {
+        let view = LikeControl()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -32,7 +32,14 @@ class FriendCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+    
     var delegate: FriendCollectionViewCellDelegate?
+    
     private func setupUI(){
         addSubview(imageView)
         let topConstraint = imageView.topAnchor.constraint(equalTo: contentView.topAnchor)
@@ -40,9 +47,12 @@ class FriendCollectionViewCell: UICollectionViewCell {
         let bottomConstraint = imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         
+    
+        
+        let width = (UIScreen.main.bounds.width - 9) / 2 
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 160),
-            imageView.heightAnchor.constraint(equalToConstant: 160),
+            imageView.widthAnchor.constraint(equalToConstant: width),
+            imageView.heightAnchor.constraint(equalToConstant: width),
             topConstraint,
             bottomConstraint,
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

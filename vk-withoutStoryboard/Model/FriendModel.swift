@@ -14,6 +14,7 @@ struct ImageModel{
 }
 
 struct FriendModel{
+    let id: Int
     let name:String
     let surname:String
     let imageUser: [ImageModel]
