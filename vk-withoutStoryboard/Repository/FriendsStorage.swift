@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+import UIKit
+import CoreData
 
 class FriendsStorage{
     var friends:[FriendModel] = []
@@ -61,5 +62,27 @@ class FriendsStorage{
             ],
                   avatar:.init(name: "herceg-avatar", like: 0, youLike:Bool.random()))
         ]
+    }
+}
+
+func addFriendDataCore(){
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let storage = FriendsStorage()
+    for friend in storage.friends{
+        createUser(friend: friend)
+    }
+    
+    do{
+        try context.save()
+    }catch let error{
+        debugPrint(error)
+    }
+    
+    func createUser(friend: FriendModel){
+        let user = UserModel(context: context)
+        user.setValue(friend.id, forKey: "id")
+        user.setValue(friend.name, forKey: "name")
+        user.setValue(friend.surname, forKey: "surname")
+        user.setValue(friend.avatar.name, forKey: "avatar")
     }
 }

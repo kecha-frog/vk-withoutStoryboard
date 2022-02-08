@@ -34,6 +34,7 @@
 		F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */; };
 		F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */; };
 		F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */; };
+		F2F498D927B23FF700A9DACE /* Storage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2F498D727B23FF700A9DACE /* Storage.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderTableView.swift; sourceTree = "<group>"; };
 		F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
+		F2F498D827B23FF700A9DACE /* Storage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Storage.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		F210040D27A1352A00073B94 /* vk-withoutStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				F2F498E727B2477600A9DACE /* data */,
 				F21B778127AEB1E30032F8B5 /* Common Files */,
 				F21EB5AF27A80E2B003698CD /* TabBarContorller */,
 				F22E015727A6D9EF00B0FB27 /* Repository */,
@@ -340,6 +343,14 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		F2F498E727B2477600A9DACE /* data */ = {
+			isa = PBXGroup;
+			children = (
+				F2F498D727B23FF700A9DACE /* Storage.xcdatamodeld */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -427,6 +438,7 @@
 				F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */,
 				F22E015527A6BFCD00B0FB27 /* FriendModel.swift in Sources */,
 				F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */,
+				F2F498D927B23FF700A9DACE /* Storage.xcdatamodeld in Sources */,
 				F21EB5A327A7D5D3003698CD /* FriendCollectionViewController.swift in Sources */,
 				F23556E427B1048A0032E049 /* LoadingView.swift in Sources */,
 				F21EB5A927A7F0E0003698CD /* GroupTableViewCell.swift in Sources */,
@@ -646,6 +658,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F2F498D727B23FF700A9DACE /* Storage.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F2F498D827B23FF700A9DACE /* Storage.xcdatamodel */,
+			);
+			currentVersion = F2F498D827B23FF700A9DACE /* Storage.xcdatamodel */;
+			path = Storage.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F210040327A1352A00073B94 /* Project object */;
 }

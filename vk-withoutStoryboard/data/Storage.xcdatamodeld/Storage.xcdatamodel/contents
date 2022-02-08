@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AllGroupModel" representedClassName="AllGroupModel" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="FavoriteGroupModel" representedClassName="FavoriteGroupModel" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="UserModel" representedClassName="UserModel" syncable="YES" codeGenerationType="class">
+        <attribute name="avatar" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="surname" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="AllGroupModel" positionX="-12011.36328125" positionY="-10210.921875" width="128" height="59"/>
+        <element name="FavoriteGroupModel" positionX="-12027.67578125" positionY="-10430.51171875" width="128" height="59"/>
+        <element name="UserModel" positionX="-12024" positionY="-10296" width="128" height="89"/>
+    </elements>
+</model>

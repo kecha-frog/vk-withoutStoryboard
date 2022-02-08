@@ -19,6 +19,7 @@ struct FriendModel{
     let surname:String
     let imageUser: [ImageModel]
     let avatar: ImageModel
+    
     var title:String{
           get {
             return "\(name) \(surname)"

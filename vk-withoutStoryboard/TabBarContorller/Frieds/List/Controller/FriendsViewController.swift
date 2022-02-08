@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CoreData
+
 
 class FriendsViewController: UIViewController {
     private let tableView:UITableView = {
@@ -14,12 +16,24 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
+    
+    
+    
+    let dataFriendsDataCore = [UserModel]()
+    
+    
+    
+    
+    
+    
+    
     private let storage = FriendsStorage()
     // массив для хедера
     private var firstLetters = [Character]()
     private var dataFriends:[[FriendModel]] = []
     
     override func viewDidLoad() {
+        fetchCoreData()
         super.viewDidLoad()
         loading()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
@@ -138,5 +152,31 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
         
         cell.configure(friend: dataFriends[indexPath.section][indexPath.row])
         return cell
+    }
+}
+
+
+extension FriendsViewController {
+    func fetchCoreData(){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        do{
+            let request = UserModel.fetchRequest()
+            let result = try context.fetch(request) as! [UserModel]
+            if result.isEmpty{
+                print("Наполнил друзьями базу")
+                addFriendDataCore()
+                fetchCoreData()
+            }else{
+                result.forEach { item in
+                    print(item.id)
+                }
+            }
+        }catch let error{
+            debugPrint(error)
+        }
+    }
+    
+    func updateData(){
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
 }
