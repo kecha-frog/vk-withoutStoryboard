@@ -16,26 +16,15 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
-    
-    
-    
-    let dataFriendsDataCore = [UserModel]()
-    
-    
-    
-    
-    
-    
-    
-    private let storage = FriendsStorage()
+    private var storage:[UserModel]!
     // массив для хедера
     private var firstLetters = [Character]()
-    private var dataFriends:[[FriendModel]] = []
+    private var dataFriends:[[UserModel]] = []
     
     override func viewDidLoad() {
-        fetchCoreData()
         super.viewDidLoad()
         loading()
+        fetchCoreData()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         // регистрирую хедер
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
@@ -52,19 +41,19 @@ class FriendsViewController: UIViewController {
         let friend = dataFriends[indexPath.section][indexPath.row]
         
         let friendCollectionVC = FriendCollectionViewController()
-        friendCollectionVC.configure(title: friend.title, dataImages: friend.imageUser )
+        //friendCollectionVC.configure(title: friend.title, dataImages: friend.imageUser )
         navigationController?.pushViewController(friendCollectionVC, animated: true)
     }
     
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            self.dataFriends[indexPath.section].remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
+            self.deleteUserCoreData(user)
             if self.dataFriends[indexPath.section].isEmpty {
                 self.firstLetters.remove(at: indexPath.section)
                 self.dataFriends.remove(at: indexPath.section)
-                self.tableView.reloadData()
             }
+            self.fetchCoreData()
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
@@ -77,9 +66,8 @@ class FriendsViewController: UIViewController {
         tableView.sectionHeaderTopPadding = 5
         
         title = "Friends"
-        let friendsStorage = storage.friends
-        firstLetters = firstLettersArray(friendsStorage)
-        dataFriends = sortedFriends(friendsStorage, firstLetters: firstLetters)
+        firstLetters = firstLettersArray(storage)
+        dataFriends = sortedFriends(storage, firstLetters: firstLetters)
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -115,18 +103,18 @@ class FriendsViewController: UIViewController {
     
     
     // получаем массив массивов с друзьями по буквам
-    private func sortedFriends(_ friends: [FriendModel], firstLetters: [Character]) -> [[FriendModel]]{
-        var sortedFriends = [[FriendModel]]()
+    private func sortedFriends(_ friends: [UserModel], firstLetters: [Character]) -> [[UserModel]]{
+        var sortedFriends = [[UserModel]]()
         for letter in firstLetters {
-            let filterFriends = friends.filter { $0.surname.first == letter }
+            let filterFriends = friends.filter { $0.surname?.first == letter }
             sortedFriends.append(filterFriends)
         }
         return sortedFriends
     }
     
     // массив с первыми буквами
-    private func firstLettersArray(_ friends: [FriendModel]) -> [Character] {
-        return Array(Set(friends.compactMap { $0.surname.first })).sorted()
+    private func firstLettersArray(_ friends: [UserModel]) -> [Character] {
+        return Array(Set(friends.compactMap { $0.surname?.first })).sorted()
     }
 }
 
@@ -161,19 +149,28 @@ extension FriendsViewController {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         do{
             let request = UserModel.fetchRequest()
-            let result = try context.fetch(request) as! [UserModel]
+            let result = try context.fetch(request)
+//            result.forEach { item in
+//                context.delete(item)
+//                updateData()
+//            }
             if result.isEmpty{
                 print("Наполнил друзьями базу")
                 addFriendDataCore()
                 fetchCoreData()
             }else{
-                result.forEach { item in
-                    print(item.id)
-                }
+                storage = result
+                tableView.reloadData()
             }
         }catch let error{
             debugPrint(error)
         }
+    }
+    
+    func deleteUserCoreData(_ user: UserModel){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        context.delete(user)
+        updateData()
     }
     
     func updateData(){

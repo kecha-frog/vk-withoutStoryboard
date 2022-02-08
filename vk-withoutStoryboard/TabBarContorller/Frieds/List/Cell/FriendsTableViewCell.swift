@@ -60,9 +60,9 @@ class FriendsTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(friend: FriendModel){
-        textLabelCell.text = "\(friend.name) \(friend.surname)"
-        AvatarViewCell.setImage(friend.avatar.name)
+    func configure(friend: UserModel){
+        textLabelCell.text = "\(friend.name!) \(friend.surname!)"
+        AvatarViewCell.setImage(friend.avatarName!)
     }
 }
 

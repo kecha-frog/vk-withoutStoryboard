@@ -9,10 +9,10 @@
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
     <entity name="UserModel" representedClassName="UserModel" syncable="YES" codeGenerationType="class">
-        <attribute name="avatar" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="surname" optional="YES" attributeType="String"/>
+        <attribute name="avatarName" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="surname" attributeType="String"/>
     </entity>
     <elements>
         <element name="AllGroupModel" positionX="-12011.36328125" positionY="-10210.921875" width="128" height="59"/>

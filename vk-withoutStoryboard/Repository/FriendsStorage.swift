@@ -83,6 +83,6 @@ func addFriendDataCore(){
         user.setValue(friend.id, forKey: "id")
         user.setValue(friend.name, forKey: "name")
         user.setValue(friend.surname, forKey: "surname")
-        user.setValue(friend.avatar.name, forKey: "avatar")
+        user.setValue(friend.avatar.name, forKey: "avatarName")
     }
 }
