@@ -119,7 +119,7 @@ class NewsTableViewCell: UITableViewCell {
     
     func configure(author:UserModel, post: PostModel, index:Int){
         indexPost = index
-        // TODO:  фикси ошибку с удаление друга
+        // FIXME:  ошибка если удалить друга
         avatarPost.setImage(author.avatarName!)
         authorPost.text = "\(author.name!) \(author.surname!)"
         textPost.text = post.body
