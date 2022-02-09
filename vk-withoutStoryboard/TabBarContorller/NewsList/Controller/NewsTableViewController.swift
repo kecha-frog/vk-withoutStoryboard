@@ -14,12 +14,12 @@ class NewsTableViewController: UIViewController {
     }()
     private let coreDate = FriendsCoreData()
     private var friendsStorage = [UserModel]()
-    private let postStorage = PostStorage()
     private var postsData: [PostModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        loading()
+    
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -29,9 +29,6 @@ class NewsTableViewController: UIViewController {
         self.title = "News"
         
         friendsStorage = coreDate.fetch()
-        postsData = postStorage.postsArray.filter { postItem in
-            friendsStorage.contains { $0.id == postItem.authorId}
-        }
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -45,6 +42,21 @@ class NewsTableViewController: UIViewController {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
+    
+    private func loading(){
+        let viewLoad = LoadingView()
+        viewLoad.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+        
+        fetchDataPosts(viewLoad)
+    }
 }
 
 extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
@@ -55,8 +67,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier) as! NewsTableViewCell
         let post = postsData[indexPath.row]
-        let author = friendsStorage.first { $0.id == post.authorId}
-        // TODO: исправить ошибку при удаление друзей
+        let author = friendsStorage.randomElement()
         cell.configure(author: author!, post: post, index: indexPath.row)
         cell.delegate = self
         return cell
@@ -70,6 +81,23 @@ extension NewsTableViewController: NewsTableViewCellDelegate{
             postsData[indexPost].like += 1
         }else if !like {
             postsData[indexPost].like -= 1
+        }
+    }
+}
+
+extension NewsTableViewController{
+    func fetchDataPosts(_ viewLoad: LoadingView){
+        let fetch = FetchPost()
+        fetch.reguest { array in
+            self.postsData = array.map({ item in
+                PostModel(item)
+            })
+            self.tableView.reloadData()
+            self.setupUI()
+            UIView.transition(from: viewLoad, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
+                viewLoad.removeFromSuperview()
+            }
+            
         }
     }
 }

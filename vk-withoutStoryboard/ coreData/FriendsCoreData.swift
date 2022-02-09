@@ -40,10 +40,10 @@ class FriendsCoreData{
     
     func delete(_ user: UserModel){
         context.delete(user)
-        update()
+        save()
     }
     
-    private func update(){
+    private func save(){
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
 }

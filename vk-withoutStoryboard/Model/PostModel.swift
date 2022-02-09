@@ -8,10 +8,19 @@
 import Foundation
 
 struct PostModel{
-    let authorId: Int
-    let text: String
-    let imageName: String
-    var like: Int
-    var youLike: Bool
-    let watch: Int
+    let userId: Int
+    let id: Int
+    let title: String
+    let body: String
+    
+    init(_ fetchDataModel: FetchDataModel){
+        userId = fetchDataModel.userId
+        id = fetchDataModel.id
+        title = fetchDataModel.title
+        body = fetchDataModel.body
+    }
+    
+    var like = Int.random(in: 0...100)
+    var youLike = Bool.random()
+    var watch = Int.random(in: 0...10000)
 }

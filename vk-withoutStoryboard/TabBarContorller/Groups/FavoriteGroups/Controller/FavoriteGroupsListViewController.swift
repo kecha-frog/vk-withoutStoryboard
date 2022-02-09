@@ -19,13 +19,11 @@ class FavoriteGroupsListViewController: UIViewController {
     
     private let coreData = FavotiteGroupsCoreData()
     
-    // backup групп для востановления
-    private var backupFavoriteGroup: [GroupModel] = []
     private var dataFavoriteGroup: [GroupModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchUsersCoreData()
+        update()
         self.setupUI()
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
@@ -90,7 +88,7 @@ class FavoriteGroupsListViewController: UIViewController {
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             let group = self.dataFavoriteGroup.remove(at: indexPath.row)
             self.coreData.delete(group)
-            self.fetchUsersCoreData()
+            self.update()
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
@@ -115,14 +113,14 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
 extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
     func selectGroup(_ sender: AllGroupModel) {
         coreData.add(sender)
-        fetchUsersCoreData()
+        update()
     }
 }
 
 // делегат для поиска
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        fetchUsersCoreData()
+        update()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -136,7 +134,7 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
 }
 
 extension FavoriteGroupsListViewController{
-    private func fetchUsersCoreData(){
+    private func update(){
         dataFavoriteGroup = coreData.fetch()
         tableView.reloadData()
     }

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class FriendStorageImage{
-    let imagesDict:[ImageModel]!
+    let imagesDict:[ImageModel]
     init(_ userId: Int16){
         switch userId{
         case 0:
@@ -58,6 +58,9 @@ class FriendStorageImage{
         default:
             imagesDict = []
         }
+    }
+    func getRandomImage() -> ImageModel{
+        return imagesDict[Int.random(in: 0...imagesDict.count-1)]
     }
 }
 

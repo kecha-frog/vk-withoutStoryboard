@@ -25,8 +25,8 @@ class FriendsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loading()
-        fetchUsersCoreData()
+        update()
+        setupUI()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         // регистрирую хедер
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
@@ -56,7 +56,7 @@ class FriendsViewController: UIViewController {
                 self.firstLetters.remove(at: indexPath.section)
                 self.dataFriends.remove(at: indexPath.section)
             }
-            self.fetchUsersCoreData()
+            self.update()
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
@@ -80,29 +80,6 @@ class FriendsViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
-    
-    private func loading(){
-        self.tabBarController?.tabBar.isHidden = true
-        
-        let viewTest = LoadingView()
-        viewTest.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(viewTest)
-        NSLayoutConstraint.activate([
-            viewTest.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            viewTest.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewTest.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.setupUI()
-            UIView.transition(from: viewTest, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
-                viewTest.removeFromSuperview()
-            }
-        }
-    }
-    
     
     // получаем массив массивов с друзьями по буквам
     private func sortedFriends(_ friends: [UserModel], firstLetters: [Character]) -> [[UserModel]]{
@@ -146,7 +123,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
 }
 
 extension FriendsViewController {
-    private func fetchUsersCoreData(){
+    private func update(){
         storage = coreData.fetch()
         tableView.reloadData()
     }

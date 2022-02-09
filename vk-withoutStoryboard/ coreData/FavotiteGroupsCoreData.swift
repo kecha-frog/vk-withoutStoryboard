@@ -42,10 +42,10 @@ class FavotiteGroupsCoreData {
     
     func delete(_ user: GroupModel){
         context.delete(user)
-        update()
+        save()
     }
     
-    private func update(){
+    private func save(){
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
 }
