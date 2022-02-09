@@ -121,19 +121,15 @@ extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
 
 // делегат для поиска
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        backupFavoriteGroup = dataFavoriteGroup
-    }
-    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        dataFavoriteGroup = backupFavoriteGroup
-        tableView.reloadData()
+        fetchUsersCoreData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        dataFavoriteGroup = backupFavoriteGroup
+        dataFavoriteGroup = coreData.fetch()
         if searchText != "" {
-            dataFavoriteGroup = dataFavoriteGroup.filter { $0.name!.lowercased().contains(searchText.lowercased())}
+            dataFavoriteGroup = dataFavoriteGroup.filter {
+                $0.name!.lowercased().contains(searchText.lowercased())}
         }
         tableView.reloadData()
     }
