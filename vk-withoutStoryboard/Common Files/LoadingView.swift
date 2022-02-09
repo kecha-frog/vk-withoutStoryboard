@@ -6,7 +6,6 @@
 //
 
 import UIKit
-// MARK: 1
 class LoadingView: UIView{
     private let dot1: UILabel = {
         let label = UILabel()

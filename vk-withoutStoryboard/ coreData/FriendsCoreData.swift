@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 
 class FriendsCoreData{
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     init(){
         checkIsEmpty()
     }
@@ -16,16 +17,16 @@ class FriendsCoreData{
     private func checkIsEmpty(){
         let check = fetch()
         if check.isEmpty {
-            print("Наполнил базу друзьями")
-            addFriendDataCore()
+            print("Вы удалили всех друзей, заполнили coreData друзьями")
+            addFriendsInCoreData()
         }
     }
     
     func fetch() -> [UserModel]{
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         do{
             let request = UserModel.fetchRequest()
             let result = try context.fetch(request)
+            // очистка базы данных
 //            result.forEach { item in
 //                context.delete(item)
 //                update()
@@ -38,7 +39,6 @@ class FriendsCoreData{
     }
     
     func delete(_ user: UserModel){
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         context.delete(user)
         update()
     }

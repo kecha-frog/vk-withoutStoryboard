@@ -53,11 +53,11 @@ class NewsTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    static var identifier = "NewsTableViewCell"
-    
+        
     private var indexPost: Int?
+    
     var delegate: NewsTableViewCellDelegate?
+    static var identifier = "NewsTableViewCell"
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -70,6 +70,7 @@ class NewsTableViewCell: UITableViewCell {
     
     private func setupUI(){
         selectionStyle = .none
+        
         let constraint: CGFloat = 12
         contentView.addSubview(avatarPost)
         NSLayoutConstraint.activate([

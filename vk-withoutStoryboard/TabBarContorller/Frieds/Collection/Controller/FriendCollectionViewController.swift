@@ -8,8 +8,6 @@
 import UIKit
 
 class FriendCollectionViewController: UIViewController {
-    private var dataUserImage:[ImageModel] = []
-    
     private let collectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
         let width = (UIScreen.main.bounds.width - 9) / 2
@@ -23,9 +21,12 @@ class FriendCollectionViewController: UIViewController {
         return collectionView
     }()
 
+    private var dataUserImage:[ImageModel] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        
         collectionView.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self

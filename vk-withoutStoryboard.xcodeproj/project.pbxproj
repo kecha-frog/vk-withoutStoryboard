@@ -105,7 +105,7 @@
 		F210040D27A1352A00073B94 /* vk-withoutStoryboard */ = {
 			isa = PBXGroup;
 			children = (
-				F2F498E727B2477600A9DACE /* data */,
+				F2F498E727B2477600A9DACE /*  coreData */,
 				F21B778127AEB1E30032F8B5 /* Common Files */,
 				F21EB5AF27A80E2B003698CD /* TabBarContorller */,
 				F22E015727A6D9EF00B0FB27 /* Repository */,
@@ -347,14 +347,14 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		F2F498E727B2477600A9DACE /* data */ = {
+		F2F498E727B2477600A9DACE /*  coreData */ = {
 			isa = PBXGroup;
 			children = (
 				F2F498D727B23FF700A9DACE /* Storage.xcdatamodeld */,
 				F239FB6127B28DAE001FE5FD /* FriendsCoreData.swift */,
 				F239FB6327B2AAFB001FE5FD /* FavotiteGroupsCoreData.swift */,
 			);
-			path = data;
+			path = " coreData";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

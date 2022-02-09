@@ -12,16 +12,16 @@ protocol AllGroupsListViewControllerDelegate{
 }
 
 class AllGroupsListViewController: UIViewController {
-    var dataAllGroups:[AllGroupModel] = []
+    private var dataAllGroups:[AllGroupModel] = []
     
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
     var delegate: AllGroupsListViewControllerDelegate?
-    var storageAllGroups = GroupsStorage()
+    private var storageAllGroups = GroupsStorage()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -31,7 +31,7 @@ class AllGroupsListViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    func setupUI(){
+    private func setupUI(){
         title = "All Groups"
         view.addSubview(tableView)
         NSLayoutConstraint.activate([

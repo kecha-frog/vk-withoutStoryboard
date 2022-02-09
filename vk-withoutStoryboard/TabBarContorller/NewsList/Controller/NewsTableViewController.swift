@@ -19,10 +19,6 @@ class NewsTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        friendsStorage = coreDate.fetch()
-        postsData = postStorage.posts.filter { postItem in
-            friendsStorage.contains { $0.id == postItem.authorId}
-        }
         setupUI()
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
         tableView.delegate = self
@@ -31,6 +27,11 @@ class NewsTableViewController: UIViewController {
     
     private func setupUI(){
         self.title = "News"
+        
+        friendsStorage = coreDate.fetch()
+        postsData = postStorage.postsArray.filter { postItem in
+            friendsStorage.contains { $0.id == postItem.authorId}
+        }
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -55,6 +56,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier) as! NewsTableViewCell
         let post = postsData[indexPath.row]
         let author = friendsStorage.first { $0.id == post.authorId}
+        // TODO: исправить ошибку при удаление друзей
         cell.configure(author: author!, post: post, index: indexPath.row)
         cell.delegate = self
         return cell

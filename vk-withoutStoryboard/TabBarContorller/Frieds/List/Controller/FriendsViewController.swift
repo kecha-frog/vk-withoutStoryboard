@@ -16,7 +16,7 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
-    var coreData = FriendsCoreData()
+    private var coreData = FriendsCoreData()
     
     private var storage:[UserModel]!
     // массив для хедера
@@ -81,7 +81,6 @@ class FriendsViewController: UIViewController {
         ])
     }
     
-    // MARK: 1 имитация загрузки данных
     private func loading(){
         self.tabBarController?.tabBar.isHidden = true
         
@@ -96,7 +95,7 @@ class FriendsViewController: UIViewController {
             viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.setupUI()
             UIView.transition(from: viewTest, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewTest.removeFromSuperview()
@@ -147,7 +146,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
 }
 
 extension FriendsViewController {
-    func fetchUsersCoreData(){
+    private func fetchUsersCoreData(){
         storage = coreData.fetch()
         tableView.reloadData()
     }

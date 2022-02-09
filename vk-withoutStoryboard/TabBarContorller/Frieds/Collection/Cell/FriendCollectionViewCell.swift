@@ -47,8 +47,6 @@ class FriendCollectionViewCell: UICollectionViewCell {
         let bottomConstraint = imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         
-    
-        
         let width = (UIScreen.main.bounds.width - 9) / 2 
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalToConstant: width),

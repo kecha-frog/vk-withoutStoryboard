@@ -62,7 +62,7 @@ class FriendStorageImage{
 }
 
 // Если база пустая заполняю её
-func addFriendDataCore(){
+func addFriendsInCoreData(){
     let friends:[FriendModel] = [
         .init(id: 0, name: "Borat", surname: "Sagdiyev",
               avatarName: "borat-avatar"),

@@ -9,9 +9,9 @@ import Foundation
 
 
 class PostStorage {
-    let posts: [PostModel]
+    let postsArray: [PostModel]
     init(){
-        posts = [
+        postsArray = [
             .init(
                 authorId: 0,
                 text: """

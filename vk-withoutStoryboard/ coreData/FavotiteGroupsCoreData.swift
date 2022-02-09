@@ -10,8 +10,8 @@ import UIKit
 import CoreData
 
 class FavotiteGroupsCoreData {
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     func add(_ group: AllGroupModel){
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let groupModel = GroupModel(context: context)
         groupModel.setValue(group.id, forKey: "id")
         groupModel.setValue(group.name, forKey: "name")
@@ -24,11 +24,11 @@ class FavotiteGroupsCoreData {
     }
     
     func fetch() -> [GroupModel]{
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         do{
             let request = GroupModel.fetchRequest()
             request.returnsObjectsAsFaults = true
             let result = try context.fetch(request)
+            // очистка базы данных
 //            result.forEach { item in
 //                context.delete(item)
 //                update()
@@ -41,7 +41,6 @@ class FavotiteGroupsCoreData {
     }
     
     func delete(_ user: GroupModel){
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         context.delete(user)
         update()
     }

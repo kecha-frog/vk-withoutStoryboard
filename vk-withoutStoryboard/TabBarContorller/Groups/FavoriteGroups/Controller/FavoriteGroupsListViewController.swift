@@ -136,7 +136,7 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
 }
 
 extension FavoriteGroupsListViewController{
-    func fetchUsersCoreData(){
+    private func fetchUsersCoreData(){
         dataFavoriteGroup = coreData.fetch()
         tableView.reloadData()
     }
