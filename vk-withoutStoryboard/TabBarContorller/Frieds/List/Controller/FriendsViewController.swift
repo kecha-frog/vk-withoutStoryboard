@@ -8,7 +8,8 @@
 import UIKit
 import CoreData
 
-
+// MARK: задание 1:
+// работаю с coreData
 class FriendsViewController: UIViewController {
     private let tableView:UITableView = {
         let tableView = UITableView()
@@ -19,7 +20,6 @@ class FriendsViewController: UIViewController {
     private var coreData = FriendsCoreData()
     
     private var storage:[UserModel]!
-    // массив для хедера
     private var firstLetters = [Character]()
     private var dataFriends:[[UserModel]] = []
     
@@ -28,7 +28,6 @@ class FriendsViewController: UIViewController {
         update()
         setupUI()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
-        // регистрирую хедер
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -65,7 +64,6 @@ class FriendsViewController: UIViewController {
 
     private func setupUI(){
         self.tabBarController?.tabBar.isHidden = false
-        // убрал пустоту
         tableView.sectionHeaderTopPadding = 5
         
         title = "Friends"
@@ -81,7 +79,6 @@ class FriendsViewController: UIViewController {
         ])
     }
     
-    // получаем массив массивов с друзьями по буквам
     private func sortedFriends(_ friends: [UserModel], firstLetters: [Character]) -> [[UserModel]]{
         var sortedFriends = [[UserModel]]()
         for letter in firstLetters {
@@ -91,19 +88,21 @@ class FriendsViewController: UIViewController {
         return sortedFriends
     }
     
-    // массив с первыми буквами
     private func firstLettersArray(_ friends: [UserModel]) -> [Character] {
         return Array(Set(friends.compactMap { $0.surname?.first })).sorted()
+    }
+    
+    private func update(){
+        storage = coreData.fetch()
+        tableView.reloadData()
     }
 }
 
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
-    // количество секций
     func numberOfSections(in tableView: UITableView) -> Int {
         dataFriends.count
     }
     
-    // хедер
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
         header.setText(String(firstLetters[section]))
@@ -119,12 +118,5 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
         
         cell.configure(friend: dataFriends[indexPath.section][indexPath.row])
         return cell
-    }
-}
-
-extension FriendsViewController {
-    private func update(){
-        storage = coreData.fetch()
-        tableView.reloadData()
     }
 }

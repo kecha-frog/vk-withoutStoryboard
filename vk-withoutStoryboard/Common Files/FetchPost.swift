@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: задание 2:
+//запрос API
 class FetchPost{
     func reguest(complition: (([FetchDataModel]) -> ())?) {
         let httpURL = URL(string:"https://jsonplaceholder.typicode.com/posts/")!

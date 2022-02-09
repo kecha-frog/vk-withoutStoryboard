@@ -8,6 +8,8 @@
 import UIKit
 import CoreData
 
+// MARK: задание 1:
+//coreData для списка друзей
 class FriendsCoreData{
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     init(){

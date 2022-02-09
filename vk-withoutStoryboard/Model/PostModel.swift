@@ -7,6 +7,7 @@
 
 import Foundation
 
+// модель для создания из полученнного запроса API
 struct PostModel{
     let userId: Int
     let id: Int

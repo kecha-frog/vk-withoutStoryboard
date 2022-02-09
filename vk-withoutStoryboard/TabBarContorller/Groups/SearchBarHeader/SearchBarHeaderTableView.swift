@@ -26,11 +26,9 @@ class SearchBarHeaderTableView: UISearchBar{
         searchTextField.leftView = nil
     }
     
-    // Анимация появления SearchBar
     func animation(_ on: Bool){
         let animation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
         animation.duration = 0.5
-        //Почему то не работает
         animation.fillMode = .forwards
         animation.fromValue = on ? 0 : 1
         animation.toValue = on ? 1 : 0

@@ -5,6 +5,8 @@
 //  Created by Ke4a on 04.02.2022.
 //
 
+// MARK: задание 2:
+// работаю с запросом
 import UIKit
 class NewsTableViewController: UIViewController {
     private let tableView: UITableView = {

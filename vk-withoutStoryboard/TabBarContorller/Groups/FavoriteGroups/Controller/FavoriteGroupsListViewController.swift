@@ -7,7 +7,8 @@
 
 import UIKit
 
-
+// MARK: задание 1:
+// работаю с coreData
 class FavoriteGroupsListViewController: UIViewController {
     private let tableView: UITableView = {
        let tableView = UITableView()
@@ -46,13 +47,16 @@ class FavoriteGroupsListViewController: UIViewController {
         addButton.tintColor = .black
         navigationItem.setRightBarButton(addButton, animated: true)
         
-        // Добавляю кнопку для поиска
         let button = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
         button.tintColor = .black
         navigationItem.setLeftBarButton(button, animated: true)
     }
     
-    // вкл/выкл поиска
+    private func update(){
+        dataFavoriteGroup = coreData.fetch()
+        tableView.reloadData()
+    }
+    
     @objc private func showSearchBar(){
         if tableView.tableHeaderView != nil {
             searchBar.animation(false)
@@ -68,7 +72,6 @@ class FavoriteGroupsListViewController: UIViewController {
         
     }
     
-    //для делегата
     private var AllGroupsVC : AllGroupsListViewController? = nil
     
     @objc private func actionAddGroup(){
@@ -78,7 +81,6 @@ class FavoriteGroupsListViewController: UIViewController {
         navigationController?.pushViewController(AllGroupsVC!, animated: true)
     }
     
-    // Удаление группы
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = deleteAction(at: indexPath)
         return UISwipeActionsConfiguration(actions: [delete])
@@ -117,7 +119,6 @@ extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
     }
 }
 
-// делегат для поиска
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         update()
@@ -129,13 +130,6 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
             dataFavoriteGroup = dataFavoriteGroup.filter {
                 $0.name!.lowercased().contains(searchText.lowercased())}
         }
-        tableView.reloadData()
-    }
-}
-
-extension FavoriteGroupsListViewController{
-    private func update(){
-        dataFavoriteGroup = coreData.fetch()
         tableView.reloadData()
     }
 }

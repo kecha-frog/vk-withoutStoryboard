@@ -7,6 +7,7 @@
 
 import Foundation
 
+// модель для json
 struct FetchDataModel: Decodable{
     let userId: Int
     let id: Int

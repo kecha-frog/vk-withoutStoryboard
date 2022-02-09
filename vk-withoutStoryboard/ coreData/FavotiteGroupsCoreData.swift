@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import CoreData
 
+// MARK: задание 1:
+//coreData для избранных групп
 class FavotiteGroupsCoreData {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     func add(_ group: AllGroupModel){
