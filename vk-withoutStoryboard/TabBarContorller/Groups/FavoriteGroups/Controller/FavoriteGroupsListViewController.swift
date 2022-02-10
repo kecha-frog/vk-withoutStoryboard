@@ -90,7 +90,7 @@ class FavoriteGroupsListViewController: UIViewController {
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
             let group = self.dataFavoriteGroup.remove(at: indexPath.row)
             self.coreData.delete(group)
-            self.update()
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
