@@ -69,10 +69,15 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier) as! NewsTableViewCell
         let post = postsData[indexPath.row]
+        update()
         let author = friendsStorage.randomElement()
         cell.configure(author: author!, post: post, index: indexPath.row)
         cell.delegate = self
         return cell
+    }
+    
+    private func update(){
+        friendsStorage = coreDate.fetch()
     }
 }
 
