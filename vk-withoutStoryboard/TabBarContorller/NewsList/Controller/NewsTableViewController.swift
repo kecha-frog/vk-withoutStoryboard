@@ -69,6 +69,7 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier) as! NewsTableViewCell
         let post = postsData[indexPath.row]
+        //   обновляю друзей так как могли удалить друга и будет ошибка
         update()
         let author = friendsStorage.randomElement()
         cell.configure(author: author!, post: post, index: indexPath.row)
