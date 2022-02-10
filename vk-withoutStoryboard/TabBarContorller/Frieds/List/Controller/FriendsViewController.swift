@@ -47,15 +47,18 @@ class FriendsViewController: UIViewController {
     }
     
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
-        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [self] (action, view, completion) in
             let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
-            
             self.coreData.delete(user)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
             if self.dataFriends[indexPath.section].isEmpty {
                 self.firstLetters.remove(at: indexPath.section)
                 self.dataFriends.remove(at: indexPath.section)
+                let indexSet = IndexSet(arrayLiteral: indexPath.section)
+                tableView.deleteSections(indexSet, with: .fade)
             }
-            self.update()
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
