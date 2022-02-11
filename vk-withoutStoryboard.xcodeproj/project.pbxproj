@@ -26,6 +26,7 @@
 		F22E015627A6BFCD00B0FB27 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E015427A6BFCD00B0FB27 /* GroupModel.swift */; };
 		F22E015A27A6D9EF00B0FB27 /* FriendsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E015827A6D9EF00B0FB27 /* FriendsStorage.swift */; };
 		F22E015B27A6D9EF00B0FB27 /* GroupsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E015927A6D9EF00B0FB27 /* GroupsStorage.swift */; };
+		F23556E427B1048A0032E049 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23556E327B1048A0032E049 /* LoadingView.swift */; };
 		F24E7A7327AC12D400E12148 /* FriendsHeaderSectionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24E7A7227AC12D400E12148 /* FriendsHeaderSectionTableView.swift */; };
 		F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F252990C27A93EB200E10CEF /* AvatarView.swift */; };
 		F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25869EC27A934F100A86D87 /* LikeControl.swift */; };
@@ -58,6 +59,7 @@
 		F22E015427A6BFCD00B0FB27 /* GroupModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
 		F22E015827A6D9EF00B0FB27 /* FriendsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsStorage.swift; sourceTree = "<group>"; };
 		F22E015927A6D9EF00B0FB27 /* GroupsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsStorage.swift; sourceTree = "<group>"; };
+		F23556E327B1048A0032E049 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		F24E7A7227AC12D400E12148 /* FriendsHeaderSectionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsHeaderSectionTableView.swift; sourceTree = "<group>"; };
 		F252990C27A93EB200E10CEF /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		F25869EC27A934F100A86D87 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				F25869EC27A934F100A86D87 /* LikeControl.swift */,
+				F23556E327B1048A0032E049 /* LoadingView.swift */,
 			);
 			path = "Common Files";
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				F22E015527A6BFCD00B0FB27 /* FriendModel.swift in Sources */,
 				F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */,
 				F21EB5A327A7D5D3003698CD /* FriendCollectionViewController.swift in Sources */,
+				F23556E427B1048A0032E049 /* LoadingView.swift in Sources */,
 				F21EB5A927A7F0E0003698CD /* GroupTableViewCell.swift in Sources */,
 				F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */,
 				F21EB5A627A7D829003698CD /* FriendCollectionViewCell.swift in Sources */,

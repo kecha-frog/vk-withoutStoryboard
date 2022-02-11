@@ -76,10 +76,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
     }
 
     @objc private func likePhotoAction(){
-        guard let like = likeView.youLike, let index = indexImage else {
-            return
-        }
-        delegate?.actionLikePhoto(like, indexPhoto: index)
+        delegate?.actionLikePhoto(likeView.youLike, indexPhoto: indexImage!)
     }
 }
 

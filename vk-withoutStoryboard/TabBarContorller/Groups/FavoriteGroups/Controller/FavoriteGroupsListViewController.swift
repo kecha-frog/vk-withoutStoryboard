@@ -7,7 +7,7 @@
 
 import UIKit
 
-// MARK: 2
+
 class FavoriteGroupsListViewController: UIViewController {
     private let tableView: UITableView = {
        let tableView = UITableView()
@@ -57,11 +57,15 @@ class FavoriteGroupsListViewController: UIViewController {
     // вкл/выкл поиска
     @objc private func showSearchBar(){
         if tableView.tableHeaderView != nil {
-            tableView.tableHeaderView = nil
-            navigationItem.leftBarButtonItem!.tintColor = .black
+            searchBar.animation(false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                self.tableView.tableHeaderView = nil
+                self.navigationItem.leftBarButtonItem!.tintColor = .black
+            }
         } else{
             navigationItem.leftBarButtonItem!.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
             tableView.tableHeaderView = searchBar
+            searchBar.animation(true)
         }
         
     }

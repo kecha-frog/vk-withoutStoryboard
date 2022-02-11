@@ -12,12 +12,14 @@ class AvatarView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        addGestureRecognizer()
     }
     
     required init?(coder: NSCoder) {
@@ -48,5 +50,25 @@ class AvatarView: UIView {
     
     func setImage(_ imageName: String){
         imageView.image = UIImage(named: imageName)
+    }
+    
+    private func addGestureRecognizer(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(clickAnimation))
+        imageView.addGestureRecognizer(tap)
+    }
+    
+    // MARK: 2
+    @objc private func clickAnimation(){
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0.7, options: [.autoreverse,], animations: {
+            self.transform = CGAffineTransform(translationX: 1, y: 0)
+        }){_ in
+            self.transform = .identity
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0.7, options: [.autoreverse,], animations: {
+                self.transform = CGAffineTransform(translationX: -1, y: 0)
+            }){_ in
+                self.transform = .identity
+            }
+        }
+       
     }
 }

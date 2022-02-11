@@ -7,7 +7,6 @@
 
 import UIKit
 
-// MARK: 1
 class FriendsViewController: UIViewController {
     private let tableView:UITableView = {
         let tableView = UITableView()
@@ -22,7 +21,7 @@ class FriendsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        loading()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         // регистрирую хедер
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
@@ -89,6 +88,27 @@ class FriendsViewController: UIViewController {
     // массив с первыми буквами
     private func firstLettersArray(_ friends: [FriendModel]) -> [Character] {
         return Array(Set(friends.compactMap { $0.surname.first })).sorted()
+    }
+    
+    // MARK: 1 имитация загрузки данных
+    private func loading(){
+        let viewTest = LoadingView()
+        viewTest.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(viewTest)
+        NSLayoutConstraint.activate([
+            viewTest.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewTest.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewTest.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.setupUI()
+            UIView.transition(from: viewTest, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
+                viewTest.removeFromSuperview()
+            }
+        }
     }
     
 }

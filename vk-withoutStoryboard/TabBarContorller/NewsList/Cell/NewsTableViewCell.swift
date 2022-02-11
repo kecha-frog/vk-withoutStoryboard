@@ -128,10 +128,7 @@ class NewsTableViewCell: UITableViewCell {
     }
     
     @objc private func likePostAction(){
-        guard let like = likePost.youLike, let index = indexPost else {
-            return
-        }
-        delegate?.actionLikePost(like, indexPost: index)
+        delegate?.actionLikePost(likePost.youLike, indexPost: indexPost!)
     }
 }
 
