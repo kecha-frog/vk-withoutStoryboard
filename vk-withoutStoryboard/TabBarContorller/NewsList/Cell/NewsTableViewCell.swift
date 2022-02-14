@@ -53,11 +53,11 @@ class NewsTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    static var identifier = "NewsTableViewCell"
-    
+        
     private var indexPost: Int?
+    
     var delegate: NewsTableViewCellDelegate?
+    static var identifier = "NewsTableViewCell"
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -70,6 +70,7 @@ class NewsTableViewCell: UITableViewCell {
     
     private func setupUI(){
         selectionStyle = .none
+        
         let constraint: CGFloat = 12
         contentView.addSubview(avatarPost)
         NSLayoutConstraint.activate([
@@ -116,12 +117,14 @@ class NewsTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(author:FriendModel, post: PostModel, index:Int){
+    func configure(author:UserModel, post: PostModel, index:Int){
         indexPost = index
-        avatarPost.setImage(author.avatar.name)
-        authorPost.text = author.title
-        textPost.text = post.text
-        imagePost.image = UIImage(named: post.imageName)
+        avatarPost.setImage(author.avatarName!)
+        authorPost.text = "\(author.name!) \(author.surname!)"
+        textPost.text = post.body
+        let imageBase = FriendStorageImage(author.id)
+        let image = imageBase.getRandomImage()
+        imagePost.image = UIImage(named: image.name)
         watchPost.text = String(post.watch)
         likePost.configure(post.like, youLike: post.youLike)
         likePost.addTarget(self, action: #selector(likePostAction), for: .valueChanged)

@@ -33,7 +33,7 @@ class LoginView: UIView {
         return textField
     }()
     
-    private let button: UIButton = {
+    private let buttonLogin: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -54,8 +54,7 @@ class LoginView: UIView {
     
     var delegate: LoginViewDelegate?
     
-    func setupUI(){
-        
+    private func setupUI(){
         addSubview(imageLogo)
         NSLayoutConstraint.activate([
             imageLogo.topAnchor.constraint(equalTo: topAnchor, constant: 200),
@@ -79,17 +78,17 @@ class LoginView: UIView {
             passTextField.heightAnchor.constraint(equalTo: loginTextField.heightAnchor)
         ])
         
-        addSubview(button)
+        addSubview(buttonLogin)
         NSLayoutConstraint.activate([
-            button.topAnchor.constraint(equalTo: passTextField.bottomAnchor, constant: indentVerticalConstraint),
-            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: indentVerticalConstraint),
-            button.leadingAnchor.constraint(equalTo: passTextField.leadingAnchor),
-            button.trailingAnchor.constraint(equalTo: passTextField.trailingAnchor),
-            button.heightAnchor.constraint(equalTo: passTextField.heightAnchor),
+            buttonLogin.topAnchor.constraint(equalTo: passTextField.bottomAnchor, constant: indentVerticalConstraint),
+            buttonLogin.bottomAnchor.constraint(equalTo: bottomAnchor, constant: indentVerticalConstraint),
+            buttonLogin.leadingAnchor.constraint(equalTo: passTextField.leadingAnchor),
+            buttonLogin.trailingAnchor.constraint(equalTo: passTextField.trailingAnchor),
+            buttonLogin.heightAnchor.constraint(equalTo: passTextField.heightAnchor),
         ])
     }
     
-    func setupTextField(){
+    private func setupTextField(){
         loginTextField.placeholder = "Email или Телефон"
         passTextField.placeholder = "Пароль"
         
@@ -105,18 +104,17 @@ class LoginView: UIView {
         passTextField.backgroundColor = backgroundColor
         passTextField.layer.cornerRadius = cornerRadius
         passTextField.isSecureTextEntry = true
-
     }
     
-    func setupButton(){
-        button.setTitle("Войти", for: .normal)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = .tertiarySystemBackground
-        button.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
-        button.addTarget(self, action: #selector(actionButton), for: .touchUpInside)
+    private func setupButton(){
+        buttonLogin.setTitle("Войти", for: .normal)
+        buttonLogin.layer.cornerRadius = 5
+        buttonLogin.backgroundColor = .tertiarySystemBackground
+        buttonLogin.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
+        buttonLogin.addTarget(self, action: #selector(actionButton), for: .touchUpInside)
     }
     
-    @objc func actionButton(){
+    @objc private func actionButton(){
         guard loginTextField.text != "" && passTextField.text != "" else{
             return
         }
@@ -126,13 +124,11 @@ class LoginView: UIView {
             return
         }
         
-        // для логина
         UserDefaults.standard.set(true, forKey: "isLogin")
         delegate?.checkLoginPassword(true)
     }
     
-    
-    func fastEntry(){
+    private func fastEntry(){
         loginTextField.text = "admin"
         passTextField.text = "admin"
     }
