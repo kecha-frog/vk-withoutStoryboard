@@ -8,13 +8,13 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    let loginView:LoginView = {
+    private let loginView:LoginView = {
         let view = LoginView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -22,9 +22,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         setupUI()
-        
+
         let hideKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         scrollView.addGestureRecognizer(hideKeyboardGesture)
     }
@@ -44,8 +43,8 @@ class LoginViewController: UIViewController {
     }
     
     private func setupUI(){
-        
         loginView.delegate = self
+        view.backgroundColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
@@ -85,12 +84,12 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController:LoginViewDelegate{
-    func showAlert(tittle: String, message: String){
+    private func showAlert(tittle: String, message: String){
         let alertController = UIAlertController(title: tittle, message: message, preferredStyle: .alert)
         let closeAction = UIAlertAction(title: "OK", style: .cancel) { [weak self] _ in
             guard let self = self else {return}
             self.loginView.loginTextField.text = ""
-            self.loginView.loginTextField.text = ""
+            self.loginView.passTextField.text = ""
         }
         alertController.addAction(closeAction)
         present(alertController, animated: true, completion: nil)

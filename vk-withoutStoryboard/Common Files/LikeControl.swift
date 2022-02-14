@@ -79,7 +79,6 @@ class LikeControl: UIControl {
         self.sendActions(for: .valueChanged)
     }
     
-    //MARK: 3
     private func animationLike(){
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.duration = 0.2

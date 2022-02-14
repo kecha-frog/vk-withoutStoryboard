@@ -6,7 +6,10 @@
 //
 
 import UIKit
+import CoreData
 
+// MARK: задание 1:
+// работаю с coreData
 class FriendsViewController: UIViewController {
     private let tableView:UITableView = {
         let tableView = UITableView()
@@ -14,16 +17,17 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
-    private let storage = FriendsStorage()
-    // массив для хедера
+    private var coreData = FriendsCoreData()
+    
+    private var storage:[UserModel]!
     private var firstLetters = [Character]()
-    private var dataFriends:[[FriendModel]] = []
+    private var dataFriends:[[UserModel]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loading()
+        update()
+        setupUI()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
-        // регистрирую хедер
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -38,18 +42,22 @@ class FriendsViewController: UIViewController {
         let friend = dataFriends[indexPath.section][indexPath.row]
         
         let friendCollectionVC = FriendCollectionViewController()
-        friendCollectionVC.configure(title: friend.title, dataImages: friend.imageUser )
+        friendCollectionVC.configure(friendId: friend.id, title: "\(friend.name!) \(friend.surname!)")
         navigationController?.pushViewController(friendCollectionVC, animated: true)
     }
     
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
-        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            self.dataFriends[indexPath.section].remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [self] (action, view, completion) in
+            let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
+            self.coreData.delete(user)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
             if self.dataFriends[indexPath.section].isEmpty {
                 self.firstLetters.remove(at: indexPath.section)
                 self.dataFriends.remove(at: indexPath.section)
-                self.tableView.reloadData()
+                let indexSet = IndexSet(arrayLiteral: indexPath.section)
+                tableView.deleteSections(indexSet, with: .fade)
             }
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
@@ -58,13 +66,12 @@ class FriendsViewController: UIViewController {
     }
 
     private func setupUI(){
-        // убрал пустоту
+        self.tabBarController?.tabBar.isHidden = false
         tableView.sectionHeaderTopPadding = 5
         
         title = "Friends"
-        let friendsStorage = storage.friends
-        firstLetters = firstLettersArray(friendsStorage)
-        dataFriends = sortedFriends(friendsStorage, firstLetters: firstLetters)
+        firstLetters = firstLettersArray(storage)
+        dataFriends = sortedFriends(storage, firstLetters: firstLetters)
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -75,51 +82,30 @@ class FriendsViewController: UIViewController {
         ])
     }
     
-    // получаем массив массивов с друзьями по буквам
-    private func sortedFriends(_ friends: [FriendModel], firstLetters: [Character]) -> [[FriendModel]]{
-        var sortedFriends = [[FriendModel]]()
+    private func sortedFriends(_ friends: [UserModel], firstLetters: [Character]) -> [[UserModel]]{
+        var sortedFriends = [[UserModel]]()
         for letter in firstLetters {
-            let filterFriends = friends.filter { $0.surname.first == letter }
+            let filterFriends = friends.filter { $0.surname?.first == letter }
             sortedFriends.append(filterFriends)
         }
         return sortedFriends
     }
     
-    // массив с первыми буквами
-    private func firstLettersArray(_ friends: [FriendModel]) -> [Character] {
-        return Array(Set(friends.compactMap { $0.surname.first })).sorted()
+    private func firstLettersArray(_ friends: [UserModel]) -> [Character] {
+        return Array(Set(friends.compactMap { $0.surname?.first })).sorted()
     }
     
-    // MARK: 1 имитация загрузки данных
-    private func loading(){
-        let viewTest = LoadingView()
-        viewTest.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(viewTest)
-        NSLayoutConstraint.activate([
-            viewTest.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            viewTest.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewTest.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            viewTest.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.setupUI()
-            UIView.transition(from: viewTest, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
-                viewTest.removeFromSuperview()
-            }
-        }
+    private func update(){
+        storage = coreData.fetch()
+        tableView.reloadData()
     }
-    
 }
 
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
-    // количество секций
     func numberOfSections(in tableView: UITableView) -> Int {
         dataFriends.count
     }
     
-    // хедер
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
         header.setText(String(firstLetters[section]))

@@ -8,9 +8,6 @@
 import UIKit
 
 class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
-    
-    static let identifier = "FriendsHeaderSectionTableView"
-    
     private let label: UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
@@ -19,7 +16,10 @@ class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
         return text
     }()
     
-
+    
+    static let identifier = "FriendsHeaderSectionTableView"
+    
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupUI()

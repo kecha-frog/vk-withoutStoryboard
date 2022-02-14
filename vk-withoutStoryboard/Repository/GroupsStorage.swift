@@ -8,29 +8,22 @@
 import Foundation
 
 class GroupsStorage {
-    let userGroups: [GroupModel]
-    let allGroups: [GroupModel]
+    let groupsArray: [AllGroupModel]
     
     init(){
-        userGroups = [
-            GroupModel(name: "Rock music", category: .music),
-            GroupModel(name: "Nature", category: .nature),
-            GroupModel(name: "Любители Звездных войн", category: .film),
-        ]
-        
-        allGroups = [
-            GroupModel(name: "Rock music", category: .music),
-            GroupModel(name: "Classic film", category: .film),
-            GroupModel(name: "Classic music", category: .film),
-            GroupModel(name: "Western", category: .film),
-            GroupModel(name: "Punk", category: .film),
-            GroupModel(name: "For children film", category: .film),
-            GroupModel(name: "40 kg", category: .other),
-            GroupModel(name: "Nature", category: .nature),
-            GroupModel(name: "Metal", category: .music),
-            GroupModel(name: "Story life", category: .nature),
-            GroupModel(name: "Любители Звездных войн", category: .film),
-            GroupModel(name: "Other films", category: .film)
+        groupsArray = [
+            AllGroupModel(id: 0, name: "Rock music", category: "music"),
+            AllGroupModel(id: 1, name: "Classic film", category: "film"),
+            AllGroupModel(id: 2, name: "Classic music", category: "music"),
+            AllGroupModel(id: 3, name: "Western", category: "film"),
+            AllGroupModel(id: 4, name: "Punk", category: "film"),
+            AllGroupModel(id: 5, name: "For children film", category: "film"),
+            AllGroupModel(id: 6, name: "40 kg", category: "other"),
+            AllGroupModel(id: 7, name: "Nature", category: "nature"),
+            AllGroupModel(id: 8, name: "Metal", category: "music"),
+            AllGroupModel(id: 9, name: "Story life", category: "other"),
+            AllGroupModel(id: 10, name: "Любители Звездных войн", category: "film"),
+            AllGroupModel(id: 11, name: "Other films", category: "film")
         ]
     }
 }

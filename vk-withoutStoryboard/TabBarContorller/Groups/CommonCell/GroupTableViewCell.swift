@@ -8,13 +8,13 @@
 import UIKit
 
 class GroupTableViewCell: UITableViewCell {
-    let nameLabel:UILabel = {
+    private let nameLabel:UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let imageViewCell: UIImageView = {
+    private let imageViewCell: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -36,7 +36,7 @@ class GroupTableViewCell: UITableViewCell {
         imageViewCell.image = nil
     }
     
-    func setupUi(){
+    private func setupUi(){
         contentView.addSubview(imageViewCell)
         let topConstraint = imageViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
         topConstraint.priority = UILayoutPriority(rawValue: 999)
@@ -60,8 +60,8 @@ class GroupTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(group:GroupModel){
+    func configure(group:AllGroupModel){
         nameLabel.text = group.name
-        imageViewCell.image = UIImage(named: group.imageName)
+        imageViewCell.image = UIImage(named: group.category)
     }
 }

@@ -57,7 +57,6 @@ class AvatarView: UIView {
         imageView.addGestureRecognizer(tap)
     }
     
-    // MARK: 2
     @objc private func clickAnimation(){
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0.7, options: [.autoreverse,], animations: {
             self.transform = CGAffineTransform(translationX: 1, y: 0)

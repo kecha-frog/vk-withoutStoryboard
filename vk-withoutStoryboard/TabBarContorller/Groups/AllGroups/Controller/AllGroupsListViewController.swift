@@ -8,20 +8,20 @@
 import UIKit
 
 protocol AllGroupsListViewControllerDelegate{
-    func selectGroup(_ sender: GroupModel)
+    func selectGroup(_ sender: AllGroupModel)
 }
 
 class AllGroupsListViewController: UIViewController {
-    var dataAllGroups:[GroupModel] = []
+    private var dataAllGroups:[AllGroupModel] = []
     
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
     var delegate: AllGroupsListViewControllerDelegate?
-    
+    private var storageAllGroups = GroupsStorage()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -31,9 +31,8 @@ class AllGroupsListViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    func setupUI(){
+    private func setupUI(){
         title = "All Groups"
-        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -43,8 +42,15 @@ class AllGroupsListViewController: UIViewController {
         ])
     }
     
-    func configure(_ dataAllGroups: [GroupModel]){
-        self.dataAllGroups = dataAllGroups
+    func configure(_ dataFavoriteGroups: [GroupModel]){
+        if dataFavoriteGroups.isEmpty{
+            self.dataAllGroups = storageAllGroups.groupsArray
+        }else{
+            let dataFavoriteGroups = dataFavoriteGroups.map { $0.id }
+            self.dataAllGroups = storageAllGroups.groupsArray.filter { group in
+                !dataFavoriteGroups.contains {$0 == group.id}
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
