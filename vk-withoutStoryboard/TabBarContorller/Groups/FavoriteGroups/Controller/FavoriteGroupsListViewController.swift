@@ -7,8 +7,6 @@
 
 import UIKit
 
-// MARK: задание 1:
-// работаю с coreData
 class FavoriteGroupsListViewController: UIViewController {
     private let tableView: UITableView = {
        let tableView = UITableView()

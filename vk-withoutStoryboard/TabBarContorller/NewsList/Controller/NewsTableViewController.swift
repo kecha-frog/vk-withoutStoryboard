@@ -5,8 +5,6 @@
 //  Created by Ke4a on 04.02.2022.
 //
 
-// MARK: задание 2:
-// работаю с запросом
 import UIKit
 class NewsTableViewController: UIViewController {
     private let tableView: UITableView = {
@@ -25,6 +23,10 @@ class NewsTableViewController: UIViewController {
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // MARK: прочитал
+        let session = Session.instance
+        print(session.token)
     }
     
     private func setupUI(){

@@ -8,8 +8,6 @@
 import UIKit
 import CoreData
 
-// MARK: задание 1:
-// работаю с coreData
 class FriendsViewController: UIViewController {
     private let tableView:UITableView = {
         let tableView = UITableView()
@@ -31,6 +29,11 @@ class FriendsViewController: UIViewController {
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // MARK: записал
+        let sesion = Session.instance
+        sesion.userId = 1
+        sesion.token = UUID().uuidString
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
