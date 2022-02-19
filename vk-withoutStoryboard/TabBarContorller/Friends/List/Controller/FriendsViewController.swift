@@ -111,7 +111,8 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
-        header.setText(String(firstLetters[section]))
+        let letter = dataFriends[section][0].surname?.first
+        header.setText(String(letter!))
         return header
     }
     
@@ -124,5 +125,24 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
         
         cell.configure(friend: dataFriends[indexPath.section][indexPath.row])
         return cell
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        var array = firstLetters.map{String($0)}
+        array.append("#")
+        return array
+    }
+        
+    func tableView(_ tableView: UITableView,
+                   sectionForSectionIndexTitle title: String,
+                   at index: Int) -> Int {
+        guard title != "#" else {
+            dataFriends = sortedFriends(storage, firstLetters: firstLetters)
+            tableView.reloadData()
+            return 0
+        }
+        dataFriends = [sortedFriends(storage, firstLetters: firstLetters)[index]]
+        tableView.reloadData()
+        return index
     }
 }

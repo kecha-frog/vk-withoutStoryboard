@@ -38,6 +38,7 @@
 		F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */; };
 		F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */; };
 		F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */; };
+		F29C1C6E27C12C7900056274 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C1C6D27C12C7900056274 /* Table.swift */; };
 		F2F498D927B23FF700A9DACE /* Storage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2F498D727B23FF700A9DACE /* Storage.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,7 @@
 		F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderTableView.swift; sourceTree = "<group>"; };
 		F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
+		F29C1C6D27C12C7900056274 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		F2F498D827B23FF700A9DACE /* Storage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Storage.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 		F21B778127AEB1E30032F8B5 /* Common Files */ = {
 			isa = PBXGroup;
 			children = (
+				F29C1C6C27C12C6300056274 /* Table */,
 				F25869EC27A934F100A86D87 /* LikeControl.swift */,
 				F23556E327B1048A0032E049 /* LoadingView.swift */,
 				F20A6B8C27B43D10007AE5E6 /* FetchPost.swift */,
@@ -225,7 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				F2890BDF27AD76950038AF8F /* NewsList */,
-				F22E014627A6BDB900B0FB27 /* Frieds */,
+				F22E014627A6BDB900B0FB27 /* Friends */,
 				F22E014A27A6BE3900B0FB27 /* Groups */,
 				F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */,
 			);
@@ -240,13 +243,13 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		F22E014627A6BDB900B0FB27 /* Frieds */ = {
+		F22E014627A6BDB900B0FB27 /* Friends */ = {
 			isa = PBXGroup;
 			children = (
 				F21EB5A027A7D581003698CD /* Collection */,
 				F21B778227AEBA7F0032F8B5 /* List */,
 			);
-			path = Frieds;
+			path = Friends;
 			sourceTree = "<group>";
 		};
 		F22E014727A6BE0400B0FB27 /* Controller */ = {
@@ -353,6 +356,14 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		F29C1C6C27C12C6300056274 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				F29C1C6D27C12C7900056274 /* Table.swift */,
+			);
+			path = Table;
+			sourceTree = "<group>";
+		};
 		F2F498E727B2477600A9DACE /*  СoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +462,7 @@
 				F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */,
 				F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */,
 				F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */,
+				F29C1C6E27C12C7900056274 /* Table.swift in Sources */,
 				F22E015527A6BFCD00B0FB27 /* FriendModel.swift in Sources */,
 				F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */,
 				F22E27FD27BED20E00127130 /* Session.swift in Sources */,
