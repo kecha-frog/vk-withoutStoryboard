@@ -19,6 +19,7 @@ class FavoriteGroupsListViewController: UIViewController {
     private let coreData = FavotiteGroupsCoreData()
     
     private var dataFavoriteGroup: [GroupModel] = []
+    let api = fetchApiVK()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +99,6 @@ class FavoriteGroupsListViewController: UIViewController {
     
     // запрос групп юзера
     private func fetchApi(){
-        let api = fetchApiVK()
         api.reguest(method: .GET, path: .getGroups, params: ["extended":"1"]) { data in
             print(data)
         }
@@ -149,7 +149,6 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
         guard let text = searchBar.text, !text.isEmpty else{
             return
         }
-        let api = fetchApiVK()
         api.reguest(method: .GET, path: .searchGroup, params: ["q":text, "count":"10"]) { data in
             print(data)
         }
