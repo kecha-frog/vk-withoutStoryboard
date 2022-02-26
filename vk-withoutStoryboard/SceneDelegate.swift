@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // Стартовый ViewController
             window?.rootViewController = TabBarViewController()
         }else{
-            window?.rootViewController = LoginViewController()
+            window?.rootViewController = LoginController()
         }
         window?.makeKeyAndVisible()
     }

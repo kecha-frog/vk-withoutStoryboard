@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol LoginViewDelegate: AnyObject{
+protocol OldLoginViewDelegate: AnyObject{
     func checkLoginPassword(_ sender: Bool)
 }
 
-class LoginView: UIView {
+class OldLoginView: UIView {
     private let imageLogo: UIImageView = {
         let image = UIImage(named: "vkLogo")
         
@@ -52,7 +52,7 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var delegate: LoginViewDelegate?
+    var delegate: OldLoginViewDelegate?
     
     private func setupUI(){
         addSubview(imageLogo)
@@ -124,7 +124,8 @@ class LoginView: UIView {
             return
         }
         
-        UserDefaults.standard.set(true, forKey: "isLogin")
+        UserDefaults.standard.set(false, forKey: "isLogin")
+        
         delegate?.checkLoginPassword(true)
     }
     
