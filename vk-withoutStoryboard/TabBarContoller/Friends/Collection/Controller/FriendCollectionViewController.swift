@@ -22,11 +22,11 @@ class FriendCollectionViewController: UIViewController {
     }()
 
     private var dataUserImage:[ImageModel] = []
-    
+    private var friendId:Int16!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        
+        fetchAPI()
         collectionView.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -46,6 +46,20 @@ class FriendCollectionViewController: UIViewController {
         self.title = title
         let data = FriendStorageImage(friendId)
         dataUserImage = data.imagesDict
+        self.friendId = friendId
+    }
+    
+    // Запрос фото по ид страницы
+    private func fetchAPI(){
+        let api = fetchApiVK()
+        api.reguest(method: .GET, path: .getPhotos, params: [
+            "owner_id":String(friendId),
+            "album_id": "profile",
+            "count":"10",
+            "extended":"1"
+        ]){ data in
+            print(data)
+        }
     }
 }
 
