@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		D2C2A83C3835C863D5F892A2 /* Pods_vk_withoutStoryboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6F77068B8868F5A975709B /* Pods_vk_withoutStoryboard.framework */; };
 		F20A6B8B27B4369D007AE5E6 /* FetchDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20A6B8A27B4369D007AE5E6 /* FetchDataModel.swift */; };
-		F20A6B8D27B43D10007AE5E6 /* FetchPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20A6B8C27B43D10007AE5E6 /* FetchPost.swift */; };
+		F20A6B8D27B43D10007AE5E6 /* fetchApiVK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20A6B8C27B43D10007AE5E6 /* fetchApiVK.swift */; };
 		F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210040E27A1352A00073B94 /* AppDelegate.swift */; };
 		F210041127A1352A00073B94 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210041027A1352A00073B94 /* SceneDelegate.swift */; };
-		F210041327A1352A00073B94 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210041227A1352A00073B94 /* LoginViewController.swift */; };
+		F210041327A1352A00073B94 /* OldLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210041227A1352A00073B94 /* OldLoginViewController.swift */; };
 		F210041827A1352B00073B94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F210041727A1352B00073B94 /* Assets.xcassets */; };
 		F210041B27A1352B00073B94 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F210041927A1352B00073B94 /* LaunchScreen.storyboard */; };
-		F210042827A17DED00073B94 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210042727A17DED00073B94 /* LoginView.swift */; };
+		F210042827A17DED00073B94 /* OldLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210042727A17DED00073B94 /* OldLoginView.swift */; };
 		F21B777E27AE9E920032F8B5 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21B777D27AE9E920032F8B5 /* PostModel.swift */; };
 		F21EB5A327A7D5D3003698CD /* FriendCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EB5A227A7D5D3003698CD /* FriendCollectionViewController.swift */; };
 		F21EB5A627A7D829003698CD /* FriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EB5A527A7D829003698CD /* FriendCollectionViewCell.swift */; };
@@ -35,6 +35,7 @@
 		F24E7A7327AC12D400E12148 /* FriendsHeaderSectionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24E7A7227AC12D400E12148 /* FriendsHeaderSectionTableView.swift */; };
 		F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F252990C27A93EB200E10CEF /* AvatarView.swift */; };
 		F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25869EC27A934F100A86D87 /* LikeControl.swift */; };
+		F28037B727C8CE9F004AE857 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28037B627C8CE9F004AE857 /* LoginController.swift */; };
 		F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */; };
 		F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */; };
 		F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */; };
@@ -48,16 +49,16 @@
 		8F970FCE699F06D7E5DB0A2D /* Pods-vk-withoutStoryboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk-withoutStoryboard.release.xcconfig"; path = "Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard.release.xcconfig"; sourceTree = "<group>"; };
 		E4AE0228CC79BD637BEBAB90 /* Pods-vk-withoutStoryboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk-withoutStoryboard.debug.xcconfig"; path = "Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard.debug.xcconfig"; sourceTree = "<group>"; };
 		F20A6B8A27B4369D007AE5E6 /* FetchDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDataModel.swift; sourceTree = "<group>"; };
-		F20A6B8C27B43D10007AE5E6 /* FetchPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPost.swift; sourceTree = "<group>"; };
+		F20A6B8C27B43D10007AE5E6 /* fetchApiVK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchApiVK.swift; sourceTree = "<group>"; };
 		F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vk-withoutStoryboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F210040E27A1352A00073B94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F210041027A1352A00073B94 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F210041227A1352A00073B94 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		F210041227A1352A00073B94 /* OldLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldLoginViewController.swift; sourceTree = "<group>"; };
 		F210041727A1352B00073B94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F210041A27A1352B00073B94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F210041C27A1352B00073B94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F210042327A139D600073B94 /* readmi.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readmi.md; sourceTree = "<group>"; };
-		F210042727A17DED00073B94 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F210042727A17DED00073B94 /* OldLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldLoginView.swift; sourceTree = "<group>"; };
 		F21B777D27AE9E920032F8B5 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		F21EB5A227A7D5D3003698CD /* FriendCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewController.swift; sourceTree = "<group>"; };
 		F21EB5A527A7D829003698CD /* FriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -77,6 +78,7 @@
 		F24E7A7227AC12D400E12148 /* FriendsHeaderSectionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsHeaderSectionTableView.swift; sourceTree = "<group>"; };
 		F252990C27A93EB200E10CEF /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		F25869EC27A934F100A86D87 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
+		F28037B627C8CE9F004AE857 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderTableView.swift; sourceTree = "<group>"; };
 		F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
@@ -111,7 +113,6 @@
 				E4AE0228CC79BD637BEBAB90 /* Pods-vk-withoutStoryboard.debug.xcconfig */,
 				8F970FCE699F06D7E5DB0A2D /* Pods-vk-withoutStoryboard.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -136,18 +137,19 @@
 		F210040D27A1352A00073B94 /* vk-withoutStoryboard */ = {
 			isa = PBXGroup;
 			children = (
-				F2F498E727B2477600A9DACE /*  СoreData */,
+				F28037B427C8CE37004AE857 /* Login */,
+				F2F498E727B2477600A9DACE /* СoreData */,
 				F21B778127AEB1E30032F8B5 /* Common Files */,
-				F21EB5AF27A80E2B003698CD /* TabBarContorller */,
-				F22E015727A6D9EF00B0FB27 /* Repository */,
 				F22E015227A6BFCD00B0FB27 /* Model */,
-				F210042227A1379800073B94 /* Login */,
+				F28037B327C8CDDC004AE857 /* OldVersion */,
+				F22E015727A6D9EF00B0FB27 /* Repository */,
+				F21EB5AF27A80E2B003698CD /* TabBarContoller */,
 				F210040E27A1352A00073B94 /* AppDelegate.swift */,
-				F210041027A1352A00073B94 /* SceneDelegate.swift */,
 				F210041727A1352B00073B94 /* Assets.xcassets */,
-				F210041927A1352B00073B94 /* LaunchScreen.storyboard */,
 				F210041C27A1352B00073B94 /* Info.plist */,
+				F210041927A1352B00073B94 /* LaunchScreen.storyboard */,
 				F210042327A139D600073B94 /* readmi.md */,
+				F210041027A1352A00073B94 /* SceneDelegate.swift */,
 			);
 			path = "vk-withoutStoryboard";
 			sourceTree = "<group>";
@@ -164,7 +166,7 @@
 		F210042427A1488600073B94 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F210042727A17DED00073B94 /* LoginView.swift */,
+				F210042727A17DED00073B94 /* OldLoginView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -175,7 +177,7 @@
 				F29C1C6C27C12C6300056274 /* Table */,
 				F25869EC27A934F100A86D87 /* LikeControl.swift */,
 				F23556E327B1048A0032E049 /* LoadingView.swift */,
-				F20A6B8C27B43D10007AE5E6 /* FetchPost.swift */,
+				F20A6B8C27B43D10007AE5E6 /* fetchApiVK.swift */,
 				F22E27FC27BED20E00127130 /* Session.swift */,
 			);
 			path = "Common Files";
@@ -249,7 +251,7 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		F21EB5AF27A80E2B003698CD /* TabBarContorller */ = {
+		F21EB5AF27A80E2B003698CD /* TabBarContoller */ = {
 			isa = PBXGroup;
 			children = (
 				F2890BDF27AD76950038AF8F /* NewsList */,
@@ -257,13 +259,13 @@
 				F22E014A27A6BE3900B0FB27 /* Groups */,
 				F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */,
 			);
-			path = TabBarContorller;
+			path = TabBarContoller;
 			sourceTree = "<group>";
 		};
 		F22E014527A6BD1700B0FB27 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F210041227A1352A00073B94 /* LoginViewController.swift */,
+				F210041227A1352A00073B94 /* OldLoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -356,6 +358,22 @@
 			path = CustomView;
 			sourceTree = "<group>";
 		};
+		F28037B327C8CDDC004AE857 /* OldVersion */ = {
+			isa = PBXGroup;
+			children = (
+				F210042227A1379800073B94 /* Login */,
+			);
+			path = OldVersion;
+			sourceTree = "<group>";
+		};
+		F28037B427C8CE37004AE857 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				F28037B627C8CE9F004AE857 /* LoginController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		F2890BDF27AD76950038AF8F /* NewsList */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,14 +407,14 @@
 			path = Table;
 			sourceTree = "<group>";
 		};
-		F2F498E727B2477600A9DACE /*  СoreData */ = {
+		F2F498E727B2477600A9DACE /* СoreData */ = {
 			isa = PBXGroup;
 			children = (
 				F2F498D727B23FF700A9DACE /* Storage.xcdatamodeld */,
 				F239FB6127B28DAE001FE5FD /* FriendsCoreData.swift */,
 				F239FB6327B2AAFB001FE5FD /* FavotiteGroupsCoreData.swift */,
 			);
-			path = " СoreData";
+			path = "СoreData";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -517,15 +535,16 @@
 				F239FB6427B2AAFB001FE5FD /* FavotiteGroupsCoreData.swift in Sources */,
 				F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */,
 				F21EB5AE27A7FE35003698CD /* AllGroupsListViewController.swift in Sources */,
-				F20A6B8D27B43D10007AE5E6 /* FetchPost.swift in Sources */,
+				F20A6B8D27B43D10007AE5E6 /* fetchApiVK.swift in Sources */,
 				F22E014D27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift in Sources */,
 				F22E015A27A6D9EF00B0FB27 /* FriendsStorage.swift in Sources */,
 				F22E015627A6BFCD00B0FB27 /* AllGroupModel.swift in Sources */,
 				F21B777E27AE9E920032F8B5 /* PostModel.swift in Sources */,
-				F210041327A1352A00073B94 /* LoginViewController.swift in Sources */,
+				F210041327A1352A00073B94 /* OldLoginViewController.swift in Sources */,
 				F239FB6227B28DAE001FE5FD /* FriendsCoreData.swift in Sources */,
 				F24E7A7327AC12D400E12148 /* FriendsHeaderSectionTableView.swift in Sources */,
-				F210042827A17DED00073B94 /* LoginView.swift in Sources */,
+				F210042827A17DED00073B94 /* OldLoginView.swift in Sources */,
+				F28037B727C8CE9F004AE857 /* LoginController.swift in Sources */,
 				F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */,
 				F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */,
 				F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */,

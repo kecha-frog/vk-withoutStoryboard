@@ -7,15 +7,15 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class OldLoginViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    private let loginView:LoginView = {
-        let view = LoginView()
+    private let loginView:OldLoginView = {
+        let view = OldLoginView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
     }
 }
 
-extension LoginViewController:LoginViewDelegate{
+extension OldLoginViewController:OldLoginViewDelegate{
     private func showAlert(tittle: String, message: String){
         let alertController = UIAlertController(title: tittle, message: message, preferredStyle: .alert)
         let closeAction = UIAlertAction(title: "OK", style: .cancel) { [weak self] _ in

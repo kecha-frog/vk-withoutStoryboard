@@ -23,10 +23,6 @@ class NewsTableViewController: UIViewController {
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
-        
-        // MARK: прочитал
-        let session = Session.instance
-        print(session.token)
     }
     
     private func setupUI(){
@@ -97,17 +93,17 @@ extension NewsTableViewController: NewsTableViewCellDelegate{
 
 extension NewsTableViewController{
     func fetchDataPosts(_ viewLoad: LoadingView){
-        let fetch = FetchPost()
-        fetch.reguest { array in
-            self.postsData = array.map({ item in
-                PostModel(item)
-            })
-            self.tableView.reloadData()
-            self.setupUI()
-            UIView.transition(from: viewLoad, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
-                viewLoad.removeFromSuperview()
-            }
-            
-        }
+//        let fetch = fetchApiVK()
+//        fetch.reguest { array in
+//            self.postsData = array.map({ item in
+//                PostModel(item)
+//            })
+//            self.tableView.reloadData()
+//            self.setupUI()
+//            UIView.transition(from: viewLoad, to: self.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
+//                viewLoad.removeFromSuperview()
+//            }
+//            
+//        }
     }
 }
