@@ -134,7 +134,7 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // нашел только такой способ задержки
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.fetchSearchApi), object: nil)
-        self.perform(#selector(self.fetchSearchApi), with: nil, afterDelay: 1)
+        self.perform(#selector(self.fetchSearchApi), with: nil, afterDelay: 2)
         
         dataFavoriteGroup = coreData.fetch()
         if searchText != "" {
