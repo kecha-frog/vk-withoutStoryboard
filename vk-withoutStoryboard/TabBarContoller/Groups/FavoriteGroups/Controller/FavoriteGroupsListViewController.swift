@@ -144,6 +144,7 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
         tableView.reloadData()
     }
     
+    // запрос поиска групп
     @objc private func fetchSearchApi(_ sender: Any) {
         guard let text = searchBar.text, !text.isEmpty else{
             return
