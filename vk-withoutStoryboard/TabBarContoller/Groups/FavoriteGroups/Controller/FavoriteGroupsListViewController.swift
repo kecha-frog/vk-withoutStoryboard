@@ -19,11 +19,13 @@ class FavoriteGroupsListViewController: UIViewController {
     private let coreData = FavotiteGroupsCoreData()
     
     private var dataFavoriteGroup: [GroupModel] = []
+    let api = fetchApiVK()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         update()
         self.setupUI()
+        fetchApi()
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -94,6 +96,13 @@ class FavoriteGroupsListViewController: UIViewController {
         action.image = UIImage(systemName: "trash.fill")
         return action
     }
+    
+    // запрос групп юзера
+    private func fetchApi(){
+        api.reguest(method: .GET, path: .getGroups, params: ["extended":"1"]) { data in
+            print(data)
+        }
+    }
 }
 
 extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataSource {
@@ -123,11 +132,25 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate{
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // нашел только такой способ задержки
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.fetchSearchApi), object: nil)
+        self.perform(#selector(self.fetchSearchApi), with: nil, afterDelay: 2)
+        
         dataFavoriteGroup = coreData.fetch()
         if searchText != "" {
             dataFavoriteGroup = dataFavoriteGroup.filter {
                 $0.name!.lowercased().contains(searchText.lowercased())}
         }
         tableView.reloadData()
+    }
+    
+    // запрос поиска групп
+    @objc private func fetchSearchApi(_ sender: Any) {
+        guard let text = searchBar.text, !text.isEmpty else{
+            return
+        }
+        api.reguest(method: .GET, path: .searchGroup, params: ["q":text, "count":"10"]) { data in
+            print(data)
+        }
     }
 }

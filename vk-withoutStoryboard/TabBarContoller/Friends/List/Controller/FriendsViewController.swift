@@ -25,15 +25,11 @@ class FriendsViewController: UIViewController {
         super.viewDidLoad()
         update()
         setupUI()
+        fetchAPI()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
-        
-        // MARK: записал
-        let sesion = Session.instance
-        sesion.userId = 1
-        sesion.token = UUID().uuidString
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -83,6 +79,7 @@ class FriendsViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+        
     }
     
     private func sortedFriends(_ friends: [UserModel], firstLetters: [Character]) -> [[UserModel]]{
@@ -101,6 +98,14 @@ class FriendsViewController: UIViewController {
     private func update(){
         storage = coreData.fetch()
         tableView.reloadData()
+    }
+    
+    // Запрос друзей
+    private func fetchAPI(){
+        let apiVK = fetchApiVK()
+        apiVK.reguest(method: .GET, path: .getFriends, params: ["fields":"online"]) { data in
+            print(data)
+        }
     }
 }
 
