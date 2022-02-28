@@ -11,11 +11,11 @@ import CoreData
 
 class FavotiteGroupsCoreData {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    func add(_ group: AllGroupModel){
+    func add(_ group: GroupModelApi){
         let groupModel = GroupModel(context: context)
         groupModel.setValue(group.id, forKey: "id")
         groupModel.setValue(group.name, forKey: "name")
-        groupModel.setValue(group.category, forKey: "category")
+        //groupModel.setValue(group.category, forKey: "category")
         do{
             try context.save()
         }catch let error{
