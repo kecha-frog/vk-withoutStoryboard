@@ -18,7 +18,6 @@ class FriendsCoreData{
         let check = fetch()
         if check.isEmpty {
             print("Вы удалили всех друзей, заполнили coreData друзьями")
-            addFriendsInCoreData()
         }
     }
     

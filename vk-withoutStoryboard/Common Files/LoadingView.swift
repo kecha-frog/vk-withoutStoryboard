@@ -38,6 +38,7 @@ class LoadingView: UIView{
         super.init(frame: frame)
         setupUI()
         animation()
+        backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
