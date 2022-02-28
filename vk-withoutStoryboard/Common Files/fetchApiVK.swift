@@ -31,7 +31,7 @@ extension fetchApiVK{
     }
 }
 
-// Запрос переделала на дженерик
+// Запрос переделал на дженерик
 class fetchApiVK{
     private let httpSession = URLSession(configuration: URLSessionConfiguration.default)
     

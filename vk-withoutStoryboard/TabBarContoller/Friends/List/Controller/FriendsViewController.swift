@@ -110,7 +110,7 @@ class FriendsViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        API.reguest(FriendModelApi.self, method: .GET, path: .getFriends, params: ["fields":"online,photo_50"]) { [weak self] data in
+        API.reguest(FriendModelApi.self, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] data in
             self?.storage = data.response.items
             self?.firstLetters = self?.firstLettersArray(data.response.items) ?? []
             self?.dataFriends = self?.sortedFriends(data.response.items, firstLetters: self!.firstLetters) ?? []

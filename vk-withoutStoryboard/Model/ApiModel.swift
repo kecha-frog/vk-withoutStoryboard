@@ -28,7 +28,7 @@ struct FriendModelApi:Codable{
     private enum CodingKeys: String, CodingKey {
         case id
         case online
-        case avatar = "photo_50"
+        case avatar = "photo_100"
         case firstName = "first_name"
         case lastName = "last_name"
         case isClosed = "is_closed"
