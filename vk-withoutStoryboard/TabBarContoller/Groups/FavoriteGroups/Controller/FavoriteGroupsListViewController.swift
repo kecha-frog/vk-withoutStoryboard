@@ -13,19 +13,20 @@ class FavoriteGroupsListViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
     private let searchBar =  SearchBarHeaderTableView()
     
     private let coreData = FavotiteGroupsCoreData()
     
-    private var dataFavoriteGroup: [GroupModel] = []
-    let api = fetchApiVK()
+    private var dataFavoriteGroup: [GroupModelApi] = []
+    
+    let API = fetchApiVK()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        update()
         self.setupUI()
-        fetchApi()
+        fetchApiAsync {
+            self.update()
+        }
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -53,7 +54,7 @@ class FavoriteGroupsListViewController: UIViewController {
     }
     
     private func update(){
-        dataFavoriteGroup = coreData.fetch()
+        //dataFavoriteGroup = coreData.fetch()
         tableView.reloadData()
     }
     
@@ -77,7 +78,6 @@ class FavoriteGroupsListViewController: UIViewController {
     @objc private func actionAddGroup(){
         AllGroupsVC = AllGroupsListViewController()
         AllGroupsVC?.delegate = self
-        AllGroupsVC!.configure(dataFavoriteGroup)
         navigationController?.pushViewController(AllGroupsVC!, animated: true)
     }
     
@@ -88,8 +88,8 @@ class FavoriteGroupsListViewController: UIViewController {
     
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            let group = self.dataFavoriteGroup.remove(at: indexPath.row)
-            self.coreData.delete(group)
+            //let group = self.dataFavoriteGroup.remove(at: indexPath.row)
+            //self.coreData.delete(group)
             self.tableView.deleteRows(at: [indexPath], with: .fade)
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
@@ -97,10 +97,24 @@ class FavoriteGroupsListViewController: UIViewController {
         return action
     }
     
-    // запрос групп юзера
-    private func fetchApi(){
-        api.reguest(method: .GET, path: .getGroups, params: ["extended":"1"]) { data in
-            print(data)
+    private func fetchApiAsync( completion: @escaping () -> Void){
+        let viewLoad = LoadingView()
+        viewLoad.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+        
+        API.reguest(GroupModelApi.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] data in
+            self?.dataFavoriteGroup = data.response.items
+            UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
+                viewLoad.removeFromSuperview()
+            }
+            completion()
         }
     }
 }
@@ -113,44 +127,36 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupTableViewCell.identifier) as! GroupTableViewCell
         let group = dataFavoriteGroup[indexPath.row]
-        cell.configure(group: AllGroupModel(id: Int(group.id) ,name: group.name!, category: group.category!))
+        cell.configure(group: group)
         cell.selectionStyle = .none
         return cell
     }
 }
 
 extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
-    func selectGroup(_ sender: AllGroupModel) {
-        coreData.add(sender)
+    func selectGroup(_ sender: GroupModelApi) {
+        //coreData.add(sender)
         update()
     }
 }
 
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        update()
+        fetchApiAsync { [weak self] in
+            self?.update()
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // нашел только такой способ задержки
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.fetchSearchApi), object: nil)
-        self.perform(#selector(self.fetchSearchApi), with: nil, afterDelay: 2)
+        fetchApiAsync { [weak self] in
+            if searchText != "" {
+                print(searchText)
+                self?.dataFavoriteGroup = (self?.dataFavoriteGroup.filter {
+                    $0.name.lowercased().contains(searchText.lowercased())})!
+            }
+            
+            self?.update()
+        }
         
-        dataFavoriteGroup = coreData.fetch()
-        if searchText != "" {
-            dataFavoriteGroup = dataFavoriteGroup.filter {
-                $0.name!.lowercased().contains(searchText.lowercased())}
-        }
-        tableView.reloadData()
-    }
-    
-    // запрос поиска групп
-    @objc private func fetchSearchApi(_ sender: Any) {
-        guard let text = searchBar.text, !text.isEmpty else{
-            return
-        }
-        api.reguest(method: .GET, path: .searchGroup, params: ["q":text, "count":"10"]) { data in
-            print(data)
-        }
     }
 }

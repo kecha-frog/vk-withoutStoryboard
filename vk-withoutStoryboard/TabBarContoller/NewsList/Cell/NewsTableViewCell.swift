@@ -117,16 +117,16 @@ class NewsTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(author:UserModel, post: PostModel, index:Int){
+    func configure(author:UserModel, post: Any, index:Int){
         indexPost = index
-        avatarPost.setImage(author.avatarName!)
+        //avatarPost.setImage(author.avatarName!)
         authorPost.text = "\(author.name!) \(author.surname!)"
-        textPost.text = post.body
-        let imageBase = FriendStorageImage(author.id)
-        let image = imageBase.getRandomImage()
-        imagePost.image = UIImage(named: image.name)
-        watchPost.text = String(post.watch)
-        likePost.configure(post.like, youLike: post.youLike)
+        //textPost.text = post.body
+        //let imageBase = FriendStorageImage(author.id)
+        //let image = imageBase.getRandomImage()
+        //imagePost.image = UIImage(named: image.name)
+        //watchPost.text = String(post.watch)
+        //likePost.configure(post.like, youLike: post.youLike)
         likePost.addTarget(self, action: #selector(likePostAction), for: .valueChanged)
     }
     

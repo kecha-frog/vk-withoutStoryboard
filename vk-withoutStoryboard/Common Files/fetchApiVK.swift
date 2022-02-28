@@ -6,6 +6,15 @@
 //
 
 import Foundation
+import UIKit
+
+struct VkApiJson<T:Codable>: Codable{
+    let response: Response
+    struct Response: Codable{
+        let count: Int
+        let items: [T]
+    }
+}
 
 extension fetchApiVK{
     enum Method:String{
@@ -18,10 +27,11 @@ extension fetchApiVK{
         case getPhotos = "/method/photos.get"
         case getGroups = "/method/groups.get"
         case searchGroup = "/method/groups.search"
+        case getAllGroups = "/method/groups.getCatalog"
     }
 }
 
-// Запросы
+// Запрос переделала на дженерик
 class fetchApiVK{
     private let httpSession = URLSession(configuration: URLSessionConfiguration.default)
     
@@ -32,20 +42,21 @@ class fetchApiVK{
         return components
     }()
     
-    private var params:[URLQueryItem] = [
+    private final var params:[URLQueryItem] = [
         .init(name: "access_token", value: Session.instance.token),
         .init(name: "v", value: "5.131")
     ]
     
-    final func reguest(method: Method, path: Path, params: [String:String]?, complition: @escaping (Any) -> Void) {
+    final func reguest<T:Codable>(_ type: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (VkApiJson<T>) -> Void) {
+        var localParams:[URLQueryItem] = self.params
         if (params != nil){
             params?.forEach({ (key, value) in
-                self.params.append(.init(name: key, value: value))
+                localParams.append(.init(name: key, value: value))
             })
         }
         
         urlComponents.path = path.rawValue
-        urlComponents.queryItems = self.params
+        urlComponents.queryItems = localParams
         
         var request = URLRequest(url: urlComponents.url!)
         request.httpMethod = method.rawValue
@@ -57,15 +68,37 @@ class fetchApiVK{
                 }
                 return
             }
+            
             do {
-                //let codableData = try JSONDecoder().decode ([FetchDataModel].self, from: validData)
-                let json = try JSONSerialization.jsonObject(with: validData, options: .allowFragments)
-                complition(json)
-            } catch let error {
-                print( "Catch error", error.localizedDescription)
+//                let json = try JSONSerialization.jsonObject(with: validData, options: .mutableContainers)
+//                print(json)
+                let codableData = try JSONDecoder().decode (VkApiJson<T>.self, from: validData)
+                
+                DispatchQueue.main.async {
+                    completion(codableData)
+                }
+            }catch {
+                debugPrint(error)
             }
         }
         task.resume()
     }
+}
 
+// для удобной загрузки из интернета
+extension UIImageView {
+    func load(urlString : String) {
+        guard let url = URL(string: urlString)else {
+            return
+        }
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
 }

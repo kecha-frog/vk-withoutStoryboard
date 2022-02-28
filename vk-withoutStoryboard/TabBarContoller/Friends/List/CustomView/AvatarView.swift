@@ -48,8 +48,8 @@ class AvatarView: UIView {
         imageView.frame = bounds
     }
     
-    func setImage(_ imageName: String){
-        imageView.image = UIImage(named: imageName)
+    func loadData(_ url: String){
+        imageView.load(urlString: url)
     }
     
     private func addGestureRecognizer(){

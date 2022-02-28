@@ -20,13 +20,17 @@ class FriendCollectionViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-
-    private var dataUserImage:[ImageModel] = []
-    private var friendId:Int16!
+    
+    private let API = fetchApiVK()
+    
+    private var dataUserImage:[PhotoModelApi] = []
+    private var friendId:Int!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        fetchAPI()
+        fetchApiAsync { [weak self] in
+            self?.update()
+        }
         collectionView.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -42,23 +46,40 @@ class FriendCollectionViewController: UIViewController {
         ])
     }
     
-    func configure(friendId : Int16, title:String){
+    private func update(){
+        collectionView.reloadData()
+    }
+    
+    func configure(friendId : Int, title:String){
         self.title = title
-        let data = FriendStorageImage(friendId)
-        dataUserImage = data.imagesDict
         self.friendId = friendId
     }
     
-    // Запрос фото по ид страницы
-    private func fetchAPI(){
-        let api = fetchApiVK()
-        api.reguest(method: .GET, path: .getPhotos, params: [
-            "owner_id":String(friendId),
+    private func fetchApiAsync( completion: @escaping () -> Void){
+        // лоадинг анимация на момент загрузки
+        let viewLoad = LoadingView()
+        viewLoad.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+        
+        API.reguest(PhotoModelApi.self, method: .GET, path: .getPhotos, params: [
+            "owner_id":String(self.friendId),
             "album_id": "profile",
             "count":"10",
             "extended":"1"
-        ]){ data in
-            print(data)
+        ]) { [weak self] data in
+            self?.dataUserImage = data.response.items
+            
+            UIView.transition(from: viewLoad, to: self!.collectionView, duration: 0.33, options: .transitionCrossDissolve) { _ in
+                viewLoad.removeFromSuperview()
+            }
+            completion()
         }
     }
 }
@@ -78,12 +99,13 @@ extension FriendCollectionViewController: UICollectionViewDelegate, UICollection
 
 extension FriendCollectionViewController: FriendCollectionViewCellDelegate{
     func actionLikePhoto(_ like: Bool, indexPhoto: Int) {
-        dataUserImage[indexPhoto].youLike.toggle()
-        if like {
-            dataUserImage[indexPhoto].like += 1
-        }else if !like {
-            dataUserImage[indexPhoto].like -= 1
-        }
+        // позже восстанавлю 
+//        dataUserImage[indexPhoto].youLike.toggle()
+//        if like {
+//            dataUserImage[indexPhoto].like += 1
+//        }else if !like {
+//            dataUserImage[indexPhoto].like -= 1
+//        }
     }
 }
 
