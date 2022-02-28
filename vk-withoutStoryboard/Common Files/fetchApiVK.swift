@@ -8,9 +8,10 @@
 import Foundation
 import UIKit
 
-struct VkApiJson<T:Codable>: Codable{
+struct VkApiJson<T:Decodable>: Decodable{
     let response: Response
-    struct Response: Codable{
+    
+    struct Response: Decodable{
         let count: Int
         let items: [T]
     }
@@ -47,7 +48,7 @@ class fetchApiVK{
         .init(name: "v", value: "5.131")
     ]
     
-    final func reguest<T:Codable>(_ type: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (VkApiJson<T>) -> Void) {
+    final func reguest<T:Decodable>(_ type: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (VkApiJson<T>) -> Void) {
         var localParams:[URLQueryItem] = self.params
         if (params != nil){
             params?.forEach({ (key, value) in

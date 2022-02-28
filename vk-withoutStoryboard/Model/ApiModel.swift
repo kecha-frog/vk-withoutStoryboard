@@ -15,7 +15,7 @@ extension Int{
 }
 
 // ответы апи
-struct FriendModelApi:Codable{
+struct FriendModelApi:Decodable{
     let id:Int
     let avatar:String
     let firstName: String
@@ -37,7 +37,7 @@ struct FriendModelApi:Codable{
     }
 }
 
-struct PhotoModelApi: Codable{
+struct PhotoModelApi: Decodable{
     let albumId: Int
     let date: Date
     let id:Int
@@ -82,7 +82,7 @@ struct PhotoModelApi: Codable{
     }
 }
 
-struct GroupModelApi: Codable{
+struct GroupModelApi: Decodable{
     let id:Int
     let isAdmin: Int
     let isAdvertiser: Int
