@@ -15,7 +15,7 @@ extension Int{
 }
 
 // ответы апи
-struct FriendModelApi:Decodable{
+class FriendModelApi:Decodable{
     let id:Int
     let avatar:String
     let firstName: String
@@ -36,7 +36,7 @@ struct FriendModelApi:Decodable{
         case trackCode = "track_code"
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let item = try decoder.container(keyedBy: CodingKeys.self)
         
         self.id = try item.decode(Int.self, forKey: .id)
@@ -50,7 +50,7 @@ struct FriendModelApi:Decodable{
     }
 }
 
-struct PhotoModelApi: Decodable{
+class PhotoModelApi: Decodable{
     let albumId: Int
     let date: Date
     let id:Int
@@ -87,7 +87,7 @@ struct PhotoModelApi: Decodable{
         case hasTags = "has_tags"
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let item = try decoder.container(keyedBy: CodingKeys.self)
         self.albumId = try item.decode(Int.self, forKey: .albumId)
         self.date = try item.decode(Date.self, forKey: .date)
@@ -106,7 +106,7 @@ struct PhotoModelApi: Decodable{
     }
 }
 
-struct GroupModelApi: Decodable{
+class GroupModelApi: Decodable{
     let id:Int
     let isAdmin: Int
     let isAdvertiser: Int
@@ -134,7 +134,7 @@ struct GroupModelApi: Decodable{
     }
     
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let item = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try item.decode(Int.self, forKey: .id)
         self.isAdmin = try item.decode(Int.self, forKey: .isAdmin)
