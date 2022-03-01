@@ -64,7 +64,7 @@ class ApiVK{
     
     private init(){}
     
-    final func reguest<T:Decodable>(_ type: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (JSONResponse<T>) -> Void) {
+    final func reguest<T:Decodable>(_ model: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (JSONResponse<T>) -> Void) {
         var localParams:[URLQueryItem] = self.params
         if (params != nil){
             params?.forEach({ (key, value) in
