@@ -73,7 +73,7 @@ class AllGroupsListViewController: UIViewController {
         ])
         
         API.reguest(GroupModelApi.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] data in
-            self?.dataAllGroups = data.response.items
+            self?.dataAllGroups = data.items
             UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewLoad.removeFromSuperview()
             }
@@ -125,7 +125,7 @@ extension AllGroupsListViewController: UISearchBarDelegate{
         ])
         
         API.reguest(GroupModelApi.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] data in
-            self?.dataAllGroups = data.response.items
+            self?.dataAllGroups = data.items
             UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewLoad.removeFromSuperview()
             }

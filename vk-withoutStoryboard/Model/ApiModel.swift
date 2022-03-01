@@ -35,6 +35,19 @@ struct FriendModelApi:Decodable{
         case accessClosed = "can_access_closed"
         case trackCode = "track_code"
     }
+    
+    init(from decoder: Decoder) throws {
+        let item = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.id = try item.decode(Int.self, forKey: .id)
+        self.avatar = try item.decode(String.self, forKey: .avatar)
+        self.firstName = try item.decode(String.self, forKey: .firstName)
+        self.lastName = try item.decode(String.self, forKey: .lastName)
+        self.isClosed = try item.decode(Bool.self, forKey: .isClosed)
+        self.accessClosed = try item.decode(Bool.self, forKey: .accessClosed)
+        self.online = try item.decode(Int.self, forKey: .online)
+        self.trackCode = try item.decode(String.self, forKey: .trackCode)
+    }
 }
 
 struct PhotoModelApi: Decodable{
@@ -80,6 +93,17 @@ struct PhotoModelApi: Decodable{
         let type: String
         let width: Int
     }
+    
+    init(from decoder: Decoder) throws {
+        let item = try decoder.container(keyedBy: CodingKeys.self)
+        self.albumId = try item.decode(Int.self, forKey: .albumId)
+        self.date = try item.decode(Date.self, forKey: .date)
+        self.id = try item.decode(Int.self, forKey: .id)
+        self.ownerId = try item.decode(Int.self, forKey: .ownerId)
+        self.sizes = try item.decode([Size].self, forKey: .sizes)
+        self.text = try item.decode(String.self, forKey: .text)
+        self.hasTags = try item.decode(Bool.self, forKey: .hasTags)
+    }
 }
 
 struct GroupModelApi: Decodable{
@@ -107,5 +131,21 @@ struct GroupModelApi: Decodable{
         case photo50 =  "photo_50"
         case screenName = "screen_name"
         case type
+    }
+    
+    
+    init(from decoder: Decoder) throws {
+        let item = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try item.decode(Int.self, forKey: .id)
+        self.isAdmin = try item.decode(Int.self, forKey: .isAdmin)
+        self.isAdvertiser = try item.decode(Int.self, forKey: .isAdvertiser)
+        self.isClosed = try item.decode(Int.self, forKey: .isClosed)
+        self.isMember = try item.decode(Int.self, forKey: .isMember)
+        self.name = try item.decode(String.self, forKey: .name)
+        self.photo100 = try item.decode(String.self, forKey: .photo100)
+        self.photo200 = try item.decode(String.self, forKey: .photo200)
+        self.photo50 =  try item.decode(String.self, forKey: .photo50)
+        self.screenName = try item.decode(String.self, forKey: .screenName)
+        self.type = try item.decode(String.self, forKey: .type)
     }
 }

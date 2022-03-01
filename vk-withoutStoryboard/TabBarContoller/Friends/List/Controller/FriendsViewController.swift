@@ -111,9 +111,9 @@ class FriendsViewController: UIViewController {
         ])
         
         API.reguest(FriendModelApi.self, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] data in
-            self?.storage = data.response.items
-            self?.firstLetters = self?.firstLettersArray(data.response.items) ?? []
-            self?.dataFriends = self?.sortedFriends(data.response.items, firstLetters: self!.firstLetters) ?? []
+            self?.storage = data.items
+            self?.firstLetters = self?.firstLettersArray(data.items) ?? []
+            self?.dataFriends = self?.sortedFriends(data.items, firstLetters: self!.firstLetters) ?? []
             UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewLoad.removeFromSuperview()
             }

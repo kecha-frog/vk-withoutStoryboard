@@ -110,7 +110,7 @@ class FavoriteGroupsListViewController: UIViewController {
         ])
         
         API.reguest(GroupModelApi.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] data in
-            self?.dataFavoriteGroup = data.response.items
+            self?.dataFavoriteGroup = data.items
             UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewLoad.removeFromSuperview()
             }
