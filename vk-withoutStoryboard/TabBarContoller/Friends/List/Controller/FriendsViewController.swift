@@ -47,7 +47,7 @@ class FriendsViewController: UIViewController {
     
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { [self] (action, view, completion) in
-            let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
+            //let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
             //self.coreData.delete(user)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
