@@ -73,9 +73,7 @@ class AllGroupsListViewController: UIViewController {
         
         ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] data in
             self?.dataAllGroups = data.items
-            UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
-                viewLoad.removeFromSuperview()
-            }
+            viewLoad.removeSelf(transitionTo: self!.tableView)
             completion()
         }
     }
@@ -125,9 +123,7 @@ extension AllGroupsListViewController: UISearchBarDelegate{
         
         ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] data in
             self?.dataAllGroups = data.items
-            UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
-                viewLoad.removeFromSuperview()
-            }
+            viewLoad.removeSelf(transitionTo: self!.tableView)
             self?.update()
         }
     }

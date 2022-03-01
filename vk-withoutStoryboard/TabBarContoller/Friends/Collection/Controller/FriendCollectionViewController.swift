@@ -73,10 +73,7 @@ class FriendCollectionViewController: UIViewController {
             "extended":"1"
         ]) { [weak self] data in
             self?.dataUserImage = data.items
-            
-            UIView.transition(from: viewLoad, to: self!.collectionView, duration: 0.33, options: .transitionCrossDissolve) { _ in
-                viewLoad.removeFromSuperview()
-            }
+            viewLoad.removeSelf(transitionTo: self!.collectionView)
             completion()
         }
     }

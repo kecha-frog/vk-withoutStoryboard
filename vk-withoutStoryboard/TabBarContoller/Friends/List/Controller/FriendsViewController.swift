@@ -113,9 +113,7 @@ class FriendsViewController: UIViewController {
             self?.storage = data.items
             self?.firstLetters = self?.firstLettersArray(data.items) ?? []
             self?.dataFriends = self?.sortedFriends(data.items, firstLetters: self!.firstLetters) ?? []
-            UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
-                viewLoad.removeFromSuperview()
-            }
+            viewLoad.removeSelf(transitionTo: self!.tableView)
             completion()
         }
     }
