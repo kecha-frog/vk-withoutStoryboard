@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D2C2A83C3835C863D5F892A2 /* Pods_vk_withoutStoryboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6F77068B8868F5A975709B /* Pods_vk_withoutStoryboard.framework */; };
-		F20A6B8D27B43D10007AE5E6 /* fetchApiVK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20A6B8C27B43D10007AE5E6 /* fetchApiVK.swift */; };
+		F20A6B8D27B43D10007AE5E6 /* ApiVK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20A6B8C27B43D10007AE5E6 /* ApiVK.swift */; };
 		F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210040E27A1352A00073B94 /* AppDelegate.swift */; };
 		F210041127A1352A00073B94 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210041027A1352A00073B94 /* SceneDelegate.swift */; };
 		F210041327A1352A00073B94 /* OldLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210041227A1352A00073B94 /* OldLoginViewController.swift */; };
@@ -43,7 +43,7 @@
 		8B6F77068B8868F5A975709B /* Pods_vk_withoutStoryboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vk_withoutStoryboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F970FCE699F06D7E5DB0A2D /* Pods-vk-withoutStoryboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk-withoutStoryboard.release.xcconfig"; path = "Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard.release.xcconfig"; sourceTree = "<group>"; };
 		E4AE0228CC79BD637BEBAB90 /* Pods-vk-withoutStoryboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk-withoutStoryboard.debug.xcconfig"; path = "Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard.debug.xcconfig"; sourceTree = "<group>"; };
-		F20A6B8C27B43D10007AE5E6 /* fetchApiVK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchApiVK.swift; sourceTree = "<group>"; };
+		F20A6B8C27B43D10007AE5E6 /* ApiVK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiVK.swift; sourceTree = "<group>"; };
 		F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vk-withoutStoryboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F210040E27A1352A00073B94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F210041027A1352A00073B94 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 				F29C1C6C27C12C6300056274 /* Table */,
 				F25869EC27A934F100A86D87 /* LikeControl.swift */,
 				F23556E327B1048A0032E049 /* LoadingView.swift */,
-				F20A6B8C27B43D10007AE5E6 /* fetchApiVK.swift */,
+				F20A6B8C27B43D10007AE5E6 /* ApiVK.swift */,
 				F22E27FC27BED20E00127130 /* Session.swift */,
 			);
 			path = "Common Files";
@@ -519,7 +519,7 @@
 				F239FB6427B2AAFB001FE5FD /* FavotiteGroupsCoreData.swift in Sources */,
 				F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */,
 				F21EB5AE27A7FE35003698CD /* AllGroupsListViewController.swift in Sources */,
-				F20A6B8D27B43D10007AE5E6 /* fetchApiVK.swift in Sources */,
+				F20A6B8D27B43D10007AE5E6 /* ApiVK.swift in Sources */,
 				F22E014D27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift in Sources */,
 				F210041327A1352A00073B94 /* OldLoginViewController.swift in Sources */,
 				F239FB6227B28DAE001FE5FD /* FriendsCoreData.swift in Sources */,

@@ -19,8 +19,6 @@ class FavoriteGroupsListViewController: UIViewController {
     
     private var dataFavoriteGroup: [GroupModelApi] = []
     
-    let API = fetchApiVK()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -109,7 +107,7 @@ class FavoriteGroupsListViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        API.reguest(GroupModelApi.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] data in
+        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] data in
             self?.dataFavoriteGroup = data.items
             UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewLoad.removeFromSuperview()

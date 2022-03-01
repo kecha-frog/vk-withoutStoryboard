@@ -21,8 +21,6 @@ class FriendCollectionViewController: UIViewController {
         return collectionView
     }()
     
-    private let API = fetchApiVK()
-    
     private var dataUserImage:[PhotoModelApi] = []
     private var friendId:Int!
     override func viewDidLoad() {
@@ -68,7 +66,7 @@ class FriendCollectionViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        API.reguest(PhotoModelApi.self, method: .GET, path: .getPhotos, params: [
+        ApiVK.standart.reguest(PhotoModelApi.self, method: .GET, path: .getPhotos, params: [
             "owner_id":String(self.friendId),
             "album_id": "profile",
             "count":"10",

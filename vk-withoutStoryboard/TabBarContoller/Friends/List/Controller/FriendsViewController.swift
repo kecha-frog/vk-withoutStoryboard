@@ -16,7 +16,6 @@ class FriendsViewController: UIViewController {
     }()
     
     //private var coreData = FriendsCoreData()
-    private let API = fetchApiVK()
     private var storage = [FriendModelApi]()
     private var firstLetters = [Character]()
     private var dataFriends:[[FriendModelApi]] = []
@@ -110,7 +109,7 @@ class FriendsViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        API.reguest(FriendModelApi.self, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] data in
+        ApiVK.standart.reguest(FriendModelApi.self, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] data in
             self?.storage = data.items
             self?.firstLetters = self?.firstLettersArray(data.items) ?? []
             self?.dataFriends = self?.sortedFriends(data.items, firstLetters: self!.firstLetters) ?? []

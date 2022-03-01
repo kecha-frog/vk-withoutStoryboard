@@ -23,7 +23,6 @@ class AllGroupsListViewController: UIViewController {
     
     private let searchBar =  SearchBarHeaderTableView()
     
-    let API = fetchApiVK()
     var delegate: AllGroupsListViewControllerDelegate?
 
     override func viewDidLoad() {
@@ -72,7 +71,7 @@ class AllGroupsListViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        API.reguest(GroupModelApi.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] data in
+        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] data in
             self?.dataAllGroups = data.items
             UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewLoad.removeFromSuperview()
@@ -124,7 +123,7 @@ extension AllGroupsListViewController: UISearchBarDelegate{
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        API.reguest(GroupModelApi.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] data in
+        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] data in
             self?.dataAllGroups = data.items
             UIView.transition(from: viewLoad, to: self!.tableView, duration: 0.33, options: .transitionCrossDissolve) { _ in
                 viewLoad.removeFromSuperview()

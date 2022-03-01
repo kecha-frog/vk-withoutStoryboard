@@ -1,5 +1,5 @@
 //
-//  FetchPost.swift
+//  FetchApiVK.swift
 //  vk-withoutStoryboard
 //
 //  Created by Ke4a on 09.02.2022.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct VkApiJson<T:Decodable>: Decodable{
+struct JSONResponse<T:Decodable>: Decodable{
     let count: Int
     let items: [T]
     
@@ -29,7 +29,7 @@ struct VkApiJson<T:Decodable>: Decodable{
     }
 }
 
-extension fetchApiVK{
+extension ApiVK{
     enum Method:String{
         case POST
         case GET
@@ -44,8 +44,10 @@ extension fetchApiVK{
     }
 }
 
-// Запрос переделал на дженерик
-class fetchApiVK{
+// Запрос переделал на дженерик и синглтон, в будущем дабавлю обнавление токена по функции
+class ApiVK{
+    static let standart = ApiVK()
+    
     private let httpSession = URLSession(configuration: URLSessionConfiguration.default)
     
     private var urlComponents: URLComponents = {
@@ -60,7 +62,9 @@ class fetchApiVK{
         .init(name: "v", value: "5.131")
     ]
     
-    final func reguest<T:Decodable>(_ type: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (VkApiJson<T>) -> Void) {
+    private init(){}
+    
+    final func reguest<T:Decodable>(_ type: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (JSONResponse<T>) -> Void) {
         var localParams:[URLQueryItem] = self.params
         if (params != nil){
             params?.forEach({ (key, value) in
@@ -85,7 +89,7 @@ class fetchApiVK{
             do {
 //                let json = try JSONSerialization.jsonObject(with: validData, options: .mutableContainers)
 //                print(json)
-                let codableData = try JSONDecoder().decode (VkApiJson<T>.self, from: validData)
+                let codableData = try JSONDecoder().decode (JSONResponse<T>.self, from: validData)
                 
                 DispatchQueue.main.async {
                     completion(codableData)
