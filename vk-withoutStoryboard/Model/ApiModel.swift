@@ -87,13 +87,6 @@ struct PhotoModelApi: Decodable{
         case hasTags = "has_tags"
     }
     
-    struct Size: Codable{
-        let height: Int
-        let url: String
-        let type: String
-        let width: Int
-    }
-    
     init(from decoder: Decoder) throws {
         let item = try decoder.container(keyedBy: CodingKeys.self)
         self.albumId = try item.decode(Int.self, forKey: .albumId)
@@ -103,6 +96,13 @@ struct PhotoModelApi: Decodable{
         self.sizes = try item.decode([Size].self, forKey: .sizes)
         self.text = try item.decode(String.self, forKey: .text)
         self.hasTags = try item.decode(Bool.self, forKey: .hasTags)
+    }
+    
+    struct Size: Codable{
+        let height: Int
+        let url: String
+        let type: String
+        let width: Int
     }
 }
 
