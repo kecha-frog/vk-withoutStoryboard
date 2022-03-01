@@ -14,8 +14,11 @@ extension Int{
     }
 }
 
+// для надежности, чтоб нельзя было подставиить любой Decodable
+protocol ModelApi: Decodable{}
+
 // ответы апи
-class FriendModelApi:Decodable{
+class FriendModelApi:ModelApi{
     let id:Int
     let avatar:String
     let firstName: String
@@ -50,7 +53,7 @@ class FriendModelApi:Decodable{
     }
 }
 
-class PhotoModelApi: Decodable{
+class PhotoModelApi: ModelApi{
     let albumId: Int
     let date: Date
     let id:Int
@@ -106,7 +109,7 @@ class PhotoModelApi: Decodable{
     }
 }
 
-class GroupModelApi: Decodable{
+class GroupModelApi: ModelApi{
     let id:Int
     let isAdmin: Int
     let isAdvertiser: Int
@@ -132,7 +135,6 @@ class GroupModelApi: Decodable{
         case screenName = "screen_name"
         case type
     }
-    
     
     required init(from decoder: Decoder) throws {
         let item = try decoder.container(keyedBy: CodingKeys.self)
