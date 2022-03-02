@@ -2,8 +2,6 @@
 # platform :ios, '9.0'
 
 target 'vk-withoutStoryboard' do
-  use_frameworks!
-
-  pod “Alamofire”
+  pod 'KeychainSwift'
 
 end

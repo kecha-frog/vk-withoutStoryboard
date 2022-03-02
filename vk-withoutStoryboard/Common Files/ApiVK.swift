@@ -56,9 +56,8 @@ class ApiVK{
         components.host = "api.vk.com"
         return components
     }()
-    
+
     private final var params:[URLQueryItem] = [
-        .init(name: "access_token", value: Session.instance.token),
         .init(name: "v", value: "5.131")
     ]
     
@@ -71,6 +70,10 @@ class ApiVK{
                 localParams.append(.init(name: key, value: value))
             })
         }
+        
+        let token = Keychain.standart.get(.token)
+        localParams.append(.init(name: "access_token", value: token))
+        
         
         urlComponents.path = path.rawValue
         urlComponents.queryItems = localParams

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D2C2A83C3835C863D5F892A2 /* Pods_vk_withoutStoryboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6F77068B8868F5A975709B /* Pods_vk_withoutStoryboard.framework */; };
+		12381572FDA13298963615C9 /* libPods-vk-withoutStoryboard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0F71D3AD934CF75CFFA5359 /* libPods-vk-withoutStoryboard.a */; };
 		F20A6B8D27B43D10007AE5E6 /* ApiVK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20A6B8C27B43D10007AE5E6 /* ApiVK.swift */; };
 		F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210040E27A1352A00073B94 /* AppDelegate.swift */; };
 		F210041127A1352A00073B94 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210041027A1352A00073B94 /* SceneDelegate.swift */; };
@@ -22,7 +22,6 @@
 		F22E014927A6BE1800B0FB27 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E014827A6BE1800B0FB27 /* FriendsViewController.swift */; };
 		F22E014D27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E014C27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift */; };
 		F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E014F27A6BF5F00B0FB27 /* FriendsTableViewCell.swift */; };
-		F22E27FD27BED20E00127130 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E27FC27BED20E00127130 /* Session.swift */; };
 		F23556E427B1048A0032E049 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23556E327B1048A0032E049 /* LoadingView.swift */; };
 		F239FB6227B28DAE001FE5FD /* FriendsCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239FB6127B28DAE001FE5FD /* FriendsCoreData.swift */; };
 		F239FB6427B2AAFB001FE5FD /* FavotiteGroupsCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F239FB6327B2AAFB001FE5FD /* FavotiteGroupsCoreData.swift */; };
@@ -36,13 +35,14 @@
 		F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */; };
 		F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */; };
 		F29C1C6E27C12C7900056274 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C1C6D27C12C7900056274 /* Table.swift */; };
+		F29F4C1027CF6BED00D766F2 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29F4C0F27CF6BED00D766F2 /* Keychain.swift */; };
 		F2F498D927B23FF700A9DACE /* Storage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2F498D727B23FF700A9DACE /* Storage.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8B6F77068B8868F5A975709B /* Pods_vk_withoutStoryboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_vk_withoutStoryboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F970FCE699F06D7E5DB0A2D /* Pods-vk-withoutStoryboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk-withoutStoryboard.release.xcconfig"; path = "Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard.release.xcconfig"; sourceTree = "<group>"; };
 		E4AE0228CC79BD637BEBAB90 /* Pods-vk-withoutStoryboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vk-withoutStoryboard.debug.xcconfig"; path = "Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard.debug.xcconfig"; sourceTree = "<group>"; };
+		F0F71D3AD934CF75CFFA5359 /* libPods-vk-withoutStoryboard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-vk-withoutStoryboard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F20A6B8C27B43D10007AE5E6 /* ApiVK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiVK.swift; sourceTree = "<group>"; };
 		F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vk-withoutStoryboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F210040E27A1352A00073B94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +60,6 @@
 		F22E014827A6BE1800B0FB27 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		F22E014C27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGroupsListViewController.swift; sourceTree = "<group>"; };
 		F22E014F27A6BF5F00B0FB27 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
-		F22E27FC27BED20E00127130 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		F23556E327B1048A0032E049 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		F239FB6127B28DAE001FE5FD /* FriendsCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCoreData.swift; sourceTree = "<group>"; };
 		F239FB6327B2AAFB001FE5FD /* FavotiteGroupsCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavotiteGroupsCoreData.swift; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		F29C1C6D27C12C7900056274 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		F29F4C0F27CF6BED00D766F2 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F2F498D827B23FF700A9DACE /* Storage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Storage.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2C2A83C3835C863D5F892A2 /* Pods_vk_withoutStoryboard.framework in Frameworks */,
+				12381572FDA13298963615C9 /* libPods-vk-withoutStoryboard.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +92,7 @@
 		26FAC21D3163B83E2BF6726E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B6F77068B8868F5A975709B /* Pods_vk_withoutStoryboard.framework */,
+				F0F71D3AD934CF75CFFA5359 /* libPods-vk-withoutStoryboard.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -168,7 +168,7 @@
 				F25869EC27A934F100A86D87 /* LikeControl.swift */,
 				F23556E327B1048A0032E049 /* LoadingView.swift */,
 				F20A6B8C27B43D10007AE5E6 /* ApiVK.swift */,
-				F22E27FC27BED20E00127130 /* Session.swift */,
+				F29F4C0F27CF6BED00D766F2 /* Keychain.swift */,
 			);
 			path = "Common Files";
 			sourceTree = "<group>";
@@ -413,7 +413,6 @@
 				F210040727A1352A00073B94 /* Sources */,
 				F210040827A1352A00073B94 /* Frameworks */,
 				F210040927A1352A00073B94 /* Resources */,
-				792DDAEE2DFEB27D02BBC40A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -470,23 +469,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		792DDAEE2DFEB27D02BBC40A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-vk-withoutStoryboard/Pods-vk-withoutStoryboard-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7FE95C1238BE174684C15096 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -525,6 +507,7 @@
 				F239FB6227B28DAE001FE5FD /* FriendsCoreData.swift in Sources */,
 				F24E7A7327AC12D400E12148 /* FriendsHeaderSectionTableView.swift in Sources */,
 				F210042827A17DED00073B94 /* OldLoginView.swift in Sources */,
+				F29F4C1027CF6BED00D766F2 /* Keychain.swift in Sources */,
 				F28037B727C8CE9F004AE857 /* LoginController.swift in Sources */,
 				F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */,
 				F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */,
@@ -534,7 +517,6 @@
 				F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */,
 				F29C1C6E27C12C7900056274 /* Table.swift in Sources */,
 				F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */,
-				F22E27FD27BED20E00127130 /* Session.swift in Sources */,
 				F2F498D927B23FF700A9DACE /* Storage.xcdatamodeld in Sources */,
 				F21EB5A327A7D5D3003698CD /* FriendCollectionViewController.swift in Sources */,
 				F23556E427B1048A0032E049 /* LoadingView.swift in Sources */,
