@@ -4,6 +4,7 @@
 //
 //  Created by Ke4a on 04.02.2022.
 //
+struct PostModel{}
 
 import UIKit
 class NewsTableViewController: UIViewController {
@@ -82,11 +83,11 @@ extension NewsTableViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension NewsTableViewController: NewsTableViewCellDelegate{
     func actionLikePost(_ like: Bool, indexPost: Int) {
-        postsData[indexPost].youLike.toggle()
+        //postsData[indexPost].youLike.toggle()
         if like {
-            postsData[indexPost].like += 1
+            //postsData[indexPost].like += 1
         }else if !like {
-            postsData[indexPost].like -= 1
+            //postsData[indexPost].like -= 1
         }
     }
 }

@@ -66,10 +66,10 @@ class FriendCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(_ image:ImageModel, index: Int){
+    func configure(_ image:PhotoModelApi, index: Int){
         indexImage = index
-        imageView.image = UIImage(named: image.name)
-        likeView.configure(image.like, youLike: image.youLike)
+        imageView.load(urlString: image.sizes.last!.url)
+        //likeView.configure(image.like, youLike: image.youLike)
         likeView.addTarget(self, action: #selector(likePhotoAction), for: .valueChanged)
     }
 

@@ -15,17 +15,17 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
-    private var coreData = FriendsCoreData()
-    
-    private var storage:[UserModel]!
+    //private var coreData = FriendsCoreData()
+    private var storage = [FriendModelApi]()
     private var firstLetters = [Character]()
-    private var dataFriends:[[UserModel]] = []
+    private var dataFriends:[[FriendModelApi]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        update()
         setupUI()
-        fetchAPI()
+        fetchApiAsync {
+            self.update()
+        }
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
@@ -41,14 +41,14 @@ class FriendsViewController: UIViewController {
         let friend = dataFriends[indexPath.section][indexPath.row]
         
         let friendCollectionVC = FriendCollectionViewController()
-        friendCollectionVC.configure(friendId: friend.id, title: "\(friend.name!) \(friend.surname!)")
+        friendCollectionVC.configure(friendId: friend.id, title: "\(friend.firstName) \(friend.lastName)")
         navigationController?.pushViewController(friendCollectionVC, animated: true)
     }
     
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { [self] (action, view, completion) in
-            let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
-            self.coreData.delete(user)
+            //let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
+            //self.coreData.delete(user)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
             
@@ -65,12 +65,9 @@ class FriendsViewController: UIViewController {
     }
 
     private func setupUI(){
-        self.tabBarController?.tabBar.isHidden = false
         tableView.sectionHeaderTopPadding = 5
         
         title = "Friends"
-        firstLetters = firstLettersArray(storage)
-        dataFriends = sortedFriends(storage, firstLetters: firstLetters)
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -82,29 +79,42 @@ class FriendsViewController: UIViewController {
         
     }
     
-    private func sortedFriends(_ friends: [UserModel], firstLetters: [Character]) -> [[UserModel]]{
-        var sortedFriends = [[UserModel]]()
+    private func sortedFriends(_ friends: [FriendModelApi], firstLetters: [Character]) -> [[FriendModelApi]]{
+        var sortedFriends = [[FriendModelApi]]()
         for letter in firstLetters {
-            let filterFriends = friends.filter { $0.surname?.first == letter }
+            let filterFriends = friends.filter { $0.lastName.first == letter }
             sortedFriends.append(filterFriends)
         }
         return sortedFriends
     }
     
-    private func firstLettersArray(_ friends: [UserModel]) -> [Character] {
-        return Array(Set(friends.compactMap { $0.surname?.first })).sorted()
+    private func firstLettersArray(_ friends: [FriendModelApi]) -> [Character] {
+        return Array(Set(friends.compactMap { $0.lastName.first })).sorted()
     }
     
     private func update(){
-        storage = coreData.fetch()
+        //storage = coreData.fetch()
         tableView.reloadData()
     }
     
-    // Запрос друзей
-    private func fetchAPI(){
-        let apiVK = fetchApiVK()
-        apiVK.reguest(method: .GET, path: .getFriends, params: ["fields":"online"]) { data in
-            print(data)
+    private func fetchApiAsync( completion: @escaping () -> Void){
+        let viewLoad = LoadingView()
+        viewLoad.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+        
+        ApiVK.standart.reguest(FriendModelApi.self, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] data in
+            self?.storage = data.items
+            self?.firstLetters = self?.firstLettersArray(data.items) ?? []
+            self?.dataFriends = self?.sortedFriends(data.items, firstLetters: self!.firstLetters) ?? []
+            viewLoad.removeSelf(transitionTo: self!.tableView)
+            completion()
         }
     }
 }
@@ -116,7 +126,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
-        let letter = dataFriends[section][0].surname?.first
+        let letter = dataFriends[section][0].lastName.first
         header.setText(String(letter!))
         return header
     }
@@ -127,7 +137,6 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.identifier) as! FriendsTableViewCell
-        
         cell.configure(friend: dataFriends[indexPath.section][indexPath.row])
         return cell
     }
@@ -142,11 +151,11 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
                    sectionForSectionIndexTitle title: String,
                    at index: Int) -> Int {
         guard title != "#" else {
-            dataFriends = sortedFriends(storage, firstLetters: firstLetters)
+            dataFriends = sortedFriends(self.storage, firstLetters: firstLetters)
             tableView.reloadData()
             return 0
         }
-        dataFriends = [sortedFriends(storage, firstLetters: firstLetters)[index]]
+        dataFriends = [sortedFriends(self.storage, firstLetters: firstLetters)[index]]
         tableView.reloadData()
         return index
     }

@@ -71,4 +71,10 @@ class LoadingView: UIView{
             self.dot3.alpha = 0
         }
     }
+    
+    func removeSelf(transitionTo: UIView){
+        UIView.transition(from: self, to: transitionTo, duration: 0.33, options: .transitionCrossDissolve) { _ in
+            self.removeFromSuperview()
+        }
+    }
 }
