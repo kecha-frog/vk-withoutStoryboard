@@ -82,7 +82,7 @@ class LoginController: UIViewController {
             .init(name: "client_id", value:"8088608"),
             .init(name: "display", value: "mobile"),
             .init(name: "redirect_uri",value:"https://oauth.vk.com/blank.html"),
-            .init(name: "scope", value:"262150"),
+            .init(name: "scope", value:"offline, friends, photos, groups"),
             .init(name: "response_type",value:"token"),
         ]
         let myRequest = URLRequest(url: urlComponents.url!)
@@ -116,9 +116,8 @@ extension LoginController: WKNavigationDelegate{
             })
         
         if let token = params["access_token"], let id = params["user_id"]{
-            let sesion = Session.instance
-            sesion.token = token
-            sesion.userId = Int(id)!
+            Keychain.standart.set(token, key: .token)
+            Keychain.standart.set(id, key: .id)
         }
         
         let controller = TabBarViewController()

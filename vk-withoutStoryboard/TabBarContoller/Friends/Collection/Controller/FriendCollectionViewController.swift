@@ -71,10 +71,16 @@ class FriendCollectionViewController: UIViewController {
             "album_id": "profile",
             "count":"10",
             "extended":"1"
-        ]) { [weak self] data in
-            self?.dataUserImage = data.items
-            viewLoad.removeSelf(transitionTo: self!.collectionView)
-            completion()
+        ]) { [weak self] result in
+            switch result {
+            case .success(let success):
+                self?.dataUserImage = success.items
+                viewLoad.removeSelf(transitionTo: self!.collectionView)
+                completion()
+            case .failure(let error):
+                print(error)
+            }
+            
         }
     }
 }

@@ -71,10 +71,16 @@ class AllGroupsListViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] data in
-            self?.dataAllGroups = data.items
-            viewLoad.removeSelf(transitionTo: self!.tableView)
-            completion()
+        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] result in
+            switch result {
+            case .success(let success):
+                self?.dataAllGroups = success.items
+                viewLoad.removeSelf(transitionTo: self!.tableView)
+                completion()
+            case .failure(let error):
+                print(error)
+            }
+           
         }
     }
 }
@@ -121,10 +127,15 @@ extension AllGroupsListViewController: UISearchBarDelegate{
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] data in
-            self?.dataAllGroups = data.items
-            viewLoad.removeSelf(transitionTo: self!.tableView)
-            self?.update()
+        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] result in
+            switch result {
+            case .success(let success):
+                self?.dataAllGroups = success.items
+                viewLoad.removeSelf(transitionTo: self!.tableView)
+                self?.update()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }

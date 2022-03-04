@@ -107,10 +107,15 @@ class FavoriteGroupsListViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] data in
-            self?.dataFavoriteGroup = data.items
-            viewLoad.removeSelf(transitionTo: self!.tableView)
-            completion()
+        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] result in
+            switch result {
+            case .success(let success):
+                self?.dataFavoriteGroup = success.items
+                viewLoad.removeSelf(transitionTo: self!.tableView)
+                completion()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }

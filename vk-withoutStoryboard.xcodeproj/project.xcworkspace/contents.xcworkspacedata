@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/ke4a/Documents/vk-withoutStoryboard/vk-withoutStoryboard.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>
