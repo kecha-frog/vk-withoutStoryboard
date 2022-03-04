@@ -8,25 +8,9 @@
 import Foundation
 import UIKit
 
-struct JSONResponse<T:Decodable>: Decodable{
-    let count: Int
-    let items: [T]
-    
-    private enum CodingKeys:String, CodingKey{
-        case response
-    }
-    
-    private enum ResponseKeys:String, CodingKey{
-        case count
-        case items
-    }
-    
-    init(from decoder: Decoder) throws {
-        let response = try decoder.container(keyedBy: CodingKeys.self)
-        let test = try response.nestedContainer(keyedBy: ResponseKeys.self,forKey: .response)
-        self.count = try test.decode(Int.self, forKey: .count)
-        self.items = try test.decode([T].self, forKey: .items)
-    }
+enum ServiceError: Error{
+    case parseError
+    case serverError
 }
 
 extension ApiVK{
@@ -63,7 +47,7 @@ class ApiVK{
     
     private init(){}
     
-    final func reguest<T:ModelApi>(_ modelSelf: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (JSONResponse<T>) -> Void) {
+    final func reguest<T:ModelApiVK>(_ modelSelf: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (Result<JSONResponse<T>, ServiceError>) -> Void) {
         var localParams:[URLQueryItem] = self.params
         if (params != nil){
             params?.forEach({ (key, value) in
@@ -84,7 +68,8 @@ class ApiVK{
         let task = httpSession.dataTask(with: request) { (data, response, error) in
             guard let validData = data, error == nil else {
                 DispatchQueue.main.async{
-                    print (error as Any, "Error")
+                    completion(.failure(.serverError))
+                    debugPrint(error as Any)
                 }
                 return
             }
@@ -95,9 +80,10 @@ class ApiVK{
                 let codableData = try JSONDecoder().decode (JSONResponse<T>.self, from: validData)
                 
                 DispatchQueue.main.async {
-                    completion(codableData)
+                    completion(.success(codableData))
                 }
             }catch {
+                completion(.failure(.parseError))
                 debugPrint(error)
             }
         }

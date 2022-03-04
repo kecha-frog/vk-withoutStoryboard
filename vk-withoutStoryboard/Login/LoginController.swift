@@ -82,7 +82,7 @@ class LoginController: UIViewController {
             .init(name: "client_id", value:"8088608"),
             .init(name: "display", value: "mobile"),
             .init(name: "redirect_uri",value:"https://oauth.vk.com/blank.html"),
-            .init(name: "scope", value:"offline, groups"),
+            .init(name: "scope", value:"offline, friends, photos, groups"),
             .init(name: "response_type",value:"token"),
         ]
         let myRequest = URLRequest(url: urlComponents.url!)
