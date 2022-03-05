@@ -10,7 +10,7 @@ import UIKit
 
 enum ServiceError: Error{
     case parseError
-    case serverError
+    case requestError(Error)
 }
 
 extension ApiVK{
@@ -68,8 +68,7 @@ class ApiVK{
         let task = httpSession.dataTask(with: request) { (data, response, error) in
             guard let validData = data, error == nil else {
                 DispatchQueue.main.async{
-                    completion(.failure(.serverError))
-                    debugPrint(error as Any)
+                    completion(.failure(.requestError(error!)))
                 }
                 return
             }
@@ -84,7 +83,6 @@ class ApiVK{
                 }
             }catch {
                 completion(.failure(.parseError))
-                debugPrint(error)
             }
         }
         task.resume()

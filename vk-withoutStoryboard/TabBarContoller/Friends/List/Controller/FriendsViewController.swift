@@ -131,7 +131,7 @@ class FriendsViewController: UIViewController {
                 viewLoad.removeSelf(transitionTo: self!.tableView)
                 completion()
             case .failure(let error):
-                print(error)
+                debugPrint(error)
             }
         }
     }
