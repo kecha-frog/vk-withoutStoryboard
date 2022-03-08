@@ -6,6 +6,8 @@
 //
 
 import UIKit
+
+/// вью загрузки
 class LoadingView: UIView{
     private let dot1: UILabel = {
         let label = UILabel()
@@ -45,6 +47,16 @@ class LoadingView: UIView{
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// изменение вью на цвет лаунч скрина
+    func changeToStartPageColor(){
+        let dotColor: UIColor = .white
+        dot1.textColor = dotColor
+        dot2.textColor = dotColor
+        dot3.textColor = dotColor
+        backgroundColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
+    }
+    
+    /// настройка вью
     private func setupUI(){
         addSubview(dot1)
         addSubview(dot2)
@@ -60,6 +72,7 @@ class LoadingView: UIView{
         ])
     }
     
+    /// запуска анимации
     private func animation(){
         UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat,.autoreverse]) {
             self.dot1.alpha = 0
@@ -72,7 +85,9 @@ class LoadingView: UIView{
         }
     }
     
-    func removeSelf(transitionTo: UIView){
+    /// удаление вью у супер вью и смена к выбранный вью
+    /// - Parameter transitionTo: вью на который сменится
+    func removeSelfAnimation(transitionTo: UIView){
         UIView.transition(from: self, to: transitionTo, duration: 0.33, options: .transitionCrossDissolve) { _ in
             self.removeFromSuperview()
         }

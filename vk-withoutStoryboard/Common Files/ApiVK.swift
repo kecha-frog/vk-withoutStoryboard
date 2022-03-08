@@ -8,12 +8,12 @@
 import Foundation
 import UIKit
 
-enum ServiceError: Error{
-    case parseError
-    case requestError(Error)
-}
-
 extension ApiVK{
+    enum ServiceError: Error{
+        case parseError
+        case requestError(Error)
+    }
+    
     enum Method:String{
         case POST
         case GET
@@ -28,8 +28,8 @@ extension ApiVK{
     }
 }
 
-// Запрос переделал на дженерик и синглтон, в будущем дабавлю обнавление токена по функции
-class ApiVK{
+final class ApiVK{
+    /// синглтон
     static let standart = ApiVK()
     
     private let httpSession = URLSession(configuration: URLSessionConfiguration.default)
@@ -47,17 +47,23 @@ class ApiVK{
     
     private init(){}
     
-    final func reguest<T:ModelApiVK>(_ modelSelf: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (Result<JSONResponse<T>, ServiceError>) -> Void) {
+    /// Запрос к апи (вернет в замыкание  ошибку или результат)
+    /// - Parameters:
+    ///   - modelSelf: модель для декодирования ответа api
+    ///   - method: метод GET или POST
+    ///   - path: путь url
+    ///   - params: параметры запроса
+    ///   - completion: замыкание с ассихронным  ответом
+    func reguest<T:ModelApiVK>(_ modelSelf: T.Type, method: Method, path: Path, params: [String:String]?, completion: @escaping (Result<JSONResponse<T>, ServiceError>) -> Void) {
         var localParams:[URLQueryItem] = self.params
         if (params != nil){
             params?.forEach({ (key, value) in
                 localParams.append(.init(name: key, value: value))
             })
         }
-        
+        /// получение токена
         let token = Keychain.standart.get(.token)
         localParams.append(.init(name: "access_token", value: token))
-        
         
         urlComponents.path = path.rawValue
         urlComponents.queryItems = localParams
@@ -74,9 +80,7 @@ class ApiVK{
             }
             
             do {
-//                let json = try JSONSerialization.jsonObject(with: validData, options: .mutableContainers)
-//                print(json)
-                let codableData = try JSONDecoder().decode (JSONResponse<T>.self, from: validData)
+                let codableData = try JSONDecoder().decode(JSONResponse<T>.self, from: validData)
                 
                 DispatchQueue.main.async {
                     completion(.success(codableData))
@@ -87,22 +91,45 @@ class ApiVK{
         }
         task.resume()
     }
-}
-
-// для удобной загрузки из интернета
-extension UIImageView {
-    func load(urlString : String) {
-        guard let url = URL(string: urlString)else {
-            return
-        }
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
+    
+    /// проверка токена на валидность, возращает в замыкание булевое значение
+    /// - Parameter completion: замыкание  (Bool) -> Void
+    func checkToken( _ completion : @escaping (Bool) -> Void ){
+        /// получение токена
+        let token = Keychain.standart.get(.token)
+        
+        var localParams:[URLQueryItem] = self.params
+        localParams.append(.init(name: "access_token", value: token))
+        
+        urlComponents.path = "/method/users.get"
+        urlComponents.queryItems = localParams
+        
+        var request = URLRequest(url: urlComponents.url!)
+        request.httpMethod = Method.GET.rawValue
+        
+        let task = httpSession.dataTask(with: request) { (data, response, error) in
+            guard let validData = data, error == nil else {
+                DispatchQueue.main.async{
+                    completion(false)
+                }
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: validData, options: .mutableContainers) as? [String: Any]
+                
+                DispatchQueue.main.async{
+                    //проверка рабочий ли токен (придёт response или error)
+                    if let result = json?.keys.contains("response"), result == true{
+                        completion(true)
+                    }else{
+                        completion(false)
                     }
                 }
+            }catch {
+                completion(false)
             }
         }
+        task.resume()
     }
 }
