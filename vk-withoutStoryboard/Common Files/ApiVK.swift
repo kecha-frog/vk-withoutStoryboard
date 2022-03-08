@@ -49,7 +49,7 @@ final class ApiVK{
     
     /// Запрос к апи (вернет в замыкание  ошибку или результат)
     /// - Parameters:
-    ///   - modelSelf: модель для декодирования ответа api
+    ///   - modelSelf: модель (self) для декодирования ответа api
     ///   - method: метод GET или POST
     ///   - path: путь url
     ///   - params: параметры запроса
@@ -80,6 +80,7 @@ final class ApiVK{
             }
             
             do {
+                // декодирование
                 let codableData = try JSONDecoder().decode(JSONResponse<T>.self, from: validData)
                 
                 DispatchQueue.main.async {

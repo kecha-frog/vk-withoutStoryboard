@@ -85,7 +85,7 @@ class LoadingView: UIView{
         }
     }
     
-    /// удаление вью у супер вью и смена к выбранный вью
+    /// удаление вью у супер вью и смена к выбранному вью
     /// - Parameter transitionTo: вью на который сменится
     func removeSelfAnimation(transitionTo: UIView){
         UIView.transition(from: self, to: transitionTo, duration: 0.33, options: .transitionCrossDissolve) { _ in
