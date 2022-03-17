@@ -27,7 +27,7 @@ class FavoriteGroupsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        fetchApiAsync { [weak self]
+        fetchApiAsync { 
             self.loadRealmData(updateTable: true)
         }
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
