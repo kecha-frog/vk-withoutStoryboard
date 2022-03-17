@@ -66,7 +66,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(_ image:PhotoModelApi, index: Int){
+    func configure(_ image:PhotoModel, index: Int){
         indexImage = index
         let urlImage = image.sizes.last!.url
         LoaderImage.standart.load(url: urlImage, cacheOn: true) { [weak self ] image in

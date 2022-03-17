@@ -8,12 +8,12 @@
 import UIKit
 
 protocol AllGroupsListViewControllerDelegate{
-    func selectGroup(_ sender: GroupModelApi)
+    func selectGroup(_ sender: GroupModel)
 }
 
 // добавил searchBar
 class AllGroupsListViewController: UIViewController {
-    private var dataAllGroups:[GroupModelApi] = []
+    private var dataAllGroups:[GroupModel] = []
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -71,7 +71,7 @@ class AllGroupsListViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] result in
+        ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] result in
             switch result {
             case .success(let success):
                 self?.dataAllGroups = success.items
@@ -127,7 +127,7 @@ extension AllGroupsListViewController: UISearchBarDelegate{
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] result in
+        ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] result in
             switch result {
             case .success(let success):
                 self?.dataAllGroups = success.items

@@ -61,7 +61,7 @@ class FriendsTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(friend: FriendModelApi){
+    func configure(friend: FriendModel){
         textLabelCell.text = "\(friend.firstName) \(friend.lastName)"
         AvatarViewCell.loadData(friend.avatar)
     }
