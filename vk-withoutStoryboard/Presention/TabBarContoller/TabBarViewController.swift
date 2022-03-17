@@ -47,7 +47,6 @@ class TabBarViewController: UITabBarController {
     }
     
     private func setupUI(){
-        modalPresentationStyle = .fullScreen
         tabBar.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         tabBar.backgroundColor = .white
         viewControllers = [itemFriends, itemNews, itemGroups]

@@ -43,7 +43,6 @@ class LoginViewController: UIViewController {
     
     /// настройка контроллера
     private func setupUI(){
-        modalPresentationStyle = .fullScreen
         view.backgroundColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         
         view.addSubview(logoImageView)
@@ -124,6 +123,7 @@ extension LoginViewController: WKNavigationDelegate{
         }
         
         let controller = TabBarViewController()
+        controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }
 }

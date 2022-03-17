@@ -121,7 +121,7 @@ final class ApiVK{
                 
                 DispatchQueue.main.async{
                     //проверка рабочий ли токен (придёт response или error)
-                    if let result = json?.keys.contains("response"), result == true{
+                    if let result = json?.keys.contains("response"), result == true {
                         completion(true)
                     }else{
                         completion(false)

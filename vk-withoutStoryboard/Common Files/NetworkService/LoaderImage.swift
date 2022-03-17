@@ -9,6 +9,7 @@ import UIKit
 
 /// Загрузка изображений (выбор кэшировать или нет)
 class LoaderImage{
+    //синглтон
     static var standart = LoaderImage()
     
     private let httpSession = URLSession(configuration: URLSessionConfiguration.default)

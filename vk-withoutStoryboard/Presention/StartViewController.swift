@@ -24,6 +24,7 @@ class StartViewController: UIViewController {
     
         ApiVK.standart.checkToken { [weak self] result in
             let controller:UIViewController = result ? TabBarViewController() : LoginViewController()
+            controller.modalPresentationStyle = .fullScreen
             self?.present(controller, animated: false, completion: nil)
         }
     }

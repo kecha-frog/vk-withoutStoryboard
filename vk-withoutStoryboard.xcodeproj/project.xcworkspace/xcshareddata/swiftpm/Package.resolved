@@ -1,34 +1,32 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "KeychainSwift",
-        "repositoryURL": "https://github.com/evgenyneu/keychain-swift.git",
-        "state": {
-          "branch": null,
-          "revision": "d108a1fa6189e661f91560548ef48651ed8d93b9",
-          "version": "20.0.0"
-        }
-      },
-      {
-        "package": "RealmDatabase",
-        "repositoryURL": "https://github.com/realm/realm-core",
-        "state": {
-          "branch": null,
-          "revision": "e639a8fe3bd3bca7fcca69333bad22865436df10",
-          "version": "11.11.0"
-        }
-      },
-      {
-        "package": "Realm",
-        "repositoryURL": "https://github.com/realm/realm-swift.git",
-        "state": {
-          "branch": null,
-          "revision": "2380340c876da7a2d17b0b59e21e339120d09bb3",
-          "version": "10.24.0"
-        }
+  "pins" : [
+    {
+      "identity" : "keychain-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/evgenyneu/keychain-swift.git",
+      "state" : {
+        "revision" : "d108a1fa6189e661f91560548ef48651ed8d93b9",
+        "version" : "20.0.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core",
+      "state" : {
+        "revision" : "e9eec444d13ebebc062202407e79b9833428a24e",
+        "version" : "11.11.0"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift.git",
+      "state" : {
+        "revision" : "11ef7d31e3f3668c7434c5fd129a85ca52740b24",
+        "version" : "10.24.1"
+      }
+    }
+  ],
+  "version" : 2
 }
