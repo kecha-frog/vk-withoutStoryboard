@@ -7,6 +7,7 @@
 
 import UIKit
 
+// TODO: доделать
 class LikeControl: UIControl {
     private(set) var youLike: Bool = false
     
