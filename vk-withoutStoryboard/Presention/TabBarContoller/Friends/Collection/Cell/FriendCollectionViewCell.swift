@@ -21,6 +21,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     private var indexImage:Int?
     static let identifier = "FriendCollectionViewCell"
     
@@ -38,7 +39,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
         imageView.image = nil
     }
     
-    var delegate: FriendCollectionViewCellDelegate?
+    weak var delegate: FriendCollectionViewCellDelegate?
     
     private func setupUI(){
         addSubview(imageView)
@@ -66,11 +67,18 @@ class FriendCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(_ image:PhotoModel, index: Int){
+    func configure(_ image:PhotoModel, index: Int, cache: PhotoCache?){
         indexImage = index
-        let urlImage = image.sizes.last!.url
-        LoaderImage.standart.load(url: urlImage, cacheOn: true) { [weak self ] image in
-            self?.imageView.image = image
+        guard let url = image.sizes.last?.url else { return }
+        guard let urlImage = URL(string: url) else { return }
+        
+        if let imageChache = cache?.getImage(for: urlImage){
+            imageView.image = imageChache
+        }else {
+            LoaderImage.standart.load(url: url) { [weak self ] image in
+                cache?.saveImage(image, for: urlImage)
+                self?.imageView.image = image
+            }
         }
         //likeView.configure(image.like, youLike: image.youLike)
         likeView.addTarget(self, action: #selector(likePhotoAction), for: .valueChanged)

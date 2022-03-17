@@ -57,7 +57,7 @@ class NewsTableViewCell: UITableViewCell {
         
     private var indexPost: Int?
     
-    var delegate: NewsTableViewCellDelegate?
+    weak var delegate: NewsTableViewCellDelegate?
     static var identifier = "NewsTableViewCell"
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
