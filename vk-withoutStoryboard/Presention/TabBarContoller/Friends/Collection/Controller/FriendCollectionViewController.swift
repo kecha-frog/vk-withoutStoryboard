@@ -23,7 +23,7 @@ class FriendCollectionViewController: UIViewController {
     }()
     
     private var realmCacheService = RealmCacheService()
-    private weak var cache = PhotoCache()
+    private var cache = PhotoCache()
     private var dataUserImage:[PhotoModel] = []
     
     private var friend:FriendModel?
