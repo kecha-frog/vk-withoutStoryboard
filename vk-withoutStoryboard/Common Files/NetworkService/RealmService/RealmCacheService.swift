@@ -34,7 +34,7 @@ final class RealmCacheService{
         print(realm.configuration.fileURL as Any)
     }
     
-    func create<T:ModelApiVK>(object: T){
+    func create<T:Object>(object: T){
         do{
             realm.beginWrite()
             realm.add(object, update: .modified)
@@ -45,7 +45,7 @@ final class RealmCacheService{
         
     }
     
-    func create<T:ModelApiVK>(objects: [T]){
+    func create<T:Object>(objects: [T]){
         do{
             realm.beginWrite()
             realm.add(objects, update: .modified)
@@ -56,17 +56,47 @@ final class RealmCacheService{
         
     }
     
-    func read<T:ModelApiVK>(_ object:T.Type) -> Results<T>{
+    func read<T:Object>(_ object:T.Type) -> Results<T>{
         return realm.objects(T.self)
     }
     
-    func read<T:ModelApiVK>(_ object:T.Type,
-                            key: String,
+    func read<T:Object>(_ object:T.Type,
+                            key: Any,
                             completion: @escaping (Result<T,Error>) -> Void){
         if let result = realm.object(ofType: T.self, forPrimaryKey: key){
             completion(.success(result))
         }else{
             completion(.failure(Errors.failedToRead("Fail to read object")))
+        }
+    }
+    
+    func delete<T:Object>(objects: Results<T>){
+        do{
+            realm.beginWrite()
+            realm.delete(objects)
+            try realm.commitWrite()
+        }catch{
+            debugPrint(error)
+        }
+    }
+    
+    func delete<T:Object>(objects: [T]){
+        do{
+            realm.beginWrite()
+            realm.delete(objects)
+            try realm.commitWrite()
+        }catch{
+            debugPrint(error)
+        }
+    }
+    
+    func delete<T:Object>(object: T){
+        do{
+            realm.beginWrite()
+            realm.delete(object)
+            try realm.commitWrite()
+        }catch{
+            debugPrint(error)
         }
     }
 }

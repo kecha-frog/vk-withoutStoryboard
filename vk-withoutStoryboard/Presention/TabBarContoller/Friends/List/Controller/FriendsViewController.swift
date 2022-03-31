@@ -16,18 +16,29 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
+    private let viewLoad: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let modelSelf = FriendModel.self
     
     private var realmCacheService = RealmCacheService()
     
     private var storage = [FriendModel]()
     private var firstLetters = [Character]()
-    private var dataFriends:[[FriendModel]] = []
+    
+    private var dataFriends: Results<AlphabetModel>{
+        self.realmCacheService.read(AlphabetModel.self)
+    }
+    private var token: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         realmCacheService.printFileUrl()
+        createNotificationToken()
         fetchApiAsync { [weak self] in
             self?.loadRealmData()
         }
@@ -43,7 +54,7 @@ class FriendsViewController: UIViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let friend = dataFriends[indexPath.section][indexPath.row]
+        let friend = dataFriends[indexPath.section].items[indexPath.row]
         
         let friendCollectionVC = FriendCollectionViewController()
         friendCollectionVC.configure(friendId: friend.id)
@@ -57,12 +68,12 @@ class FriendsViewController: UIViewController {
             
             tableView.deleteRows(at: [indexPath], with: .fade)
             
-            if self.dataFriends[indexPath.section].isEmpty {
-                self.firstLetters.remove(at: indexPath.section)
-                self.dataFriends.remove(at: indexPath.section)
-                let indexSet = IndexSet(arrayLiteral: indexPath.section)
-                tableView.deleteSections(indexSet, with: .fade)
-            }
+//            if self.dataFriends[indexPath.section].isEmpty {
+//                self.firstLetters.remove(at: indexPath.section)
+//                self.dataFriends.remove(at: indexPath.section)
+//                let indexSet = IndexSet(arrayLiteral: indexPath.section)
+//                tableView.deleteSections(indexSet, with: .fade)
+//            }
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
@@ -81,7 +92,6 @@ class FriendsViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
-        
     }
     
     private func sortedFriends(_ friends: [FriendModel], firstLetters: [Character]) -> [[FriendModel]]{
@@ -101,25 +111,29 @@ class FriendsViewController: UIViewController {
         tableView.reloadData()
     }
     
+    private func viewLoadAnimation(_ hiden: Bool = false){
+        if hiden{
+            viewLoad.removeSelfAnimation(transitionTo: tableView)
+        }else{
+            view.addSubview(viewLoad)
+            NSLayoutConstraint.activate([
+                viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            ])
+        }
+    }
+    
     private func fetchApiAsync( completion: @escaping () -> Void){
-        let viewLoad = LoadingView()
-        viewLoad.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(viewLoad)
-        NSLayoutConstraint.activate([
-            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
-        
+        viewLoadAnimation()
         ApiVK.standart.reguest(modelSelf, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] result in
             switch result {
             case .success(let success):
-                DispatchQueue.main.async { [self] in
-                    self?.realmCacheService.create(objects: success.items)
+                DispatchQueue.main.async { [weak self] in
+                    self?.saveInRealm(success.items)
                 }
-                viewLoad.removeSelfAnimation(transitionTo: self!.tableView)
+                self?.viewLoadAnimation(true)
                 completion()
             case .failure(let error):
                 debugPrint(error)
@@ -133,8 +147,79 @@ class FriendsViewController: UIViewController {
             let result = self.realmCacheService.read(self.modelSelf)
             self.storage = Array(result)
             self.firstLetters = self.firstLettersArray(self.storage)
-            self.dataFriends = self.sortedFriends(self.storage, firstLetters: self.firstLetters)
+//            self.dataFriends = self.sortedFriends(self.storage, firstLetters: self.firstLetters)
             self.update()
+        }
+    }
+    
+    private func saveInRealm(_ objects: [FriendModel]){
+        objects.forEach { friend in
+            // не придумал как сделать проверку на изменение данных у друга
+            self.realmCacheService.read(FriendModel.self, key: friend.id, completion: { result in
+                switch result{
+                case .success(let friendDelete):
+                    self.realmCacheService.delete(object: friendDelete)
+                case .failure(let errorDelete):
+                    debugPrint(errorDelete)
+                }
+            })
+            
+            let letter = friend.lastName.first?.lowercased()
+            self.realmCacheService.read(AlphabetModel.self, key: letter) { [weak self] result in
+                switch result{
+                case .success(let letter):
+                    do{
+                        self?.realmCacheService.realm.beginWrite()
+                        letter.items.append(friend)
+                        try self?.realmCacheService.realm.commitWrite()
+                    }catch{
+                        debugPrint(error)
+                    }
+                case .failure(let error):
+                    do{
+                        self?.realmCacheService.realm.beginWrite()
+                        var object = self?.realmCacheService.realm.create(AlphabetModel.self, value: [letter], update: .modified)
+                        object?.items.append(friend)
+                        self?.realmCacheService.realm.add(object!, update: .modified)
+                        try self?.realmCacheService.realm.commitWrite()
+                    }catch{
+                        debugPrint(error)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func createNotificationToken(){
+        token = dataFriends.observe{ [weak self] result in
+            guard let self = self  else { return }
+            switch result{
+            case .initial(let groups):
+                print(groups.count)
+            case .update( _,
+                         deletions: let deletions,
+                         insertions: let insertions,
+                         modifications: let modifications):
+//                let deletionsIndexPath = deletions.map { IndexPath(row: $0, section: 0) }
+//                let insertionsIndexPath = insertions.map { IndexPath(row: $0, section: 0) }
+//                let modificationsIndexPath = modifications.map { IndexPath(row: $0, section: 0) }
+                
+                // придумать как обновлять секцию
+//                modifications.forEach { modif in
+//                    let letter = self.dataFriends[modif]
+//                    let isEmpty = letter.items.isEmpty
+//                    if isEmpty {
+//                        
+//                    }
+//                }
+                
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self  else { return }
+                    self.update()
+                }
+            case .error(let error):
+                print(error)
+            }
         }
     }
 }
@@ -146,18 +231,18 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
-        let letter = dataFriends[section][0].lastName.first
-        header.setText(String(letter!))
+        let letter = dataFriends[section].letter
+        header.setText(String(letter))
         return header
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataFriends[section].count
+        dataFriends[section].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.identifier) as! FriendsTableViewCell
-        cell.configure(friend: dataFriends[indexPath.section][indexPath.row])
+        cell.configure(friend: dataFriends[indexPath.section].items[indexPath.row])
         return cell
     }
     
@@ -167,16 +252,16 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
         return array
     }
         
-    func tableView(_ tableView: UITableView,
-                   sectionForSectionIndexTitle title: String,
-                   at index: Int) -> Int {
-        guard title != "#" else {
-            dataFriends = sortedFriends(self.storage, firstLetters: firstLetters)
-            tableView.reloadData()
-            return 0
-        }
-        dataFriends = [sortedFriends(self.storage, firstLetters: firstLetters)[index]]
-        tableView.reloadData()
-        return index
-    }
+//    func tableView(_ tableView: UITableView,
+//                   sectionForSectionIndexTitle title: String,
+//                   at index: Int) -> Int {
+//        guard title != "#" else {
+//            dataFriends = sortedFriends(self.storage, firstLetters: firstLetters)
+//            tableView.reloadData()
+//            return 0
+//        }
+//        dataFriends = [sortedFriends(self.storage, firstLetters: firstLetters)[index]]
+//        tableView.reloadData()
+//        return index
+//    }
 }

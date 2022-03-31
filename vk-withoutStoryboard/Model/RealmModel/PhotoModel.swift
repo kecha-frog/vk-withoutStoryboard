@@ -13,6 +13,10 @@ class Size: Object, Decodable{
     @objc dynamic var url: String
     @objc dynamic var type: String
     @objc dynamic var width: Int
+    
+    override class func primaryKey() -> String? {
+        return "url"
+    }
 }
 
 class PhotoModel: Object, Decodable, ModelApiVK{

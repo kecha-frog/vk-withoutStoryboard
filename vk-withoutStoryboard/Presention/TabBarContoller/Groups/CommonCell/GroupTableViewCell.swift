@@ -60,7 +60,7 @@ class GroupTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(group:GroupModel){
+    func configure(group:GroupModel, selection: Bool = false){
         nameLabel.text = group.name
         LoaderImage.standart.load(url: group.photo200) { [weak self] image in
             self?.imageViewCell.image = image
