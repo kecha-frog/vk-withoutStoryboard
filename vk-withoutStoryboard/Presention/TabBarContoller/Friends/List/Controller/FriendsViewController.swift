@@ -16,31 +16,25 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
-    private var model = FriendModelApi.self
-    //private var coreData = FriendsCoreData()
-    private var storage = [FriendModelApi]()
+    private let modelSelf = FriendModel.self
+    
+    private var realmCacheService = RealmCacheService()
+    
+    private var storage = [FriendModel]()
     private var firstLetters = [Character]()
-    private var dataFriends:[[FriendModelApi]] = []
+    private var dataFriends:[[FriendModel]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchApiAsync {
-            self.update()
+        realmCacheService.printFileUrl()
+        fetchApiAsync { [weak self] in
+            self?.loadRealmData()
         }
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
         tableView.dataSource = self
-        
-//        do{
-//            let realm = try Realm()
-//            storage = Array(realm.objects(model))
-//            firstLetters = firstLettersArray(storage) ?? []
-//            dataFriends = sortedFriends(storage, firstLetters: firstLetters) ?? []
-//        }catch{
-//            print(error)
-//        }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -52,7 +46,7 @@ class FriendsViewController: UIViewController {
         let friend = dataFriends[indexPath.section][indexPath.row]
         
         let friendCollectionVC = FriendCollectionViewController()
-        friendCollectionVC.configure(friendId: friend.id, title: "\(friend.firstName) \(friend.lastName)")
+        friendCollectionVC.configure(friendId: friend.id)
         navigationController?.pushViewController(friendCollectionVC, animated: true)
     }
     
@@ -90,8 +84,8 @@ class FriendsViewController: UIViewController {
         
     }
     
-    private func sortedFriends(_ friends: [FriendModelApi], firstLetters: [Character]) -> [[FriendModelApi]]{
-        var sortedFriends = [[FriendModelApi]]()
+    private func sortedFriends(_ friends: [FriendModel], firstLetters: [Character]) -> [[FriendModel]]{
+        var sortedFriends = [[FriendModel]]()
         for letter in firstLetters {
             let filterFriends = friends.filter { $0.lastName.first == letter }
             sortedFriends.append(filterFriends)
@@ -99,12 +93,11 @@ class FriendsViewController: UIViewController {
         return sortedFriends
     }
     
-    private func firstLettersArray(_ friends: [FriendModelApi]) -> [Character] {
+    private func firstLettersArray(_ friends: [FriendModel]) -> [Character] {
         return Array(Set(friends.compactMap { $0.lastName.first })).sorted()
     }
     
     private func update(){
-        //storage = coreData.fetch()
         tableView.reloadData()
     }
     
@@ -120,14 +113,12 @@ class FriendsViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        ApiVK.standart.reguest(model, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] result in
+        ApiVK.standart.reguest(modelSelf, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] result in
             switch result {
             case .success(let success):
-                
-                //self?.saveData(success.items)
-                self?.storage = success.items
-                self?.firstLetters = self?.firstLettersArray(success.items) ?? []
-                self?.dataFriends = self?.sortedFriends(success.items, firstLetters: self!.firstLetters) ?? []
+                DispatchQueue.main.async { [self] in
+                    self?.realmCacheService.create(objects: success.items)
+                }
                 viewLoad.removeSelfAnimation(transitionTo: self!.tableView)
                 completion()
             case .failure(let error):
@@ -136,17 +127,16 @@ class FriendsViewController: UIViewController {
         }
     }
     
-    private func saveData<T:ModelApiVK>(_ data: [T]){
-        do{
-            let realm = try Realm()
-            realm.beginWrite()
-            realm.add(data)
-            try realm.commitWrite()
-        }catch{
-            print(error)
+    private func loadRealmData(){
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self  else { return }
+            let result = self.realmCacheService.read(self.modelSelf)
+            self.storage = Array(result)
+            self.firstLetters = self.firstLettersArray(self.storage)
+            self.dataFriends = self.sortedFriends(self.storage, firstLetters: self.firstLetters)
+            self.update()
         }
     }
-    
 }
 
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{

@@ -67,16 +67,16 @@ class FriendCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(_ image:PhotoModel, index: Int, cache: PhotoCache?){
+    func configure(_ image:PhotoModel, index: Int, cache: PhotoCache){
         indexImage = index
         guard let url = image.sizes.last?.url else { return }
         guard let urlImage = URL(string: url) else { return }
         
-        if let imageChache = cache?.getImage(for: urlImage){
+        if let imageChache = cache.getImage(for: urlImage){
             imageView.image = imageChache
         }else {
             LoaderImage.standart.load(url: url) { [weak self ] image in
-                cache?.saveImage(image, for: urlImage)
+                cache.saveImage(image, for: urlImage)
                 self?.imageView.image = image
             }
         }

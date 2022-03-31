@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 /// группы юзера
 class FavoriteGroupsListViewController: UIViewController {
@@ -15,15 +16,19 @@ class FavoriteGroupsListViewController: UIViewController {
         return tableView
     }()
     
+    private let modelSelf = GroupModel.self
+    
     private let searchBar =  SearchBarHeaderTableView()
     
-    private var dataFavoriteGroup: [GroupModelApi] = []
+    private var realmCacheService = RealmCacheService()
+    
+    private var dataFavoriteGroup: [GroupModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        fetchApiAsync {
-            self.update()
+        fetchApiAsync { 
+            self.loadRealmData(updateTable: true)
         }
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
@@ -106,14 +111,28 @@ class FavoriteGroupsListViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        ApiVK.standart.reguest(GroupModelApi.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] result in
+        ApiVK.standart.reguest(modelSelf, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] result in
             switch result {
             case .success(let success):
-                self?.dataFavoriteGroup = success.items
+                DispatchQueue.main.async { [weak self] in
+                    self?.realmCacheService.create(objects: success.items)
+                }
+                
                 viewLoad.removeSelfAnimation(transitionTo: self!.tableView)
                 completion()
             case .failure(let error):
                 print(error)
+            }
+        }
+    }
+    
+    private func loadRealmData(updateTable: Bool = false){
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self  else { return }
+            let result = self.realmCacheService.read(self.modelSelf)
+            self.dataFavoriteGroup = Array(result)
+            if updateTable {
+                self.update()
             }
         }
     }
@@ -134,7 +153,7 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
 }
 
 extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
-    func selectGroup(_ sender: GroupModelApi) {
+    func selectGroup(_ sender: GroupModel) {
         //coreData.add(sender)
         update()
     }
@@ -142,21 +161,19 @@ extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
 
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        fetchApiAsync { [weak self] in
-            self?.update()
-        }
+        loadRealmData(updateTable: true)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        fetchApiAsync { [weak self] in
-            if searchText != "" {
-                print(searchText)
-                self?.dataFavoriteGroup = (self?.dataFavoriteGroup.filter {
-                    $0.name.lowercased().contains(searchText.lowercased())})!
+        if !searchText.isEmpty {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self  else { return }
+                let result = self.realmCacheService.read(self.modelSelf).filter("name contains[cd] %@", searchText)
+                self.dataFavoriteGroup = Array(result)
+                self.update()
             }
-            
-            self?.update()
+        }else{
+            loadRealmData(updateTable: true)
         }
-        
     }
 }

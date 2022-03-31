@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FriendCollectionViewController: UIViewController {
     private let collectionView: UICollectionView = {
@@ -21,12 +22,18 @@ class FriendCollectionViewController: UIViewController {
         return collectionView
     }()
     
-    private var dataUserImage:[PhotoModelApi] = []
-    private var friendId:Int!
+    private var realmCacheService = RealmCacheService()
+    private var cache = PhotoCache()
+    private var dataUserImage:[PhotoModel] = []
+    
+    private var friend:FriendModel?
+    private var friendId: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
         fetchApiAsync { [weak self] in
+            self?.loadRealmData()
             self?.update()
         }
         collectionView.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.identifier)
@@ -48,9 +55,9 @@ class FriendCollectionViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    func configure(friendId : Int, title:String){
-        self.title = title
+    func configure(friendId : Int){
         self.friendId = friendId
+        self.loadRealmData()
     }
     
     private func fetchApiAsync( completion: @escaping () -> Void){
@@ -66,21 +73,38 @@ class FriendCollectionViewController: UIViewController {
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        ApiVK.standart.reguest(PhotoModelApi.self, method: .GET, path: .getPhotos, params: [
-            "owner_id":String(self.friendId),
+        ApiVK.standart.reguest(PhotoModel.self, method: .GET, path: .getPhotos, params: [
+            "owner_id":String(self.friendId ?? 0),
             "album_id": "profile",
             "count":"10",
             "extended":"1"
         ]) { [weak self] result in
             switch result {
             case .success(let success):
-                self?.dataUserImage = success.items
+                guard let friend = self?.friend else { return }
+                success.items.forEach { photo in
+                    photo.owner = friend
+                    DispatchQueue.main.async { [self] in
+                        self?.realmCacheService.create(object: photo)
+                    }
+                }
                 viewLoad.removeSelfAnimation(transitionTo: self!.collectionView)
                 completion()
             case .failure(let error):
                 print(error)
             }
             
+        }
+    }
+    
+    private func loadRealmData(){
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self  else { return }
+            guard let friend = Array(self.realmCacheService.read(FriendModel.self).filter("id == %@", self.friendId)).first else { return }
+            let photos = Array(self.realmCacheService.read(PhotoModel.self).filter("owner == %@", friend))
+            self.friend = friend
+            self.title = friend.firstName + " " + friend.lastName
+            self.dataUserImage = photos
         }
     }
 }
@@ -92,7 +116,7 @@ extension FriendCollectionViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.identifier, for: indexPath) as! FriendCollectionViewCell
-        cell.configure(dataUserImage[indexPath.item], index:indexPath.row)
+        cell.configure(dataUserImage[indexPath.item], index:indexPath.row, cache: cache)
         cell.delegate = self
         return cell
     }
