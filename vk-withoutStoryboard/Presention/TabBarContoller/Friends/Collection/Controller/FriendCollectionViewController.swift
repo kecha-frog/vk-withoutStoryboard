@@ -22,23 +22,19 @@ class FriendCollectionViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewLoad: LoadingView = {
-        let view = LoadingView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private var viewLoad: LoadingView?
 
+    private var friend:FriendModel?
     
     /// пришлось вводить такую переменную, так как при первой загрузке данных в бд была ошибка "Invalid update: invalid number of items on UICollectionView"
     private var numberOfItems:Int = 0
     private var realmCacheService = RealmCacheService()
+    private var service: FriendsCollectionService?
     private var dataUserImage: Results<PhotoModel>{
         self.realmCacheService.read(PhotoModel.self).filter("owner == %@", friend)
     }
     private var token: NotificationToken?
     private var cache = PhotoCache()
-
-    private var friend:FriendModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,65 +66,39 @@ class FriendCollectionViewController: UIViewController {
             switch result{
             case .success(let friend):
                 self.friend = friend
+                self.service = FriendsCollectionService(friend: friend)
                 self.title = friend.firstName + " " + friend.lastName
             case .failure(let error):
-                print(error)
+                debugPrint(error)
             }
         }
-        
     }
     
     private func viewLoadAnimation(_ hiden: Bool = false){
         if hiden{
-            viewLoad.removeSelfAnimation(transitionTo: collectionView)
+            viewLoad?.removeSelfAnimation(transitionTo: collectionView)
         }else{
-            view.addSubview(viewLoad)
+            viewLoad = {
+                let view = LoadingView()
+                view.translatesAutoresizingMaskIntoConstraints = false
+                return view
+            }()
+            view.addSubview(viewLoad!)
             NSLayoutConstraint.activate([
-                viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                viewLoad!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                viewLoad!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                viewLoad!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                viewLoad!.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             ])
         }
     }
     
     private func fetchApiAsync(){
-        // лоадинг анимация на момент загрузки
         viewLoadAnimation()
-        
-        guard let id = friend?.id else { return }
-        ApiVK.standart.reguest(PhotoModel.self, method: .GET, path: .getPhotos, params: [
-            "owner_id":String(id),
-            "album_id": "profile",
-            "count":"10",
-            "extended":"1"
-        ]) { [weak self] result in
-            switch result {
-            case .success(let success):
-                self?.savePhotoInRealm(success.items)
-                self?.viewLoadAnimation(true)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    private func savePhotoInRealm(_ newObjects: [PhotoModel]){
-        guard let friend = self.friend else { return }
-        let oldValues = Array(realmCacheService.read(PhotoModel.self).filter("owner == %@", friend)).filter { oldPhoto in
-            !newObjects.contains { $0.id == oldPhoto.id}
+        service?.fetchApiAsync(){
+            self.viewLoadAnimation(true)
         }
         
-        if !oldValues.isEmpty{
-            print(oldValues)
-            realmCacheService.delete(objects: oldValues)
-        }
-        
-        let newValue = newObjects.map { photo -> PhotoModel in
-            photo.owner = friend
-            return photo
-        }
-        realmCacheService.create(objects: newValue)
     }
     
     private func createNotificationToken(){
@@ -157,7 +127,7 @@ class FriendCollectionViewController: UIViewController {
                     }
                 }
             case .error(let error):
-                print(error)
+                debugPrint(error)
             }
         }
     }

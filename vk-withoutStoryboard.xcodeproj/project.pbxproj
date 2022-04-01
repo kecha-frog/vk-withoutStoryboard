@@ -27,6 +27,10 @@
 		F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25869EC27A934F100A86D87 /* LikeControl.swift */; };
 		F25AE76527D1E1FD00AADE0D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F25AE76427D1E1FD00AADE0D /* Realm */; };
 		F25AE76727D1E1FD00AADE0D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F25AE76627D1E1FD00AADE0D /* RealmSwift */; };
+		F26C4ABD27F6FAA70081FB66 /* FriendsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4ABC27F6FAA70081FB66 /* FriendsService.swift */; };
+		F26C4AC127F706A10081FB66 /* FriendsCollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC027F706A10081FB66 /* FriendsCollectionService.swift */; };
+		F26C4AC427F70CE50081FB66 /* AllGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC327F70CE50081FB66 /* AllGroupsService.swift */; };
+		F26C4AC727F718290081FB66 /* FavoriteGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC627F718290081FB66 /* FavoriteGroupsService.swift */; };
 		F28037B727C8CE9F004AE857 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28037B627C8CE9F004AE857 /* LoginViewController.swift */; };
 		F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */; };
 		F285766227D62BAB00B6069F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F285766127D62BAB00B6069F /* StartViewController.swift */; };
@@ -64,6 +68,10 @@
 		F252990C27A93EB200E10CEF /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		F25580F227CBB930008820DD /* JSONResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONResponse.swift; sourceTree = "<group>"; };
 		F25869EC27A934F100A86D87 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
+		F26C4ABC27F6FAA70081FB66 /* FriendsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsService.swift; sourceTree = "<group>"; };
+		F26C4AC027F706A10081FB66 /* FriendsCollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCollectionService.swift; sourceTree = "<group>"; };
+		F26C4AC327F70CE50081FB66 /* AllGroupsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsService.swift; sourceTree = "<group>"; };
+		F26C4AC627F718290081FB66 /* FavoriteGroupsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGroupsService.swift; sourceTree = "<group>"; };
 		F28037B627C8CE9F004AE857 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F285766127D62BAB00B6069F /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +148,7 @@
 		F21B778227AEBA7F0032F8B5 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				F26C4ABE27F706550081FB66 /* Service */,
 				F24E7A7127AC12AA00E12148 /* HeaderSection */,
 				F252990B27A93E9600E10CEF /* CustomView */,
 				F22E014E27A6BF4800B0FB27 /* Cell */,
@@ -151,6 +160,7 @@
 		F21EB5A027A7D581003698CD /* Collection */ = {
 			isa = PBXGroup;
 			children = (
+				F26C4ABF27F706830081FB66 /* Service */,
 				F21EB5A427A7D80B003698CD /* Cell */,
 				F21EB5A127A7D5B6003698CD /* Controller */,
 			);
@@ -184,6 +194,7 @@
 		F21EB5AA27A7FC0E003698CD /* FavoriteGroups */ = {
 			isa = PBXGroup;
 			children = (
+				F26C4AC527F718080081FB66 /* Service */,
 				F22E014B27A6BE4100B0FB27 /* Controller */,
 			);
 			path = FavoriteGroups;
@@ -192,6 +203,7 @@
 		F21EB5AB27A7FC1B003698CD /* AllGroups */ = {
 			isa = PBXGroup;
 			children = (
+				F26C4AC227F70CD10081FB66 /* Service */,
 				F21EB5AC27A7FCB8003698CD /* Controller */,
 			);
 			path = AllGroups;
@@ -265,7 +277,6 @@
 			children = (
 				F299703D27E0C9EA006684BD /* RealmModel */,
 				F25580F227CBB930008820DD /* JSONResponse.swift */,
-				F2FCA71E27E7518E0036209B /* AlphabetModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -292,6 +303,38 @@
 				F252990C27A93EB200E10CEF /* AvatarView.swift */,
 			);
 			path = CustomView;
+			sourceTree = "<group>";
+		};
+		F26C4ABE27F706550081FB66 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				F26C4ABC27F6FAA70081FB66 /* FriendsService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		F26C4ABF27F706830081FB66 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				F26C4AC027F706A10081FB66 /* FriendsCollectionService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		F26C4AC227F70CD10081FB66 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				F26C4AC327F70CE50081FB66 /* AllGroupsService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		F26C4AC527F718080081FB66 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				F26C4AC627F718290081FB66 /* FavoriteGroupsService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		F28037B427C8CE37004AE857 /* Login */ = {
@@ -365,6 +408,7 @@
 		F299703D27E0C9EA006684BD /* RealmModel */ = {
 			isa = PBXGroup;
 			children = (
+				F2FCA71E27E7518E0036209B /* AlphabetModel.swift */,
 				F2982B0A27E33E6B00186F8D /* FriendModel.swift */,
 				F2982B0C27E33E7400186F8D /* PhotoModel.swift */,
 				F2982B0E27E33E8000186F8D /* GroupModel.swift */,
@@ -480,12 +524,15 @@
 				F2982B0F27E33E8000186F8D /* GroupModel.swift in Sources */,
 				F2FCA71F27E7518E0036209B /* AlphabetModel.swift in Sources */,
 				F28037B727C8CE9F004AE857 /* LoginViewController.swift in Sources */,
+				F26C4ABD27F6FAA70081FB66 /* FriendsService.swift in Sources */,
 				F299704127E0DEEE006684BD /* RealmCacheService.swift in Sources */,
 				F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */,
 				F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */,
+				F26C4AC127F706A10081FB66 /* FriendsCollectionService.swift in Sources */,
 				F25580F327CBB930008820DD /* JSONResponse.swift in Sources */,
 				F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */,
 				F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */,
+				F26C4AC727F718290081FB66 /* FavoriteGroupsService.swift in Sources */,
 				F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */,
 				F29900CA27D368A4003186C9 /* PhotoCache.swift in Sources */,
 				F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */,
@@ -494,6 +541,7 @@
 				F23556E427B1048A0032E049 /* LoadingView.swift in Sources */,
 				F21EB5A927A7F0E0003698CD /* GroupTableViewCell.swift in Sources */,
 				F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */,
+				F26C4AC427F70CE50081FB66 /* AllGroupsService.swift in Sources */,
 				F21EB5A627A7D829003698CD /* FriendCollectionViewCell.swift in Sources */,
 				F22E014927A6BE1800B0FB27 /* FriendsViewController.swift in Sources */,
 				F2B76B8327D74BC4006BA2A1 /* LoaderImage.swift in Sources */,

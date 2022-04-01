@@ -21,22 +21,16 @@ class AllGroupsListViewController: UIViewController {
         return tableView
     }()
     
-    private let viewLoad: LoadingView = {
-        let view = LoadingView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private var viewLoad: LoadingView?
     
     private let searchBar =  SearchBarHeaderTableView()
-    
+    private let service = AllGroupsService()
     weak var delegate: AllGroupsListViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchApiAsync { [weak self] in
-            self?.update()
-        }
+        fetchAllGroups()
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -67,31 +61,30 @@ class AllGroupsListViewController: UIViewController {
  
     private func viewLoadAnimation(_ hiden: Bool = false){
         if hiden{
-            viewLoad.removeSelfAnimation(transitionTo: tableView)
+            viewLoad?.removeSelfAnimation(transitionTo: tableView)
         }else{
-            view.addSubview(viewLoad)
+            viewLoad = {
+                let view = LoadingView()
+                view.translatesAutoresizingMaskIntoConstraints = false
+                return view
+            }()
+            view.addSubview(viewLoad!)
             NSLayoutConstraint.activate([
-                viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                viewLoad!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                viewLoad!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                viewLoad!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                viewLoad!.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             ])
         }
     }
     
-    private func fetchApiAsync( completion: @escaping () -> Void){
+    private func fetchAllGroups(){
         viewLoadAnimation()
         
-        ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] result in
-            switch result {
-            case .success(let success):
-                self?.dataAllGroups = success.items
-                self?.viewLoadAnimation(true)
-                completion()
-            case .failure(let error):
-                print(error)
-            }
-           
+        service.fetchApiAllGroups { [weak self] result in
+            self?.dataAllGroups = result
+            self?.update()
+            self?.viewLoadAnimation(true)
         }
     }
 }
@@ -112,9 +105,7 @@ extension AllGroupsListViewController: UITableViewDelegate, UITableViewDataSourc
 extension AllGroupsListViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText != "" else{
-            fetchApiAsync { [weak self] in
-                self?.update()
-            }
+            fetchAllGroups()
             return
         }
         
@@ -126,27 +117,11 @@ extension AllGroupsListViewController: UISearchBarDelegate{
         guard let text = searchBar.text, !text.isEmpty else{
             return
         }
-        
-        let viewLoad = LoadingView()
-        viewLoad.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(viewLoad)
-        NSLayoutConstraint.activate([
-            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
-        
-        ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] result in
-            switch result {
-            case .success(let success):
-                self?.dataAllGroups = success.items
-                viewLoad.removeSelfAnimation(transitionTo: self!.tableView)
-                self?.update()
-            case .failure(let error):
-                print(error)
-            }
+        viewLoadAnimation()
+        service.fetchApiAllGroups(searchText: text) { [weak self] result in
+            self?.dataAllGroups = result
+            self?.update()
+            self?.viewLoadAnimation(true)
         }
     }
 }

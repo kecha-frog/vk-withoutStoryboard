@@ -40,7 +40,6 @@ class LoadingView: UIView{
         super.init(frame: frame)
         setupUI()
         animation()
-        backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
@@ -58,6 +57,7 @@ class LoadingView: UIView{
     
     /// настройка вью
     private func setupUI(){
+        backgroundColor = .white
         addSubview(dot1)
         addSubview(dot2)
         addSubview(dot3)
