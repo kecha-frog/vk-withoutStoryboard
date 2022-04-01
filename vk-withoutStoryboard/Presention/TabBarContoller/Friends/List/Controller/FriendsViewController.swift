@@ -15,9 +15,13 @@ class FriendsViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    private let modelSelf = FriendModel.self
     
-    private var viewLoad: LoadingView?
+    private let viewLoad: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    private let modelSelf = FriendModel.self
     
     private let service = FriendsService()
     private var realmCacheService = RealmCacheService()
@@ -90,6 +94,14 @@ class FriendsViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     private func firstLettersArray(_ friends: [FriendModel]) -> [String] {
@@ -101,31 +113,11 @@ class FriendsViewController: UIViewController {
         tableView.reloadData()
     }
     
-    private func loadAnimation(_ hiden: Bool = false){
-        if hiden{
-            viewLoad?.removeSelfAnimation(transitionTo: tableView)
-        }else{
-            viewLoad = {
-                let view = LoadingView()
-                view.translatesAutoresizingMaskIntoConstraints = false
-                return view
-            }()
-            view.addSubview(viewLoad!)
-            NSLayoutConstraint.activate([
-                viewLoad!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                viewLoad!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                viewLoad!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                viewLoad!.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            ])
-        }
-    }
-    
     private func fetchFriends(){
-        // понять почему пропала лоад анимация
-        loadAnimation()
+        viewLoad.animationLoad(.on)
         service.fetchApiAsync { [weak self] in
             self?.loadRealmData()
-            self?.loadAnimation(true)
+            self?.viewLoad.animationLoad(.off)
         }
     }
     

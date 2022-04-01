@@ -21,7 +21,11 @@ class AllGroupsListViewController: UIViewController {
         return tableView
     }()
     
-    private var viewLoad: LoadingView?
+    private let viewLoad: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private let searchBar =  SearchBarHeaderTableView()
     private let service = AllGroupsService()
@@ -47,6 +51,14 @@ class AllGroupsListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         tableView.tableHeaderView = searchBar
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -58,33 +70,14 @@ class AllGroupsListViewController: UIViewController {
     private func update(){
         tableView.reloadData()
     }
- 
-    private func viewLoadAnimation(_ hiden: Bool = false){
-        if hiden{
-            viewLoad?.removeSelfAnimation(transitionTo: tableView)
-        }else{
-            viewLoad = {
-                let view = LoadingView()
-                view.translatesAutoresizingMaskIntoConstraints = false
-                return view
-            }()
-            view.addSubview(viewLoad!)
-            NSLayoutConstraint.activate([
-                viewLoad!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                viewLoad!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                viewLoad!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                viewLoad!.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            ])
-        }
-    }
     
     private func fetchAllGroups(){
-        viewLoadAnimation()
+        viewLoad.animationLoad(.on)
         
         service.fetchApiAllGroups { [weak self] result in
             self?.dataAllGroups = result
             self?.update()
-            self?.viewLoadAnimation(true)
+            self?.viewLoad.animationLoad(.off)
         }
     }
 }
@@ -117,11 +110,11 @@ extension AllGroupsListViewController: UISearchBarDelegate{
         guard let text = searchBar.text, !text.isEmpty else{
             return
         }
-        viewLoadAnimation()
+        viewLoad.animationLoad(.on)
         service.fetchApiAllGroups(searchText: text) { [weak self] result in
             self?.dataAllGroups = result
             self?.update()
-            self?.viewLoadAnimation(true)
+            self?.viewLoad.animationLoad(.off)
         }
     }
 }

@@ -21,9 +21,12 @@ class FriendCollectionViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    private let viewLoad: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    private var viewLoad: LoadingView?
-
     private var friend:FriendModel?
     
     /// пришлось вводить такую переменную, так как при первой загрузке данных в бд была ошибка "Invalid update: invalid number of items on UICollectionView"
@@ -54,6 +57,13 @@ class FriendCollectionViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
         ])
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     
     private func update(){
@@ -74,31 +84,12 @@ class FriendCollectionViewController: UIViewController {
         }
     }
     
-    private func viewLoadAnimation(_ hiden: Bool = false){
-        if hiden{
-            viewLoad?.removeSelfAnimation(transitionTo: collectionView)
-        }else{
-            viewLoad = {
-                let view = LoadingView()
-                view.translatesAutoresizingMaskIntoConstraints = false
-                return view
-            }()
-            view.addSubview(viewLoad!)
-            NSLayoutConstraint.activate([
-                viewLoad!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                viewLoad!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                viewLoad!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                viewLoad!.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            ])
-        }
-    }
     
     private func fetchApiAsync(){
-        viewLoadAnimation()
-        service?.fetchApiAsync(){
-            self.viewLoadAnimation(true)
+        viewLoad.animationLoad(.on)
+        service?.fetchApiAsync(){ [weak self] in
+            self?.viewLoad.animationLoad(.off)
         }
-        
     }
     
     private func createNotificationToken(){

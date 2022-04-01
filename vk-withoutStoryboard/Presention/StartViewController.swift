@@ -19,6 +19,7 @@ class StartViewController: UIViewController {
         let loadView = LoadingView()
         // изменил на цвета стартовой страницы
         loadView.changeToStartPageColor()
+        loadView.animationLoad(.on)
         
         view = loadView
     

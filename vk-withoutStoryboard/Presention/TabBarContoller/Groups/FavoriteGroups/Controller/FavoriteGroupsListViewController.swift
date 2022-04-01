@@ -16,7 +16,11 @@ class FavoriteGroupsListViewController: UIViewController {
         return tableView
     }()
     
-    private var viewLoad: LoadingView?
+    private let viewLoad: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private let modelSelf = GroupModel.self
     
@@ -55,6 +59,14 @@ class FavoriteGroupsListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+        ])
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(actionAddGroup))
@@ -106,30 +118,12 @@ class FavoriteGroupsListViewController: UIViewController {
         return action
     }
     
-    private func viewLoadAnimation(_ hiden: Bool = false){
-        if hiden{
-            viewLoad?.removeSelfAnimation(transitionTo: tableView)
-        }else{
-            viewLoad = {
-                let view = LoadingView()
-                view.translatesAutoresizingMaskIntoConstraints = false
-                return view
-            }()
-            view.addSubview(viewLoad!)
-            NSLayoutConstraint.activate([
-                viewLoad!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                viewLoad!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                viewLoad!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                viewLoad!.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            ])
-        }
-    }
     
     private func fetchApiAsync(){
-        viewLoadAnimation()
+        viewLoad.animationLoad(.on)
         
         service.fetchApiFavoriteGroupsAsync { [weak self] in
-            self?.viewLoadAnimation(true)
+            self?.viewLoad.animationLoad(.off)
         }
     }
 
