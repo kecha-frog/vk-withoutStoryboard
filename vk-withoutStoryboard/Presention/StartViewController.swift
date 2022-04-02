@@ -9,24 +9,29 @@ import UIKit
 
 /// стартовый контроллер на котором проверяется токен на работоспособность
 class StartViewController: UIViewController {
+    private let service =  StartViewControllerService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         checkToken()
     }
     
-    /// проверка токена и выбор контроллера исходя из ответа
-    private func checkToken(){
+    private func loadViewChange(){
         let loadView = LoadingView()
         // изменил на цвета стартовой страницы
         loadView.changeToStartPageColor()
         loadView.animationLoad(.on)
         
         view = loadView
+    }
     
-        ApiVK.standart.checkToken { [weak self] result in
+    /// проверка токена и выбор контроллера исходя из ответа
+    private func checkToken(){
+        loadViewChange()
+        service.fetchApiCheckToken { result in
             let controller:UIViewController = result ? TabBarViewController() : LoginViewController()
             controller.modalPresentationStyle = .fullScreen
-            self?.present(controller, animated: false, completion: nil)
+            self.present(controller, animated: false, completion: nil)
         }
     }
 }
