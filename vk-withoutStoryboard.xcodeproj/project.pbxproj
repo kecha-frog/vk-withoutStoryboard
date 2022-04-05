@@ -34,6 +34,9 @@
 		F28037B727C8CE9F004AE857 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28037B627C8CE9F004AE857 /* LoginViewController.swift */; };
 		F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */; };
 		F285766227D62BAB00B6069F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F285766127D62BAB00B6069F /* StartViewController.swift */; };
+		F286F8FB27FC3912008E9B2B /* loginAutorized.swift in Sources */ = {isa = PBXBuildFile; fileRef = F286F8FA27FC3912008E9B2B /* loginAutorized.swift */; };
+		F286F8FF27FC5BAA008E9B2B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F286F8FE27FC5BAA008E9B2B /* GoogleService-Info.plist */; };
+		F286F90527FC7F9C008E9B2B /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F286F90427FC7F9C008E9B2B /* LoginService.swift */; };
 		F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */; };
 		F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */; };
 		F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */; };
@@ -73,7 +76,6 @@
 		F2D042EA27F85023006DC948 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F2D042E927F85023006DC948 /* FirebaseStorage */; };
 		F2D042EC27F85023006DC948 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F2D042EB27F85023006DC948 /* FirebaseStorageCombine-Community */; };
 		F2D042EE27F85023006DC948 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = F2D042ED27F85023006DC948 /* FirebaseStorageSwift-Beta */; };
-		F2D042F027F85F3F006DC948 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2D042EF27F85F3F006DC948 /* GoogleService-Info.plist */; };
 		F2FCA71F27E7518E0036209B /* AlphabetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FCA71E27E7518E0036209B /* AlphabetModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +107,9 @@
 		F28037B627C8CE9F004AE857 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F285766127D62BAB00B6069F /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		F286F8FA27FC3912008E9B2B /* loginAutorized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginAutorized.swift; sourceTree = "<group>"; };
+		F286F8FE27FC5BAA008E9B2B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F286F90427FC7F9C008E9B2B /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderTableView.swift; sourceTree = "<group>"; };
 		F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
@@ -116,7 +121,6 @@
 		F29F4C0F27CF6BED00D766F2 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F2B76B8227D74BC4006BA2A1 /* LoaderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderImage.swift; sourceTree = "<group>"; };
 		F2D042B227F83D94006DC948 /* StartViewControllerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewControllerService.swift; sourceTree = "<group>"; };
-		F2D042EF27F85F3F006DC948 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F2FCA71E27E7518E0036209B /* AlphabetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphabetModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -188,6 +192,7 @@
 				F285765E27D61D7700B6069F /* Presention */,
 				F285766027D61DC300B6069F /* Resource */,
 				F210041927A1352B00073B94 /* LaunchScreen.storyboard */,
+				F286F8FE27FC5BAA008E9B2B /* GoogleService-Info.plist */,
 				F210042327A139D600073B94 /* readmi.md */,
 			);
 			path = "vk-withoutStoryboard";
@@ -400,6 +405,8 @@
 		F28037B427C8CE37004AE857 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				F286F90327FC7F88008E9B2B /* Service */,
+				F286F8F927FC37FA008E9B2B /* Firebase */,
 				F28037B627C8CE9F004AE857 /* LoginViewController.swift */,
 			);
 			path = Login;
@@ -416,10 +423,9 @@
 		F285765E27D61D7700B6069F /* Presention */ = {
 			isa = PBXGroup;
 			children = (
+				F286F8F727FC37C5008E9B2B /* StartViewController */,
 				F21EB5AF27A80E2B003698CD /* TabBarContoller */,
 				F28037B427C8CE37004AE857 /* Login */,
-				F285766127D62BAB00B6069F /* StartViewController.swift */,
-				F2D042B227F83D94006DC948 /* StartViewControllerService.swift */,
 			);
 			path = Presention;
 			sourceTree = "<group>";
@@ -436,10 +442,50 @@
 		F285766027D61DC300B6069F /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				F2D042EF27F85F3F006DC948 /* GoogleService-Info.plist */,
 				F210041727A1352B00073B94 /* Assets.xcassets */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		F286F8F727FC37C5008E9B2B /* StartViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F286F90627FC8144008E9B2B /* Controller */,
+				F286F8F827FC37ED008E9B2B /* Service */,
+			);
+			path = StartViewController;
+			sourceTree = "<group>";
+		};
+		F286F8F827FC37ED008E9B2B /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				F2D042B227F83D94006DC948 /* StartViewControllerService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		F286F8F927FC37FA008E9B2B /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				F286F8FA27FC3912008E9B2B /* loginAutorized.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		F286F90327FC7F88008E9B2B /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				F286F90427FC7F9C008E9B2B /* LoginService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		F286F90627FC8144008E9B2B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F285766127D62BAB00B6069F /* StartViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		F2890BDF27AD76950038AF8F /* NewsList */ = {
@@ -594,7 +640,7 @@
 			files = (
 				F210041B27A1352B00073B94 /* LaunchScreen.storyboard in Resources */,
 				F210041827A1352B00073B94 /* Assets.xcassets in Resources */,
-				F2D042F027F85F3F006DC948 /* GoogleService-Info.plist in Resources */,
+				F286F8FF27FC5BAA008E9B2B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,6 +654,7 @@
 				F2982B0B27E33E6B00186F8D /* FriendModel.swift in Sources */,
 				F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */,
 				F21EB5AE27A7FE35003698CD /* AllGroupsListViewController.swift in Sources */,
+				F286F8FB27FC3912008E9B2B /* loginAutorized.swift in Sources */,
 				F285766227D62BAB00B6069F /* StartViewController.swift in Sources */,
 				F20A6B8D27B43D10007AE5E6 /* ApiVK.swift in Sources */,
 				F22E014D27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift in Sources */,
@@ -635,6 +682,7 @@
 				F21EB5A927A7F0E0003698CD /* GroupTableViewCell.swift in Sources */,
 				F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */,
 				F26C4AC427F70CE50081FB66 /* AllGroupsService.swift in Sources */,
+				F286F90527FC7F9C008E9B2B /* LoginService.swift in Sources */,
 				F21EB5A627A7D829003698CD /* FriendCollectionViewCell.swift in Sources */,
 				F22E014927A6BE1800B0FB27 /* FriendsViewController.swift in Sources */,
 				F2B76B8327D74BC4006BA2A1 /* LoaderImage.swift in Sources */,
