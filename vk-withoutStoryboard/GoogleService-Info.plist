@@ -3,32 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>545186934489-rrsn5a7unh3dq8l9kq9r3s923p6je4ke.apps.googleusercontent.com</string>
+	<string>302390780484-1ma4mv8h5oo0kh9d0nmbmf5jf36r6j9i.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.545186934489-rrsn5a7unh3dq8l9kq9r3s923p6je4ke</string>
+	<string>com.googleusercontent.apps.302390780484-1ma4mv8h5oo0kh9d0nmbmf5jf36r6j9i</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBzTrlPgtSbKhmhloIFkPKkGkapufsQ5ss</string>
+	<string>AIzaSyDDFF2JNM-4C5fwyisylIrq6rZQ6K4hM6s</string>
 	<key>GCM_SENDER_ID</key>
-	<string>545186934489</string>
+	<string>302390780484</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>gb.vk-withoutStoryboard</string>
 	<key>PROJECT_ID</key>
-	<string>gb-vk-335c6</string>
+	<string>gb-vk-1d7f8</string>
 	<key>STORAGE_BUCKET</key>
-	<string>gb-vk-335c6.appspot.com</string>
+	<string>gb-vk-1d7f8.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:545186934489:ios:00376330c595896e9e98c8</string>
+	<string>1:302390780484:ios:2274dec4fadb1fa3185211</string>
 </dict>
 </plist>

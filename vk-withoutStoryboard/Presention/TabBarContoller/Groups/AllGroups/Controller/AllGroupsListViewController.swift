@@ -63,6 +63,7 @@ class AllGroupsListViewController: UIViewController {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectGroup = dataAllGroups[indexPath.row]
+        self.service.firebaseSelectGroup(selectGroup)
         delegate?.selectGroup(selectGroup)
         navigationController?.popViewController(animated: true)
     }
