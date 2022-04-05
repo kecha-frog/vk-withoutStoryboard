@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 /// стартовый контроллер на котором проверяется токен на работоспособность
 class StartViewController: UIViewController {
@@ -27,6 +28,9 @@ class StartViewController: UIViewController {
     
     /// проверка токена и выбор контроллера исходя из ответа
     private func checkToken(){
+        //Анонильная авторизация
+        Auth.auth().signInAnonymously()
+        
         loadViewChange()
         service.fetchApiCheckToken { result in
             let controller:UIViewController = result ? TabBarViewController() : LoginViewController()
