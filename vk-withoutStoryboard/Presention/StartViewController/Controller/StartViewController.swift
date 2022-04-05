@@ -28,7 +28,7 @@ class StartViewController: UIViewController {
     
     /// проверка токена и выбор контроллера исходя из ответа
     private func checkToken(){
-        //Анонильная авторизация
+        //Анонимная авторизация
         Auth.auth().signInAnonymously()
         
         loadViewChange()
