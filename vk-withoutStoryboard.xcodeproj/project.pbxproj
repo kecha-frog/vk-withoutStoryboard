@@ -25,6 +25,7 @@
 		F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F252990C27A93EB200E10CEF /* AvatarView.swift */; };
 		F25580F327CBB930008820DD /* JSONResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25580F227CBB930008820DD /* JSONResponse.swift */; };
 		F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25869EC27A934F100A86D87 /* LikeControl.swift */; };
+		F258994A27FD94E000731089 /* LoginViewController+WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258994927FD94E000731089 /* LoginViewController+WebView.swift */; };
 		F25AE76527D1E1FD00AADE0D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F25AE76427D1E1FD00AADE0D /* Realm */; };
 		F25AE76727D1E1FD00AADE0D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F25AE76627D1E1FD00AADE0D /* RealmSwift */; };
 		F26C4ABD27F6FAA70081FB66 /* FriendsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4ABC27F6FAA70081FB66 /* FriendsService.swift */; };
@@ -100,6 +101,7 @@
 		F252990C27A93EB200E10CEF /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		F25580F227CBB930008820DD /* JSONResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONResponse.swift; sourceTree = "<group>"; };
 		F25869EC27A934F100A86D87 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
+		F258994927FD94E000731089 /* LoginViewController+WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+WebView.swift"; sourceTree = "<group>"; };
 		F26C4ABC27F6FAA70081FB66 /* FriendsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsService.swift; sourceTree = "<group>"; };
 		F26C4AC027F706A10081FB66 /* FriendsCollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCollectionService.swift; sourceTree = "<group>"; };
 		F26C4AC327F70CE50081FB66 /* AllGroupsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsService.swift; sourceTree = "<group>"; };
@@ -370,6 +372,15 @@
 			path = CustomView;
 			sourceTree = "<group>";
 		};
+		F258994827FD949700731089 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				F28037B627C8CE9F004AE857 /* LoginViewController.swift */,
+				F258994927FD94E000731089 /* LoginViewController+WebView.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
 		F26C4ABE27F706550081FB66 /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,9 +416,9 @@
 		F28037B427C8CE37004AE857 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				F258994827FD949700731089 /* controller */,
 				F286F90327FC7F88008E9B2B /* Service */,
 				F286F8F927FC37FA008E9B2B /* Firebase */,
-				F28037B627C8CE9F004AE857 /* LoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -666,6 +677,7 @@
 				F26C4ABD27F6FAA70081FB66 /* FriendsService.swift in Sources */,
 				F299704127E0DEEE006684BD /* RealmCacheService.swift in Sources */,
 				F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */,
+				F258994A27FD94E000731089 /* LoginViewController+WebView.swift in Sources */,
 				F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */,
 				F26C4AC127F706A10081FB66 /* FriendsCollectionService.swift in Sources */,
 				F25580F327CBB930008820DD /* JSONResponse.swift in Sources */,

@@ -14,7 +14,7 @@ class StartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkToken()
+        setupUI()
     }
     
     private func loadViewChange(){
@@ -26,12 +26,13 @@ class StartViewController: UIViewController {
         view = loadView
     }
     
-    /// проверка токена и выбор контроллера исходя из ответа
-    private func checkToken(){
+    private func setupUI(){
+        loadViewChange()
+        
         //Анонимная авторизация
         Auth.auth().signInAnonymously()
         
-        loadViewChange()
+        /// проверка токена и выбор контроллера исходя из ответа
         service.fetchApiCheckToken { result in
             let controller:UIViewController = result ? TabBarViewController() : LoginViewController()
             controller.modalPresentationStyle = .fullScreen
