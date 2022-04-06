@@ -25,7 +25,7 @@ class FavoriteGroupsListViewController: UIViewController {
     private let modelSelf = GroupModel.self
     
     private let searchBar =  SearchBarHeaderTableView()
-    
+    private let service = FavoriteGroupsService()
     private var realmCacheService = RealmCacheService()
     private var token: NotificationToken?
     private var searchText: String?
@@ -59,6 +59,14 @@ class FavoriteGroupsListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+        ])
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(actionAddGroup))
@@ -110,55 +118,22 @@ class FavoriteGroupsListViewController: UIViewController {
         return action
     }
     
-    private func viewLoadAnimation(_ hiden: Bool = false){
-        if hiden{
-            viewLoad.removeSelfAnimation(transitionTo: tableView)
-        }else{
-            view.addSubview(viewLoad)
-            NSLayoutConstraint.activate([
-                viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            ])
-        }
-    }
     
     private func fetchApiAsync(){
-        viewLoadAnimation()
+        viewLoad.animationLoad(.on)
         
-        ApiVK.standart.reguest(modelSelf, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] result in
-            switch result {
-            case .success(let success):
-                DispatchQueue.main.async { [weak self] in
-                    self?.savePhotoInRealm(success.items)
-                }
-                self?.viewLoadAnimation(true)
-            case .failure(let error):
-                print(error)
-            }
+        service.fetchApiFavoriteGroupsAsync { [weak self] in
+            self?.viewLoad.animationLoad(.off)
         }
     }
-    
-    private func savePhotoInRealm(_ newObjects: [GroupModel]){
-        let oldValues = Array(realmCacheService.read(modelSelf)).filter { oldGroup in
-            !newObjects.contains { $0.id == oldGroup.id}
-        }
-        
-        if !oldValues.isEmpty{
-            print(oldValues)
-            realmCacheService.delete(objects: oldValues)
-        }
-        
-        realmCacheService.create(objects: newObjects)
-    }
+
     
     private func createNotificationToken(){
         token = dataFavoriteGroup.observe{ [weak self] result in
             guard let self = self  else { return }
             switch result{
             case .initial(let groups):
-                print(groups.count)
+                break
             case .update( _,
                          deletions: let deletions,
                          insertions: let insertions,
@@ -176,7 +151,7 @@ class FavoriteGroupsListViewController: UIViewController {
                     self.tableView.endUpdates()
                 }
             case .error(let error):
-                print(error)
+                debugPrint(error)
             }
         }
     }

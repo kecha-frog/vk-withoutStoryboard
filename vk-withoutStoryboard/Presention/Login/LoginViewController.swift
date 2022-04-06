@@ -36,6 +36,7 @@ class LoginViewController: UIViewController {
         return view
     }()
     
+    private let service = LoginService()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -120,6 +121,8 @@ extension LoginViewController: WKNavigationDelegate{
         if let token = params["access_token"], let id = params["user_id"]{
             Keychain.standart.set(token, key: .token)
             Keychain.standart.set(id, key: .id)
+            
+            service.firebaseAutorizedId(id)
         }
         
         let controller = TabBarViewController()

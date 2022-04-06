@@ -39,8 +39,6 @@ class LoadingView: UIView{
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        animation()
-        backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
@@ -58,6 +56,7 @@ class LoadingView: UIView{
     
     /// настройка вью
     private func setupUI(){
+        backgroundColor = .white
         addSubview(dot1)
         addSubview(dot2)
         addSubview(dot3)
@@ -72,24 +71,33 @@ class LoadingView: UIView{
         ])
     }
     
-    /// запуска анимации
-    private func animation(){
-        UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat,.autoreverse]) {
-            self.dot1.alpha = 0
-        }
-        UIView.animate(withDuration: 0.4, delay: 0.2, options: [.repeat,.autoreverse]) {
-            self.dot2.alpha = 0
-        }
-        UIView.animate(withDuration: 0.4, delay: 0.4, options: [.repeat,.autoreverse]) {
-            self.dot3.alpha = 0
-        }
+    enum Work{
+        case on
+        case off
     }
     
-    /// удаление вью у супер вью и смена к выбранному вью
-    /// - Parameter transitionTo: вью на который сменится
-    func removeSelfAnimation(transitionTo: UIView){
-        UIView.transition(from: self, to: transitionTo, duration: 0.33, options: .transitionCrossDissolve) { _ in
-            self.removeFromSuperview()
+    /// запуска анимации
+    func animationLoad(_ work:Work){
+        switch work {
+        case .on:
+            self.isHidden = false
+            UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat,.autoreverse]) {
+                self.dot1.alpha = 0
+            }
+            UIView.animate(withDuration: 0.4, delay: 0.2, options: [.repeat,.autoreverse]) {
+                self.dot2.alpha = 0
+            }
+            UIView.animate(withDuration: 0.4, delay: 0.4, options: [.repeat,.autoreverse]) {
+                self.dot3.alpha = 0
+            }
+        case .off:
+            self.isHidden = true
+            self.dot1.layer.removeAllAnimations()
+            self.dot2.layer.removeAllAnimations()
+            self.dot3.layer.removeAllAnimations()
+            self.dot1.alpha = 1
+            self.dot2.alpha = 1
+            self.dot3.alpha = 1
         }
     }
 }
