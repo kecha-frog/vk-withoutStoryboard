@@ -372,13 +372,13 @@
 			path = CustomView;
 			sourceTree = "<group>";
 		};
-		F258994827FD949700731089 /* controller */ = {
+		F258994827FD949700731089 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				F28037B627C8CE9F004AE857 /* LoginViewController.swift */,
 				F258994927FD94E000731089 /* LoginViewController+WebView.swift */,
 			);
-			path = controller;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		F26C4ABE27F706550081FB66 /* Service */ = {
@@ -416,7 +416,7 @@
 		F28037B427C8CE37004AE857 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				F258994827FD949700731089 /* controller */,
+				F258994827FD949700731089 /* Controller */,
 				F286F90327FC7F88008E9B2B /* Service */,
 				F286F8F927FC37FA008E9B2B /* Firebase */,
 			);
