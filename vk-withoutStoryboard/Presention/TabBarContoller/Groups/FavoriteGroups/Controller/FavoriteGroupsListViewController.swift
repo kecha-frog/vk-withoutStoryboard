@@ -16,20 +16,34 @@ class FavoriteGroupsListViewController: UIViewController {
         return tableView
     }()
     
+    private let viewLoad: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let modelSelf = GroupModel.self
     
     private let searchBar =  SearchBarHeaderTableView()
-    
+    private let service = FavoriteGroupsService()
     private var realmCacheService = RealmCacheService()
+    private var token: NotificationToken?
+    private var searchText: String?
     
-    private var dataFavoriteGroup: [GroupModel] = []
+    private var dataFavoriteGroup: Results<GroupModel>{
+        if let text = searchText {
+            return self.realmCacheService.read(modelSelf).filter("name contains[cd] %@", text)
+        }else{
+            return self.realmCacheService.read(modelSelf)
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        fetchApiAsync { 
-            self.loadRealmData(updateTable: true)
-        }
+        fetchApiAsync()
+        createNotificationToken()
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -45,6 +59,14 @@ class FavoriteGroupsListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+        ])
+        
+        view.addSubview(viewLoad)
+        NSLayoutConstraint.activate([
+            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(actionAddGroup))
@@ -72,15 +94,12 @@ class FavoriteGroupsListViewController: UIViewController {
             tableView.tableHeaderView = searchBar
             searchBar.animation(true)
         }
-        
     }
     
-    private var AllGroupsVC : AllGroupsListViewController? = nil
-    
     @objc private func actionAddGroup(){
-        AllGroupsVC = AllGroupsListViewController()
-        AllGroupsVC?.delegate = self
-        navigationController?.pushViewController(AllGroupsVC!, animated: true)
+        let AllGroupsVC = AllGroupsListViewController()
+        AllGroupsVC.delegate = self
+        navigationController?.pushViewController(AllGroupsVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -99,40 +118,40 @@ class FavoriteGroupsListViewController: UIViewController {
         return action
     }
     
-    private func fetchApiAsync( completion: @escaping () -> Void){
-        let viewLoad = LoadingView()
-        viewLoad.translatesAutoresizingMaskIntoConstraints = false
+    
+    private func fetchApiAsync(){
+        viewLoad.animationLoad(.on)
         
-        view.addSubview(viewLoad)
-        NSLayoutConstraint.activate([
-            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
-        
-        ApiVK.standart.reguest(modelSelf, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] result in
-            switch result {
-            case .success(let success):
-                DispatchQueue.main.async { [weak self] in
-                    self?.realmCacheService.create(objects: success.items)
-                }
-                
-                viewLoad.removeSelfAnimation(transitionTo: self!.tableView)
-                completion()
-            case .failure(let error):
-                print(error)
-            }
+        service.fetchApiFavoriteGroupsAsync { [weak self] in
+            self?.viewLoad.animationLoad(.off)
         }
     }
+
     
-    private func loadRealmData(updateTable: Bool = false){
-        DispatchQueue.main.async { [weak self] in
+    private func createNotificationToken(){
+        token = dataFavoriteGroup.observe{ [weak self] result in
             guard let self = self  else { return }
-            let result = self.realmCacheService.read(self.modelSelf)
-            self.dataFavoriteGroup = Array(result)
-            if updateTable {
-                self.update()
+            switch result{
+            case .initial(let groups):
+                break
+            case .update( _,
+                         deletions: let deletions,
+                         insertions: let insertions,
+                         modifications: let modifications):
+                let deletionsIndexPath = deletions.map { IndexPath(row: $0, section: 0) }
+                let insertionsIndexPath = insertions.map { IndexPath(row: $0, section: 0) }
+                let modificationsIndexPath = modifications.map { IndexPath(row: $0, section: 0) }
+                
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self  else { return }
+                    self.tableView.beginUpdates()
+                    self.tableView.deleteRows(at: deletionsIndexPath, with: .automatic)
+                    self.tableView.insertRows(at: insertionsIndexPath, with: .automatic)
+                    self.tableView.reloadRows(at: modificationsIndexPath, with: .automatic)
+                    self.tableView.endUpdates()
+                }
+            case .error(let error):
+                debugPrint(error)
             }
         }
     }
@@ -147,7 +166,6 @@ extension FavoriteGroupsListViewController: UITableViewDelegate,UITableViewDataS
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupTableViewCell.identifier) as! GroupTableViewCell
         let group = dataFavoriteGroup[indexPath.row]
         cell.configure(group: group)
-        cell.selectionStyle = .none
         return cell
     }
 }
@@ -161,19 +179,19 @@ extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
 
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        loadRealmData(updateTable: true)
+        self.searchText = nil
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if !searchText.isEmpty {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self  else { return }
-                let result = self.realmCacheService.read(self.modelSelf).filter("name contains[cd] %@", searchText)
-                self.dataFavoriteGroup = Array(result)
+                self.searchText = searchText
                 self.update()
             }
         }else{
-            loadRealmData(updateTable: true)
+            self.searchText = nil
+            self.update()
         }
     }
 }

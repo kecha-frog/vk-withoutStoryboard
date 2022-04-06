@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol AllGroupsListViewControllerDelegate{
+protocol AllGroupsListViewControllerDelegate: AnyObject{
     func selectGroup(_ sender: GroupModel)
 }
 
@@ -21,16 +21,20 @@ class AllGroupsListViewController: UIViewController {
         return tableView
     }()
     
-    private let searchBar =  SearchBarHeaderTableView()
+    private let viewLoad: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    var delegate: AllGroupsListViewControllerDelegate?
+    private let searchBar =  SearchBarHeaderTableView()
+    private let service = AllGroupsService()
+    weak var delegate: AllGroupsListViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchApiAsync { [weak self] in
-            self?.update()
-        }
+        fetchAllGroups()
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
@@ -47,21 +51,6 @@ class AllGroupsListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         tableView.tableHeaderView = searchBar
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectGroup = dataAllGroups[indexPath.row]
-        delegate?.selectGroup(selectGroup)
-        navigationController?.popViewController(animated: true)
-    }
-    
-    private func update(){
-        tableView.reloadData()
-    }
-    
-    private func fetchApiAsync( completion: @escaping () -> Void){
-        let viewLoad = LoadingView()
-        viewLoad.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(viewLoad)
         NSLayoutConstraint.activate([
@@ -70,17 +59,26 @@ class AllGroupsListViewController: UIViewController {
             viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectGroup = dataAllGroups[indexPath.row]
+        self.service.firebaseSelectGroup(selectGroup)
+        delegate?.selectGroup(selectGroup)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    private func update(){
+        tableView.reloadData()
+    }
+    
+    private func fetchAllGroups(){
+        viewLoad.animationLoad(.on)
         
-        ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .getAllGroups, params: nil) { [weak self] result in
-            switch result {
-            case .success(let success):
-                self?.dataAllGroups = success.items
-                viewLoad.removeSelfAnimation(transitionTo: self!.tableView)
-                completion()
-            case .failure(let error):
-                print(error)
-            }
-           
+        service.fetchApiAllGroups { [weak self] result in
+            self?.dataAllGroups = result
+            self?.update()
+            self?.viewLoad.animationLoad(.off)
         }
     }
 }
@@ -92,7 +90,7 @@ extension AllGroupsListViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupTableViewCell.identifier) as! GroupTableViewCell
-        cell.configure(group: dataAllGroups[indexPath.row])
+        cell.configure(group: dataAllGroups[indexPath.row], selection: true)
         return cell
     }
 }
@@ -101,9 +99,7 @@ extension AllGroupsListViewController: UITableViewDelegate, UITableViewDataSourc
 extension AllGroupsListViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText != "" else{
-            fetchApiAsync { [weak self] in
-                self?.update()
-            }
+            fetchAllGroups()
             return
         }
         
@@ -115,27 +111,11 @@ extension AllGroupsListViewController: UISearchBarDelegate{
         guard let text = searchBar.text, !text.isEmpty else{
             return
         }
-        
-        let viewLoad = LoadingView()
-        viewLoad.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(viewLoad)
-        NSLayoutConstraint.activate([
-            viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            viewLoad.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
-        
-        ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .searchGroup, params: ["q":text]) { [weak self] result in
-            switch result {
-            case .success(let success):
-                self?.dataAllGroups = success.items
-                viewLoad.removeSelfAnimation(transitionTo: self!.tableView)
-                self?.update()
-            case .failure(let error):
-                print(error)
-            }
+        viewLoad.animationLoad(.on)
+        service.fetchApiAllGroups(searchText: text) { [weak self] result in
+            self?.dataAllGroups = result
+            self?.update()
+            self?.viewLoad.animationLoad(.off)
         }
     }
 }

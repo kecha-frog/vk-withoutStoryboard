@@ -16,21 +16,34 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
+    private let viewLoad: LoadingView = {
+        let view = LoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     private let modelSelf = FriendModel.self
     
+    private let service = FriendsService()
     private var realmCacheService = RealmCacheService()
     
     private var storage = [FriendModel]()
-    private var firstLetters = [Character]()
-    private var dataFriends:[[FriendModel]] = []
+    private var firstLetters = [String]()
+    private var sectionLetter : String?
+    private var dataFriends: Results<AlphabetModel>{
+        if let section = sectionLetter {
+            return self.realmCacheService.read(AlphabetModel.self).filter("letter == %@", section).sorted(byKeyPath: "letter", ascending: true)
+        }else{
+            return self.realmCacheService.read(AlphabetModel.self).sorted(byKeyPath: "letter", ascending: true)
+        }
+    }
+    private var token: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         realmCacheService.printFileUrl()
-        fetchApiAsync { [weak self] in
-            self?.loadRealmData()
-        }
+        createNotificationToken()
+        fetchFriends()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
@@ -43,7 +56,7 @@ class FriendsViewController: UIViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let friend = dataFriends[indexPath.section][indexPath.row]
+        let friend = dataFriends[indexPath.section].items[indexPath.row]
         
         let friendCollectionVC = FriendCollectionViewController()
         friendCollectionVC.configure(friendId: friend.id)
@@ -57,12 +70,12 @@ class FriendsViewController: UIViewController {
             
             tableView.deleteRows(at: [indexPath], with: .fade)
             
-            if self.dataFriends[indexPath.section].isEmpty {
-                self.firstLetters.remove(at: indexPath.section)
-                self.dataFriends.remove(at: indexPath.section)
-                let indexSet = IndexSet(arrayLiteral: indexPath.section)
-                tableView.deleteSections(indexSet, with: .fade)
-            }
+//            if self.dataFriends[indexPath.section].isEmpty {
+//                self.firstLetters.remove(at: indexPath.section)
+//                self.dataFriends.remove(at: indexPath.section)
+//                let indexSet = IndexSet(arrayLiteral: indexPath.section)
+//                tableView.deleteSections(indexSet, with: .fade)
+//            }
         }
         action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
         action.image = UIImage(systemName: "trash.fill")
@@ -82,29 +95,6 @@ class FriendsViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
-    }
-    
-    private func sortedFriends(_ friends: [FriendModel], firstLetters: [Character]) -> [[FriendModel]]{
-        var sortedFriends = [[FriendModel]]()
-        for letter in firstLetters {
-            let filterFriends = friends.filter { $0.lastName.first == letter }
-            sortedFriends.append(filterFriends)
-        }
-        return sortedFriends
-    }
-    
-    private func firstLettersArray(_ friends: [FriendModel]) -> [Character] {
-        return Array(Set(friends.compactMap { $0.lastName.first })).sorted()
-    }
-    
-    private func update(){
-        tableView.reloadData()
-    }
-    
-    private func fetchApiAsync( completion: @escaping () -> Void){
-        let viewLoad = LoadingView()
-        viewLoad.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(viewLoad)
         NSLayoutConstraint.activate([
             viewLoad.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -112,29 +102,63 @@ class FriendsViewController: UIViewController {
             viewLoad.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             viewLoad.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
-        
-        ApiVK.standart.reguest(modelSelf, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { [weak self] result in
-            switch result {
-            case .success(let success):
-                DispatchQueue.main.async { [self] in
-                    self?.realmCacheService.create(objects: success.items)
-                }
-                viewLoad.removeSelfAnimation(transitionTo: self!.tableView)
-                completion()
-            case .failure(let error):
-                debugPrint(error)
-            }
+    }
+    
+    private func firstLettersArray(_ friends: [FriendModel]) -> [String] {
+        let array = Array(Set(friends.compactMap { $0.lastName.first })).sorted()
+        return array.map{String($0)}
+    }
+    
+    private func update(){
+        tableView.reloadData()
+    }
+    
+    private func fetchFriends(){
+        viewLoad.animationLoad(.on)
+        service.fetchApiAsync { [weak self] in
+            self?.loadRealmData()
+            self?.viewLoad.animationLoad(.off)
         }
     }
     
     private func loadRealmData(){
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self  else { return }
-            let result = self.realmCacheService.read(self.modelSelf)
+        service.loadRealmData { result in
             self.storage = Array(result)
             self.firstLetters = self.firstLettersArray(self.storage)
-            self.dataFriends = self.sortedFriends(self.storage, firstLetters: self.firstLetters)
             self.update()
+        }
+    }
+    
+    private func createNotificationToken(){
+        token = dataFriends.observe{ [weak self] result in
+            guard let self = self  else { return }
+            switch result{
+            case .initial(let groups):
+                break
+            case .update( _,
+                         deletions: let deletions,
+                         insertions: let insertions,
+                         modifications: let modifications):
+//                let deletionsIndexPath = deletions.map { IndexPath(row: $0, section: 0) }
+//                let insertionsIndexPath = insertions.map { IndexPath(row: $0, section: 0) }
+//                let modificationsIndexPath = modifications.map { IndexPath(row: $0, section: 0) }
+                
+                // придумать как обновлять секцию
+//                modifications.forEach { modif in
+//                    let letter = self.dataFriends[modif]
+//                    let isEmpty = letter.items.isEmpty
+//                    if isEmpty {
+//
+//                    }
+//                }
+                
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self  else { return }
+                    self.update()
+                }
+            case .error(let error):
+                debugPrint(error)
+            }
         }
     }
 }
@@ -146,18 +170,18 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
-        let letter = dataFriends[section][0].lastName.first
-        header.setText(String(letter!))
+        let letter = dataFriends[section].letter
+        header.setText(String(letter))
         return header
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataFriends[section].count
+        dataFriends[section].items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.identifier) as! FriendsTableViewCell
-        cell.configure(friend: dataFriends[indexPath.section][indexPath.row])
+        cell.configure(friend: dataFriends[indexPath.section].items[indexPath.row])
         return cell
     }
     
@@ -171,12 +195,12 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
                    sectionForSectionIndexTitle title: String,
                    at index: Int) -> Int {
         guard title != "#" else {
-            dataFriends = sortedFriends(self.storage, firstLetters: firstLetters)
-            tableView.reloadData()
+            sectionLetter = nil
+            update()
             return 0
         }
-        dataFriends = [sortedFriends(self.storage, firstLetters: firstLetters)[index]]
-        tableView.reloadData()
+        sectionLetter = firstLetters[index].lowercased()
+        update()
         return index
     }
 }
