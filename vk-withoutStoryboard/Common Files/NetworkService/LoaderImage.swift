@@ -7,34 +7,51 @@
 
 import UIKit
 
-/// Загрузка изображений (выбор кэшировать или нет)
+extension LoaderImage{
+    // перечисление режимов работы кэширования
+    enum CacheWork{
+        case on
+        case off
+    }
+}
+
+///Singleton для загрузки изображения  с возможностью кеширования.
 class LoaderImage{
-    //синглтон
-    static var standart = LoaderImage()
+    ///  Singleton
+    static var standart: LoaderImage = LoaderImage()
     
-    private let httpSession = URLSession(configuration: URLSessionConfiguration.default)
+    private init(){}
     
-    /// загрузка по url, по дефолту кэширование отключено
+    private let httpSession: URLSession = URLSession(configuration: URLSessionConfiguration.default)
+    
+    /// Загрузка изображения по url адресу с возможным кэшированием и получение изображения из кэша.
     /// - Parameters:
-    ///   - url: адрес
-    ///   - cacheOn: включить кэширование, (по дефолту кэширование отключено)
-    ///   - completion: замыкание UIImage
-    func load(url: String, cacheOn:Bool = false, completion: @escaping (UIImage)-> Void){
-        guard let urlImage = URL(string: url) else {
+    ///   - url: Url адрес изображения.
+    ///   - cache: включение кэширования.
+    ///   - completion: Замыкание.  Передает:  `UIImage` -  изображение  полученное по url.
+    ///
+    ///  По умолчанию кэширование изображение отключено.
+    func load(url: String, cache: CacheWork = .off, completion: @escaping (UIImage)-> Void){
+        // Проверяем url
+        guard let url: URL = URL(string: url) else {
             return
         }
         
-        if let imageChache = PhotoCache.standart.getImage(for: urlImage), cacheOn {
-            completion(imageChache)
+        // если кэширование включено, проверяем есть ли изобюражение в кэше
+        if cache == .on, let imageCache: UIImage = PhotoCache.standart.getImage(for: url) {
+            completion(imageCache)
         }else{
-            let task = httpSession.dataTask(with: urlImage) { data, response, error in
-                guard let validData = data, let image = UIImage(data: validData), error == nil else {
-                    debugPrint(error!)
+            //загрузка изображения по url
+            let task: URLSessionDataTask = httpSession.dataTask(with: url) { data, response, error in
+                guard let validData: Data = data, let image: UIImage = UIImage(data: validData), error == nil else {
+                    if let error: Error = error{
+                        print(error)
+                    }
                     return
                 }
-                
-                if cacheOn{
-                    PhotoCache.standart.saveImage(image, for: urlImage)
+                // если кэширование включено, то производим сохранение в кэш
+                if cache == .on{
+                    PhotoCache.standart.saveImage(image, for: url)
                 }
                 
                 DispatchQueue.main.async{

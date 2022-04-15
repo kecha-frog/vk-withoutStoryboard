@@ -7,7 +7,7 @@
 
 import Foundation
 import RealmSwift
-
+/// Модель друга для Realm.
 @objcMembers class FriendModel: Object, Decodable, ModelApiVK{
     dynamic var id:Int = 0
     dynamic var firstName: String = ""
@@ -38,10 +38,12 @@ import RealmSwift
         return "id"
     }
     
-    /// индексируемое свойство ???????????
+    /// индексируемое свойство, получение объекта по свойству.
     /// - Returns: массив параметров
     override class func indexedProperties() -> [String] {
-        return ["id", "firstName", "lastName"]
+        // Получение данных станет быстрее, запись замедлится.
+        // Стараться индексировать по одному полю.
+        return ["id"]
     }
     
     /// игнорирование определенных параметров при записи в базу данных

@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 
+/// Модель группы для Realm.
 class GroupModel: Object, Decodable, ModelApiVK {
     @objc dynamic var id:Int = 0
     @objc dynamic var type: String = ""

@@ -9,25 +9,39 @@ import Foundation
 import Firebase
 
 class AllGroupsService{
-    let ref = Database.database().reference(withPath: "Groups")
+    /// список всех групп
+    var data:[GroupModel] = []
     
-    func fetchApiAllGroups(searchText:String? = nil, _ completion: @escaping (_ result: [GroupModel])-> Void){
+    // firebase
+    private let ref = Database.database().reference(withPath: "Groups")
+    
+    /// запрос всех групп
+    /// - Parameters:
+    ///   - searchText: поиск определенных групп, по умолчанию nil
+    ///   - completion: выполняется в любом случае
+    func fetchApiAllGroups(searchText:String? = nil, _ completion: @escaping ()-> Void){
         if let searchText = searchText {
+            // поиск определенных групп по ключевому слову
             ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .searchGroup, params: ["q":searchText]) { result in
                 switch result {
                 case .success(let success):
-                    completion(success.items)
+                    self.data = success.items
+                    completion()
                 case .failure(let error):
                     debugPrint(error)
+                    completion()
                 }
             }
         }else{
+            // получение всех групп
             ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .getAllGroups, params: nil) { result in
                 switch result {
                 case .success(let success):
-                    completion(success.items)
+                    self.data = success.items
+                    completion()
                 case .failure(let error):
                     debugPrint(error)
+                    completion()
                 }
             }
         }

@@ -6,34 +6,72 @@
 //
 
 import Foundation
+import RealmSwift
 
-class FavoriteGroupsService{
-    private var realmCacheService = RealmCacheService()
+/// Сервисный слой FavoriteGroupsListViewController.
+final class FavoriteGroupsService{
+    private var realmCacheService: RealmService = RealmService()
     
+    /// Список групп юзера из бд.
+    var data: Results<GroupModel>{
+        if let text: String = searchText {
+            // Поиск определенных групп.
+            return self.realmCacheService.read(GroupModel.self).filter("name contains[cd] %@", text)
+        }else{
+            return self.realmCacheService.read(GroupModel.self)
+        }
+    }
+    
+    /// Текст поиска.
+    private var searchText: String?
+    
+    /// Изменение текста поиска.
+    /// - Parameter text: текст поиска
+    ///
+    ///  text - по умолчанию nil.
+    func setSearchText(_ text: String? = nil){
+        searchText = text
+    }
+    
+    /// Запрос групп юзера из api.
+    /// - Parameter completion: Замыкание.
+    ///
+    /// Группы сохраняются в бд.
     func fetchApiFavoriteGroupsAsync(_ completion: @escaping () -> Void){
         ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] result in
             switch result {
             case .success(let success):
                 DispatchQueue.main.async { [weak self] in
                     self?.savePhotoInRealm(success.items)
-                    
+                    completion()
                 }
-                completion()
             case .failure(let error):
                 debugPrint(error)
+                completion()
             }
         }
     }
     
-    private func savePhotoInRealm(_ newObjects: [GroupModel]){
-        let oldValues = Array(realmCacheService.read(GroupModel.self)).filter { oldGroup in
-            !newObjects.contains { $0.id == oldGroup.id}
+    /// Сохраненние  групп в бд.
+    /// - Parameter newGroups: обновленный список групп
+    private func savePhotoInRealm(_ newGroups: [GroupModel]){
+        // Группы из которых вышел юзер, но они еще присутсвуют в бд
+        let oldValues: [GroupModel] = realmCacheService.read(GroupModel.self).filter { oldGroup in
+            !newGroups.contains { $0.id == oldGroup.id}
         }
         
+        // Удаление групп из которых вышел юзер
         if !oldValues.isEmpty{
             realmCacheService.delete(objects: oldValues)
         }
         
-        realmCacheService.create(objects: newObjects)
+        // Добавление новых групп или обновление данных старых групп
+        realmCacheService.create(objects: newGroups)
+    }
+    
+    /// Удаление группы из бд.
+    /// - Parameter group: группы
+    func deleteInRealm(_ group: GroupModel){
+        realmCacheService.delete(object: group)
     }
 }

@@ -8,40 +8,40 @@
 import UIKit
 import RealmSwift
 
+// MARK: Controller
+/// Коллекция фото юзера.
 class FriendCollectionViewController: UIViewController {
     private let collectionView: UICollectionView = {
-        let viewLayout = UICollectionViewFlowLayout()
-        let width = (UIScreen.main.bounds.width - 9) / 2
+        let viewLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let width: CGFloat = (UIScreen.main.bounds.width - 9) / 2
         let spancing: CGFloat = 3
         viewLayout.sectionInset = UIEdgeInsets(top: 5, left: spancing, bottom: 5, right: spancing)
         viewLayout.itemSize = CGSize(width: width , height: width)
         viewLayout.minimumInteritemSpacing = spancing
         viewLayout.minimumLineSpacing = spancing
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
+        let collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
     private let viewLoad: LoadingView = {
-        let view = LoadingView()
+        let view: LoadingView = LoadingView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private var friend:FriendModel?
+    private var service: FriendPhotosService?
     
-    /// пришлось вводить такую переменную, так как при первой загрузке данных в бд была ошибка "Invalid update: invalid number of items on UICollectionView"
-    private var numberOfItems:Int = 0
-    private var realmCacheService = RealmCacheService()
-    private var service: FriendsCollectionService?
-    private var dataUserImage: Results<PhotoModel>{
-        self.realmCacheService.read(PhotoModel.self).filter("owner == %@", friend)
-    }
     private var token: NotificationToken?
-    private var cache = PhotoCache()
+    
+    /// Кэш для изображением
+    ///
+    ///  Кеш обнуляется при уходе с контроллера.
+    private var cache: PhotoCache = PhotoCache()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupUI()
+        setupUI()
         createNotificationToken()
         fetchApiAsync()
         collectionView.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.identifier)
@@ -49,6 +49,7 @@ class FriendCollectionViewController: UIViewController {
         collectionView.dataSource = self
     }
     
+    /// Настройка UI.
     private func setupUI(){
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -66,85 +67,83 @@ class FriendCollectionViewController: UIViewController {
         ])
     }
     
-    private func update(){
+    /// Конфигурация сервисного слоя по  id.
+    /// - Parameter friendId: Id друга.
+    func configure(friendId : Int){
+        service = FriendPhotosService(friendId: friendId)
+        // получаем друга
+        guard let service:FriendPhotosService = self.service, let friend = service.friend else { return }
+        title = friend.firstName + " " + friend.lastName
+    }
+    
+    /// Перезагрузка данных CollectionView.
+    private func updateCollectionView(){
         collectionView.reloadData()
     }
     
-    func configure(friendId : Int){
-        // получаем друга
-        self.realmCacheService.read(FriendModel.self, key: friendId) { result in
-            switch result{
-            case .success(let friend):
-                self.friend = friend
-                self.service = FriendsCollectionService(friend: friend)
-                self.title = friend.firstName + " " + friend.lastName
-            case .failure(let error):
-                debugPrint(error)
-            }
-        }
-    }
-    
-    
+    /// Запрос фото друга из api с анимацией загрузки.
     private func fetchApiAsync(){
+        guard let service:FriendPhotosService = self.service else { return }
+        
         viewLoad.animationLoad(.on)
-        service?.fetchApiAsync(){ [weak self] in
-            self?.viewLoad.animationLoad(.off)
+        service.fetchApiAsync(){ [weak self] in
+            guard let self: FriendCollectionViewController = self else { return }
+            
+            self.viewLoad.animationLoad(.off)
         }
     }
     
+    /// Регистрирует блок, который будет вызываться при каждом изменении данных фото друга в бд.
     private func createNotificationToken(){
-        token = dataUserImage.observe{ [weak self] result in
-            guard let self = self  else { return }
+        guard let service:FriendPhotosService = self.service else { return }
+        
+        token = service.data.observe{ [weak self] result in
+            guard let self: FriendCollectionViewController  = self  else { return }
+            // второй способ обнавления
             switch result{
-            case .initial(_):
-                self.numberOfItems = self.dataUserImage.count
+            case .initial:
                 self.collectionView.reloadData()
-            case .update(_,
-                         deletions: let deletions,
-                         insertions: let insertions,
-                         modifications: let modifications):
-                let deletionsIndexPath = deletions.map { IndexPath(item: $0, section: 0) }
-                let insertionsIndexPath = insertions.map { IndexPath(item: $0, section: 0) }
-                let modificationsIndexPath = modifications.map { IndexPath(item: $0, section: 0) }
-                
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self  else { return }
-                    self.collectionView.performBatchUpdates {
-                        self.collectionView.reloadItems(at: modificationsIndexPath)
-                        self.numberOfItems -= deletions.count
-                        self.collectionView.deleteItems(at: deletionsIndexPath)
-                        self.numberOfItems += insertions.count
-                        self.collectionView.insertItems(at: insertionsIndexPath)
-                    }
-                }
             case .error(let error):
-                debugPrint(error)
+                print(error)
+            default:
+                self.collectionView.reloadSections(.init(integer: 0))
             }
         }
     }
 }
 
-extension FriendCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource{
+// MARK: UICollectionViewDelegate
+extension FriendCollectionViewController: UICollectionViewDelegate {
+    
+}
+
+// MARK: UICollectionViewDataSource
+extension FriendCollectionViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        numberOfItems
+        guard let service:FriendPhotosService = self.service else { return 0 }
+        
+        return service.data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.identifier, for: indexPath) as! FriendCollectionViewCell
-        cell.configure(dataUserImage[indexPath.item], index:indexPath.item, cache: cache)
+        guard let service:FriendPhotosService = self.service else { return UICollectionViewCell() }
+        
+        let cell: FriendCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.identifier, for: indexPath) as! FriendCollectionViewCell
+        cell.configure(service.data[indexPath.item], cache: cache)
         cell.delegate = self
         return cell
     }
 }
 
+// MARK: Delegate
 extension FriendCollectionViewController: FriendCollectionViewCellDelegate{
+    // позже восстанавлю делегат
     func actionLikePhoto(_ like: Bool, indexPhoto: Int) {
-        // позже восстанавлю
-//        dataUserImage[indexPhoto].youLike.toggle()
-//        if like {
-//            dataUserImage[indexPhoto].like += 1
-//        }else if !like {
-//            dataUserImage[indexPhoto].like -= 1
-//        }
+        //        dataUserImage[indexPhoto].youLike.toggle()
+        //        if like {
+        //            dataUserImage[indexPhoto].like += 1
+        //        }else if !like {
+        //            dataUserImage[indexPhoto].like -= 1
+        //        }
     }
 }

@@ -19,6 +19,7 @@ class Size: Object, Decodable{
     }
 }
 
+/// Модель фото для Realm.
 class PhotoModel: Object, Decodable, ModelApiVK{
     @objc dynamic var id:Int = 0
     @objc dynamic var ownerId: Int = 0
@@ -50,5 +51,6 @@ class PhotoModel: Object, Decodable, ModelApiVK{
     @objc dynamic var owner: FriendModel?
     
     // связь 2 вариант
-    //let owner = LinkingObjects(fromType:FriendModel.self, property: "photosModel")
+    // автоматически линкует при дабавление в список у хозяина через append
+    //let owner = LinkingObjects(fromType:FriendModel.self, property: "photos")
 }

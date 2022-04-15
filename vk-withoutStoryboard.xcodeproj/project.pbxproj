@@ -29,23 +29,23 @@
 		F25AE76527D1E1FD00AADE0D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F25AE76427D1E1FD00AADE0D /* Realm */; };
 		F25AE76727D1E1FD00AADE0D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F25AE76627D1E1FD00AADE0D /* RealmSwift */; };
 		F26C4ABD27F6FAA70081FB66 /* FriendsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4ABC27F6FAA70081FB66 /* FriendsService.swift */; };
-		F26C4AC127F706A10081FB66 /* FriendsCollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC027F706A10081FB66 /* FriendsCollectionService.swift */; };
+		F26C4AC127F706A10081FB66 /* FriendPhotosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC027F706A10081FB66 /* FriendPhotosService.swift */; };
 		F26C4AC427F70CE50081FB66 /* AllGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC327F70CE50081FB66 /* AllGroupsService.swift */; };
 		F26C4AC727F718290081FB66 /* FavoriteGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC627F718290081FB66 /* FavoriteGroupsService.swift */; };
 		F28037B727C8CE9F004AE857 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28037B627C8CE9F004AE857 /* LoginViewController.swift */; };
 		F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */; };
 		F285766227D62BAB00B6069F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F285766127D62BAB00B6069F /* StartViewController.swift */; };
-		F286F8FB27FC3912008E9B2B /* loginAutorized.swift in Sources */ = {isa = PBXBuildFile; fileRef = F286F8FA27FC3912008E9B2B /* loginAutorized.swift */; };
+		F286F8FB27FC3912008E9B2B /* LoginAutorized.swift in Sources */ = {isa = PBXBuildFile; fileRef = F286F8FA27FC3912008E9B2B /* LoginAutorized.swift */; };
 		F286F8FF27FC5BAA008E9B2B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F286F8FE27FC5BAA008E9B2B /* GoogleService-Info.plist */; };
 		F286F90527FC7F9C008E9B2B /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F286F90427FC7F9C008E9B2B /* LoginService.swift */; };
-		F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */; };
+		F2890BDE27AD22E80038AF8F /* SearchBarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BDD27AD22E80038AF8F /* SearchBarHeaderView.swift */; };
 		F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */; };
 		F2890BE527AD78DF0038AF8F /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */; };
 		F2982B0B27E33E6B00186F8D /* FriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2982B0A27E33E6B00186F8D /* FriendModel.swift */; };
 		F2982B0D27E33E7400186F8D /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2982B0C27E33E7400186F8D /* PhotoModel.swift */; };
 		F2982B0F27E33E8000186F8D /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2982B0E27E33E8000186F8D /* GroupModel.swift */; };
 		F29900CA27D368A4003186C9 /* PhotoCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29900C927D368A4003186C9 /* PhotoCache.swift */; };
-		F299704127E0DEEE006684BD /* RealmCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F299704027E0DEEE006684BD /* RealmCacheService.swift */; };
+		F299704127E0DEEE006684BD /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F299704027E0DEEE006684BD /* RealmService.swift */; };
 		F29F4C1027CF6BED00D766F2 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29F4C0F27CF6BED00D766F2 /* Keychain.swift */; };
 		F2B76B8327D74BC4006BA2A1 /* LoaderImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B76B8227D74BC4006BA2A1 /* LoaderImage.swift */; };
 		F2D042B327F83D94006DC948 /* StartViewControllerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D042B227F83D94006DC948 /* StartViewControllerService.swift */; };
@@ -77,7 +77,7 @@
 		F2D042EA27F85023006DC948 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F2D042E927F85023006DC948 /* FirebaseStorage */; };
 		F2D042EC27F85023006DC948 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F2D042EB27F85023006DC948 /* FirebaseStorageCombine-Community */; };
 		F2D042EE27F85023006DC948 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = F2D042ED27F85023006DC948 /* FirebaseStorageSwift-Beta */; };
-		F2FCA71F27E7518E0036209B /* AlphabetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FCA71E27E7518E0036209B /* AlphabetModel.swift */; };
+		F2FCA71F27E7518E0036209B /* LetterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FCA71E27E7518E0036209B /* LetterModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,27 +103,27 @@
 		F25869EC27A934F100A86D87 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
 		F258994927FD94E000731089 /* LoginViewController+WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+WebView.swift"; sourceTree = "<group>"; };
 		F26C4ABC27F6FAA70081FB66 /* FriendsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsService.swift; sourceTree = "<group>"; };
-		F26C4AC027F706A10081FB66 /* FriendsCollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCollectionService.swift; sourceTree = "<group>"; };
+		F26C4AC027F706A10081FB66 /* FriendPhotosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotosService.swift; sourceTree = "<group>"; };
 		F26C4AC327F70CE50081FB66 /* AllGroupsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGroupsService.swift; sourceTree = "<group>"; };
 		F26C4AC627F718290081FB66 /* FavoriteGroupsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGroupsService.swift; sourceTree = "<group>"; };
 		F28037B627C8CE9F004AE857 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F285766127D62BAB00B6069F /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
-		F286F8FA27FC3912008E9B2B /* loginAutorized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginAutorized.swift; sourceTree = "<group>"; };
+		F286F8FA27FC3912008E9B2B /* LoginAutorized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAutorized.swift; sourceTree = "<group>"; };
 		F286F8FE27FC5BAA008E9B2B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F286F90427FC7F9C008E9B2B /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
-		F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderTableView.swift; sourceTree = "<group>"; };
+		F2890BDD27AD22E80038AF8F /* SearchBarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderView.swift; sourceTree = "<group>"; };
 		F2890BE027AD769E0038AF8F /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		F2890BE427AD78DF0038AF8F /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		F2982B0A27E33E6B00186F8D /* FriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendModel.swift; sourceTree = "<group>"; };
 		F2982B0C27E33E7400186F8D /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		F2982B0E27E33E8000186F8D /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
 		F29900C927D368A4003186C9 /* PhotoCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCache.swift; sourceTree = "<group>"; };
-		F299704027E0DEEE006684BD /* RealmCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmCacheService.swift; sourceTree = "<group>"; };
+		F299704027E0DEEE006684BD /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		F29F4C0F27CF6BED00D766F2 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		F2B76B8227D74BC4006BA2A1 /* LoaderImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderImage.swift; sourceTree = "<group>"; };
 		F2D042B227F83D94006DC948 /* StartViewControllerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewControllerService.swift; sourceTree = "<group>"; };
-		F2FCA71E27E7518E0036209B /* AlphabetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphabetModel.swift; sourceTree = "<group>"; };
+		F2FCA71E27E7518E0036209B /* LetterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -359,7 +359,7 @@
 		F24E7A7427AC406400E12148 /* SearchBarHeader */ = {
 			isa = PBXGroup;
 			children = (
-				F2890BDD27AD22E80038AF8F /* SearchBarHeaderTableView.swift */,
+				F2890BDD27AD22E80038AF8F /* SearchBarHeaderView.swift */,
 			);
 			path = SearchBarHeader;
 			sourceTree = "<group>";
@@ -392,7 +392,7 @@
 		F26C4ABF27F706830081FB66 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				F26C4AC027F706A10081FB66 /* FriendsCollectionService.swift */,
+				F26C4AC027F706A10081FB66 /* FriendPhotosService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -478,7 +478,7 @@
 		F286F8F927FC37FA008E9B2B /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				F286F8FA27FC3912008E9B2B /* loginAutorized.swift */,
+				F286F8FA27FC3912008E9B2B /* LoginAutorized.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -527,7 +527,7 @@
 		F299703D27E0C9EA006684BD /* RealmModel */ = {
 			isa = PBXGroup;
 			children = (
-				F2FCA71E27E7518E0036209B /* AlphabetModel.swift */,
+				F2FCA71E27E7518E0036209B /* LetterModel.swift */,
 				F2982B0A27E33E6B00186F8D /* FriendModel.swift */,
 				F2982B0C27E33E7400186F8D /* PhotoModel.swift */,
 				F2982B0E27E33E8000186F8D /* GroupModel.swift */,
@@ -548,7 +548,7 @@
 		F299703F27E0DDD9006684BD /* RealmService */ = {
 			isa = PBXGroup;
 			children = (
-				F299704027E0DEEE006684BD /* RealmCacheService.swift */,
+				F299704027E0DEEE006684BD /* RealmService.swift */,
 			);
 			path = RealmService;
 			sourceTree = "<group>";
@@ -663,23 +663,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2982B0B27E33E6B00186F8D /* FriendModel.swift in Sources */,
-				F2890BDE27AD22E80038AF8F /* SearchBarHeaderTableView.swift in Sources */,
+				F2890BDE27AD22E80038AF8F /* SearchBarHeaderView.swift in Sources */,
 				F21EB5AE27A7FE35003698CD /* AllGroupsListViewController.swift in Sources */,
-				F286F8FB27FC3912008E9B2B /* loginAutorized.swift in Sources */,
+				F286F8FB27FC3912008E9B2B /* LoginAutorized.swift in Sources */,
 				F285766227D62BAB00B6069F /* StartViewController.swift in Sources */,
 				F20A6B8D27B43D10007AE5E6 /* ApiVK.swift in Sources */,
 				F22E014D27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift in Sources */,
 				F24E7A7327AC12D400E12148 /* FriendsHeaderSectionTableView.swift in Sources */,
 				F29F4C1027CF6BED00D766F2 /* Keychain.swift in Sources */,
 				F2982B0F27E33E8000186F8D /* GroupModel.swift in Sources */,
-				F2FCA71F27E7518E0036209B /* AlphabetModel.swift in Sources */,
+				F2FCA71F27E7518E0036209B /* LetterModel.swift in Sources */,
 				F28037B727C8CE9F004AE857 /* LoginViewController.swift in Sources */,
 				F26C4ABD27F6FAA70081FB66 /* FriendsService.swift in Sources */,
-				F299704127E0DEEE006684BD /* RealmCacheService.swift in Sources */,
+				F299704127E0DEEE006684BD /* RealmService.swift in Sources */,
 				F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */,
 				F258994A27FD94E000731089 /* LoginViewController+WebView.swift in Sources */,
 				F2890BE127AD769E0038AF8F /* NewsTableViewController.swift in Sources */,
-				F26C4AC127F706A10081FB66 /* FriendsCollectionService.swift in Sources */,
+				F26C4AC127F706A10081FB66 /* FriendPhotosService.swift in Sources */,
 				F25580F327CBB930008820DD /* JSONResponse.swift in Sources */,
 				F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */,
 				F2D042B327F83D94006DC948 /* StartViewControllerService.swift in Sources */,

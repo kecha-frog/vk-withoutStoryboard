@@ -6,60 +6,78 @@
 //
 
 import UIKit
+extension LoadingView{
+    enum Color{
+        case blue
+        case white
+    }
+}
 
-/// вью загрузки
+/// View анимация загрузки.
+///
+///  Анимация - Три точки.
 class LoadingView: UIView{
     private let dot1: UILabel = {
-        let label = UILabel()
+        let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "●"
-        label.textColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         return label
     }()
     
     private let dot2: UILabel = {
-        let label = UILabel()
+        let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "●"
-        label.textColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         return label
     }()
     
     private let dot3: UILabel = {
-        let label = UILabel()
+        let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "●"
-        label.textColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         return label
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
+    /// Кастомный init. Выбор фона для анимации.
+    /// - Parameter background: цвет фона
+    init(_ backgroundColor: Color = .white) {
+        super.init(frame: .zero)
+        setupUI(backgroundColor)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// изменение вью на цвет лаунч скрина
-    func changeToStartPageColor(){
-        let dotColor: UIColor = .white
+    /// Настройка view.
+    /// - Parameter color: цвет фона.
+    private func setupUI(_ color: Color){
+        self.isHidden = true
+        
+        let dotColor: UIColor
+        let backgroundColor: UIColor
+        
+        switch color {
+        case .blue:
+            dotColor = .white
+            backgroundColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
+        case .white:
+            dotColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
+            backgroundColor = .white
+        }
+        
         dot1.textColor = dotColor
         dot2.textColor = dotColor
         dot3.textColor = dotColor
-        backgroundColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
-    }
-    
-    /// настройка вью
-    private func setupUI(){
-        backgroundColor = .white
+        self.backgroundColor = backgroundColor
+        
         addSubview(dot1)
         addSubview(dot2)
         addSubview(dot3)
+        
         NSLayoutConstraint.activate([
             dot1.centerYAnchor.constraint(equalTo: centerYAnchor),
             dot2.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -76,7 +94,8 @@ class LoadingView: UIView{
         case off
     }
     
-    /// запуска анимации
+    /// Запуск анимации.
+    /// - Parameter work: вкл/выкл.
     func animationLoad(_ work:Work){
         switch work {
         case .on:

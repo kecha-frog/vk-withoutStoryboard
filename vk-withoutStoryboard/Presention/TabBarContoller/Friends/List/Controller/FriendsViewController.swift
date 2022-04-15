@@ -6,42 +6,29 @@
 //
 
 import UIKit
-import CoreData
 import RealmSwift
 
+// MARK: Controller
 class FriendsViewController: UIViewController {
-    private let tableView:UITableView = {
-        let tableView = UITableView()
+    private let tableView: UITableView = {
+        let tableView: UITableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
     private let viewLoad: LoadingView = {
-        let view = LoadingView()
+        let view: LoadingView = LoadingView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private let modelSelf = FriendModel.self
     
-    private let service = FriendsService()
-    private var realmCacheService = RealmCacheService()
+    private let service: FriendsService = FriendsService()
     
-    private var storage = [FriendModel]()
-    private var firstLetters = [String]()
-    private var sectionLetter : String?
-    private var dataFriends: Results<AlphabetModel>{
-        if let section = sectionLetter {
-            return self.realmCacheService.read(AlphabetModel.self).filter("letter == %@", section).sorted(byKeyPath: "letter", ascending: true)
-        }else{
-            return self.realmCacheService.read(AlphabetModel.self).sorted(byKeyPath: "letter", ascending: true)
-        }
-    }
     private var token: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        realmCacheService.printFileUrl()
         createNotificationToken()
         fetchFriends()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
@@ -50,39 +37,8 @@ class FriendsViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let friend = dataFriends[indexPath.section].items[indexPath.row]
-        
-        let friendCollectionVC = FriendCollectionViewController()
-        friendCollectionVC.configure(friendId: friend.id)
-        navigationController?.pushViewController(friendCollectionVC, animated: true)
-    }
-    
-    private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
-        let action = UIContextualAction(style: .destructive, title: "Delete") { [self] (action, view, completion) in
-            //let user = self.dataFriends[indexPath.section].remove(at: indexPath.row)
-            //self.coreData.delete(user)
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
-//            if self.dataFriends[indexPath.section].isEmpty {
-//                self.firstLetters.remove(at: indexPath.section)
-//                self.dataFriends.remove(at: indexPath.section)
-//                let indexSet = IndexSet(arrayLiteral: indexPath.section)
-//                tableView.deleteSections(indexSet, with: .fade)
-//            }
-        }
-        action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
-        action.image = UIImage(systemName: "trash.fill")
-        return action
-    }
-
     private func setupUI(){
+        tableView.sectionIndexColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         tableView.sectionHeaderTopPadding = 5
         
         title = "Friends"
@@ -104,103 +60,127 @@ class FriendsViewController: UIViewController {
         ])
     }
     
-    private func firstLettersArray(_ friends: [FriendModel]) -> [String] {
-        let array = Array(Set(friends.compactMap { $0.lastName.first })).sorted()
-        return array.map{String($0)}
-    }
-    
-    private func update(){
+    /// Перезагрузка данных tableView.
+    private func updateTableView(){
         tableView.reloadData()
     }
     
+    /// Запрос друзей у api c  анимацией загрузки.
     private func fetchFriends(){
         viewLoad.animationLoad(.on)
         service.fetchApiAsync { [weak self] in
-            self?.loadRealmData()
             self?.viewLoad.animationLoad(.off)
         }
     }
     
-    private func loadRealmData(){
-        service.loadRealmData { result in
-            self.storage = Array(result)
-            self.firstLetters = self.firstLettersArray(self.storage)
-            self.update()
-        }
-    }
-    
+    /// Регистрирует блок, который будет вызываться при каждом изменении секкций в бд.
     private func createNotificationToken(){
-        token = dataFriends.observe{ [weak self] result in
-            guard let self = self  else { return }
+        token = service.data.observe{ [weak self] result in
+            guard let self: FriendsViewController = self  else { return }
             switch result{
-            case .initial(let groups):
-                break
-            case .update( _,
-                         deletions: let deletions,
-                         insertions: let insertions,
-                         modifications: let modifications):
-//                let deletionsIndexPath = deletions.map { IndexPath(row: $0, section: 0) }
-//                let insertionsIndexPath = insertions.map { IndexPath(row: $0, section: 0) }
-//                let modificationsIndexPath = modifications.map { IndexPath(row: $0, section: 0) }
+            case .initial:
+                self.updateTableView()
+            case .update(_, let deletions, let insertions, let modifications):
+                // секции в которой надо обновить список друзей
+                var reloadSections: [Int] = []
+                // секции которые стали пустые
+                var emptySections: [LetterModel] = []
                 
-                // придумать как обновлять секцию
-//                modifications.forEach { modif in
-//                    let letter = self.dataFriends[modif]
-//                    let isEmpty = letter.items.isEmpty
-//                    if isEmpty {
-//
-//                    }
-//                }
+                // сортирую секции на удаление и обнавление
+                modifications.forEach { section in
+                    let letter: LetterModel = self.service.data[section]
+                    if letter.items.isEmpty{
+                        emptySections.append(letter)
+                    }else{
+                        reloadSections.append(section)
+                    }
+                }
                 
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self  else { return }
-                    self.update()
+                if !insertions.isEmpty{
+                    self.tableView.insertSections(IndexSet(insertions), with: .automatic)
+                }
+                
+                if !reloadSections.isEmpty{
+                    self.tableView.reloadSections(IndexSet(reloadSections), with: .automatic)
+                }
+                
+                if !deletions.isEmpty{
+                    self.tableView.deleteSections(IndexSet(deletions), with: .automatic)
+                }
+                
+                if !emptySections.isEmpty{
+                    // удаляю пустые секции
+                    self.service.deleteInRealm(objects: emptySections)
                 }
             case .error(let error):
-                debugPrint(error)
+                print(error)
             }
         }
     }
 }
 
-extension FriendsViewController: UITableViewDelegate, UITableViewDataSource{
+// MARK: UITableViewDataSource
+extension FriendsViewController: UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        dataFriends.count
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
-        let letter = dataFriends[section].letter
-        header.setText(String(letter))
-        return header
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataFriends[section].items.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.identifier) as! FriendsTableViewCell
-        cell.configure(friend: dataFriends[indexPath.section].items[indexPath.row])
-        return cell
+        service.data.count
     }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        var array = firstLetters.map{String($0)}
-        array.append("#")
-        return array
+        return service.data.map { $0.name.uppercased() }
     }
-        
+    
     func tableView(_ tableView: UITableView,
                    sectionForSectionIndexTitle title: String,
                    at index: Int) -> Int {
-        guard title != "#" else {
-            sectionLetter = nil
-            update()
-            return 0
-        }
-        sectionLetter = firstLetters[index].lowercased()
-        update()
+        tableView.scrollToRow(at: .init(row: 0, section: index), at: .top, animated: true)
         return index
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        service.data[section].items.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: FriendsTableViewCell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.identifier) as! FriendsTableViewCell
+        cell.configure(friend: service.data[indexPath.section].items[indexPath.row])
+        return cell
+    }
+}
+
+
+// MARK: UITableViewDelegate
+extension FriendsViewController: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header: FriendsHeaderSectionTableView = tableView.dequeueReusableHeaderFooterView(withIdentifier: FriendsHeaderSectionTableView.identifier) as! FriendsHeaderSectionTableView
+        let letter: String = service.data[section].name.uppercased()
+        header.setText(letter)
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let friend: FriendModel = service.data[indexPath.section].items[indexPath.row]
+        
+        let friendCollectionVC: FriendCollectionViewController = FriendCollectionViewController()
+        friendCollectionVC.configure(friendId: friend.id)
+        navigationController?.pushViewController(friendCollectionVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete: UIContextualAction = deleteAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    ///  Action удаление друга
+    /// - Parameter indexPath: Индекс друга.
+    /// - Returns: UIContextualAction для tableView SwipeActionsConfigurationForRowAt.
+    private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [self] (action, view, completion) in
+            let friend: FriendModel = service.data[indexPath.section].items[indexPath.row]
+            service.deleteInRealm(objects: [friend])
+            // В будущем добавлю удаление друга в апи.
+        }
+        action.backgroundColor = #colorLiteral(red: 1, green: 0.3464992942, blue: 0.4803417176, alpha: 1)
+        action.image = UIImage(systemName: "trash.fill")
+        return action
     }
 }

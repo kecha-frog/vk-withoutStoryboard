@@ -7,7 +7,7 @@
 
 import UIKit
 
-// TODO: доделать
+// TODO: Доделать LikeControl
 class LikeControl: UIControl {
     private(set) var youLike: Bool = false
     
