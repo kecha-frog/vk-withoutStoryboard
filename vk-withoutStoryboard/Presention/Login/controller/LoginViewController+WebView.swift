@@ -10,15 +10,14 @@ import WebKit
 
 
 extension LoginViewController: WKNavigationDelegate{
-    /// настройка вебвью
+    /// Запуск WebView.
     func runWebView(){
+        //удаление лого и кнопки
         logoImageView.removeFromSuperview()
         loginButton.removeFromSuperview()
         
-        webView.navigationDelegate = self
         view.backgroundColor = .white
         view.addSubview(webView)
-        
         NSLayoutConstraint.activate([
             webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -26,7 +25,8 @@ extension LoginViewController: WKNavigationDelegate{
             webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
         
-        var urlComponents = URLComponents()
+        // Данные для загрузки страницы
+        var urlComponents: URLComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "oauth.vk.com"
         urlComponents.path = "/authorize"
@@ -37,12 +37,13 @@ extension LoginViewController: WKNavigationDelegate{
             .init(name: "scope", value:"offline, friends, photos, groups"),
             .init(name: "response_type",value:"token"),
         ]
-        let myRequest = URLRequest(url: urlComponents.url!)
+        // Загрузка страницы
+        let myRequest: URLRequest = URLRequest(url: urlComponents.url!)
         webView.load(myRequest)
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void){
-        guard let url = navigationResponse.response.url, url.path == "/blank.html",
+        guard let url:URL = navigationResponse.response.url, url.path == "/blank.html",
               let fragment = url.fragment else {
             decisionHandler(.allow)
             return
@@ -50,7 +51,8 @@ extension LoginViewController: WKNavigationDelegate{
         
         decisionHandler(.cancel)
         
-        let params = fragment
+        // Полученные параметры из ответа WebView
+        let params: [String:String] = fragment
             .components(separatedBy: "&")
             .map({$0.components(separatedBy: "=")})
             .reduce([String:String](), { result, param in
@@ -61,14 +63,16 @@ extension LoginViewController: WKNavigationDelegate{
                 return dict
             })
         
-        if let token = params["access_token"], let id = params["user_id"]{
+        // Запись токена и id
+        if let token: String = params["access_token"], let id: String = params["user_id"]{
             Keychain.standart.set(token, key: .token)
             Keychain.standart.set(id, key: .id)
             
             service.firebaseAutorizedId(id)
         }
         
-        let controller = TabBarViewController()
+        // Переход на контроллер
+        let controller: TabBarViewController = TabBarViewController()
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }

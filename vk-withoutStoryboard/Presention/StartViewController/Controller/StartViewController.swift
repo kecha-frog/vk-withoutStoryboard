@@ -6,34 +6,27 @@
 //
 
 import UIKit
-import Firebase
 
-/// стартовый контроллер на котором проверяется токен на работоспособность
+/// Стартовый контроллер на котором проверяется токен на работоспособность.
 class StartViewController: UIViewController {
-    private let service =  StartViewControllerService()
+    /// Сервисный слой.
+    private let service: StartViewControllerService =  StartViewControllerService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        service.authInFirebase()
     }
     
-    private func loadViewChange(){
-        let loadView = LoadingView()
-        // изменил на цвета стартовой страницы
-        loadView.changeToStartPageColor()
-        loadView.animationLoad(.on)
-        
-        view = loadView
-    }
-    
+    /// Настройка UI.
     private func setupUI(){
-        loadViewChange()
+        // Анимация загрузки
+        let loadView: LoadingView = LoadingView(.blue)
+        loadView.animationLoad(.on)
+        view = loadView
         
-        //Анонимная авторизация
-        Auth.auth().signInAnonymously()
-        
-        /// проверка токена и выбор контроллера исходя из ответа
         service.fetchApiCheckToken { result in
+            // Если токен не валидный то перейдёт на контроллер логина
             let controller:UIViewController = result ? TabBarViewController() : LoginViewController()
             controller.modalPresentationStyle = .fullScreen
             self.present(controller, animated: false, completion: nil)

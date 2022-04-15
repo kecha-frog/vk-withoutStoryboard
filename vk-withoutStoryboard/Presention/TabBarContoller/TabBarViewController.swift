@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Main TabBarViewController
 class TabBarViewController: UITabBarController {
     private let itemFriends: UIViewController = {
         let image = UIImage(systemName: "person.3.sequence")
@@ -46,6 +47,7 @@ class TabBarViewController: UITabBarController {
         setupUI()
     }
     
+    /// Настройка UI.
     private func setupUI(){
         tabBar.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         tabBar.backgroundColor = .white

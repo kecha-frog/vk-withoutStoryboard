@@ -11,15 +11,15 @@ import WebKit
 ///  логин контроллер
 class LoginViewController: UIViewController {
     let logoImageView: UIImageView = {
-        let image = UIImage(named: "vkLogo")
-        let imageView = UIImageView(image: image)
+        let image: UIImage? = UIImage(named: "vkLogo")
+        let imageView: UIImageView = UIImageView(image: image)
         imageView.tintColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     let loginButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button: UIButton  = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Войти", for: .normal)
         button.layer.cornerRadius = 5
@@ -30,20 +30,22 @@ class LoginViewController: UIViewController {
     }()
     
     let webView: WKWebView = {
-        let webConfiguration = WKWebViewConfiguration()
-        let view = WKWebView(frame: .zero, configuration: webConfiguration)
+        let webConfiguration: WKWebViewConfiguration = WKWebViewConfiguration()
+        let view: WKWebView = WKWebView(frame: .zero, configuration: webConfiguration)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let service = LoginService()
+    /// Сервисный слой.
+    let service: LoginService = LoginService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        webView.navigationDelegate = self
     }
     
-    /// настройка контроллера
+    /// Настройка UI.
     private func setupUI(){
         view.backgroundColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         
@@ -62,6 +64,9 @@ class LoginViewController: UIViewController {
         ])
     }
     
+    /// Action loginButton.
+    ///
+    /// Запуск WebView с страницей логина  VK.
     @objc private  func actionButton(){
         runWebView()
     }

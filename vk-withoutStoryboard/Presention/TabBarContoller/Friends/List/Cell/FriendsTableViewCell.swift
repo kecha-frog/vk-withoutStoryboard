@@ -7,20 +7,21 @@
 
 import UIKit
 
+/// Ячейка таблицы FriendsViewController.
 class FriendsTableViewCell: UITableViewCell {
-    static var identifier = "FriendsTableViewCell"
-    
-    private let textLabelCell:UILabel = {
-        let text = UILabel()
+    private let label: UILabel = {
+        let text: UILabel = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
     
-    private let AvatarViewCell:AvatarView = {
-        let imageView = AvatarView()
+    private let avatarView: AvatarView = {
+        let imageView: AvatarView = AvatarView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        return  imageView
+        return imageView
     }()
+    
+    static var identifier: String = "FriendsTableViewCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,37 +34,39 @@ class FriendsTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        textLabelCell.text = nil
-        AvatarViewCell.prepareForReuse()
+        label.text = nil
+        avatarView.prepareForReuse()
     }
     
+    /// Настройка Ui.
     private func setupUI(){
-        contentView.addSubview(AvatarViewCell)
-        let topConstraint = AvatarViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
+        contentView.addSubview(avatarView)
+        let topConstraint: NSLayoutConstraint = avatarView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
         topConstraint.priority = UILayoutPriority(rawValue: 999)
-        let bottomConstraint = AvatarViewCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+        let bottomConstraint: NSLayoutConstraint = avatarView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
         bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         
         NSLayoutConstraint.activate([
-            AvatarViewCell.widthAnchor.constraint(equalToConstant: 82),
-            AvatarViewCell.heightAnchor.constraint(equalToConstant: 82),
+            avatarView.widthAnchor.constraint(equalToConstant: 82),
+            avatarView.heightAnchor.constraint(equalToConstant: 82),
             topConstraint,
             bottomConstraint,
-            AvatarViewCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            AvatarViewCell.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            avatarView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            avatarView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
         
-        contentView.addSubview(textLabelCell)
+        contentView.addSubview(label)
         NSLayoutConstraint.activate([
-            textLabelCell.leadingAnchor.constraint(equalTo: AvatarViewCell.trailingAnchor, constant: 8),
-            textLabelCell.centerYAnchor.constraint(equalTo: AvatarViewCell.centerYAnchor),
-            textLabelCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            label.leadingAnchor.constraint(equalTo: avatarView.trailingAnchor, constant: 8),
+            label.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor),
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     
+    /// Конфигурация ячейки.
+    /// - Parameter friend: Друг.
     func configure(friend: FriendModel){
-        textLabelCell.text = "\(friend.firstName) \(friend.lastName)"
-        AvatarViewCell.loadData(friend.avatar)
+        label.text = "\(friend.firstName) \(friend.lastName)"
+        avatarView.loadData(friend.avatar)
     }
 }
-

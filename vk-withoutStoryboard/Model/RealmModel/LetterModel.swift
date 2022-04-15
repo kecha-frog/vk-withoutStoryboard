@@ -1,5 +1,5 @@
 //
-//  AlphabetModel.swift
+//  LetterModel.swift
 //  vk-withoutStoryboard
 //
 //  Created by Ke4a on 20.03.2022.
@@ -8,11 +8,12 @@
 import Foundation
 import RealmSwift
 
-@objcMembers class AlphabetModel: Object{
-    @objc dynamic var letter: String = ""
+/// Модель секции с друзьями для Realm.
+@objcMembers class LetterModel: Object{
+    @objc dynamic var name: String = ""
     dynamic var items = List<FriendModel>()
     
     override class func primaryKey() -> String? {
-        return "letter"
+        return "name"
     }
 }

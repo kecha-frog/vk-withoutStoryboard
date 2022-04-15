@@ -10,3 +10,5 @@
     window?.rootViewController = LoginViewController()
     window?.makeKeyAndVisible()
 ```
+
+коментария, правильные названия, явная типизация

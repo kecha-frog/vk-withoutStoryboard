@@ -8,10 +8,10 @@
 import Foundation
 import RealmSwift
 
-/// метка для дженерика
+/// Метка для дженерика.
 protocol ModelApiVK:Object, Decodable{}
 
-/// дженерик ответов  Api
+/// Дженерик ответ сервера  api.
 class JSONResponse<T:ModelApiVK>: Decodable{
     let count: Int
     let items: [T]
