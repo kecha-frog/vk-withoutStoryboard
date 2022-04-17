@@ -7,7 +7,8 @@
 
 import UIKit
 
-/// Main TabBarViewController
+// MARK: Controller
+/// Экран панели вкладок.
 class TabBarViewController: UITabBarController {
     private let itemFriends: UIViewController = {
         let image = UIImage(systemName: "person.3.sequence")

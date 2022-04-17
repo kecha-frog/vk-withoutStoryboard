@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Firebase
+//import Firebase
 
 /// Сервисный слой для StartViewController.
 class StartViewControllerService{
@@ -19,7 +19,7 @@ class StartViewControllerService{
     }
     
     /// Анонимная авторизация в Firebase.
-    func authInFirebase(){
-        Auth.auth().signInAnonymously()
-    }
+//    func authInFirebase(){
+//        Auth.auth().signInAnonymously()
+//    }
 }

@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 // MARK: Controller
-/// Коллекция фото юзера.
+/// Экран коллекции фото пользователя.
 class FriendCollectionViewController: UIViewController {
     private let collectionView: UICollectionView = {
         let viewLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -76,7 +76,7 @@ class FriendCollectionViewController: UIViewController {
         title = friend.firstName + " " + friend.lastName
     }
     
-    /// Перезагрузка данных CollectionView.
+    /// Обновление данных коллекции.
     private func updateCollectionView(){
         collectionView.reloadData()
     }

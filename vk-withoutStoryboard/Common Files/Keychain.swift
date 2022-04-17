@@ -16,7 +16,7 @@ extension Keychain{
     }
 }
 
-/// Singleton cохранение токена и id юзера в Keychain.
+/// Singleton cохранение токена и id пользователя в Keychain.
 class Keychain {
     /// Singleton
     static let standart: Keychain = Keychain()

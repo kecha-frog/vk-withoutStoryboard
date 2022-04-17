@@ -8,7 +8,6 @@
 import UIKit
 import WebKit
 
-
 extension LoginViewController: WKNavigationDelegate{
     /// Запуск WebView.
     func runWebView(){
@@ -68,7 +67,7 @@ extension LoginViewController: WKNavigationDelegate{
             Keychain.standart.set(token, key: .token)
             Keychain.standart.set(id, key: .id)
             
-            service.firebaseAutorizedId(id)
+            //service.firebaseAutorizedId(id)
         }
         
         // Переход на контроллер

@@ -8,7 +8,8 @@
 import UIKit
 import RealmSwift
 
-/// Группы юзера.
+// MARK: Controller
+/// Экран групп пользователя.
 class FavoriteGroupsListViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView: UITableView = UITableView()
@@ -22,13 +23,13 @@ class FavoriteGroupsListViewController: UIViewController {
         return view
     }()
     
-    // TODO: Доделать SearchBar
     private let searchBarHeader:SearchBarHeaderView  =  {
         let searchbar: SearchBarHeaderView = SearchBarHeaderView()
         searchbar.translatesAutoresizingMaskIntoConstraints = false
         return searchbar
     }()
     
+    /// Сервисный слой.
     private let service: FavoriteGroupsService = FavoriteGroupsService()
     
     private var token: NotificationToken?
@@ -38,12 +39,13 @@ class FavoriteGroupsListViewController: UIViewController {
         setupUI()
         fetchApiAsync()
         createNotificationToken()
+        searchBarHeader.setDelegate(self)
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        searchBarHeader.setDelegate(self)
     }
     
+    /// Найстройка UI.
     private func setupUI(){
         self.title = "Groups"
         
@@ -52,8 +54,8 @@ class FavoriteGroupsListViewController: UIViewController {
             searchBarHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchBarHeader.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             searchBarHeader.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            searchBarHeader.heightAnchor.constraint(equalToConstant: 40)
         ])
+        searchBarHeader.setHeightConstraint(0)
         
         self.view.addSubview(self.tableView)
         NSLayoutConstraint.activate([
@@ -75,39 +77,28 @@ class FavoriteGroupsListViewController: UIViewController {
         addButton.tintColor = .black
         navigationItem.setRightBarButton(addButton, animated: true)
         
-        let button: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
-        button.tintColor = .black
-        navigationItem.setLeftBarButton(button, animated: true)
+        let searchButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
+        searchButton.tintColor = .black
+        navigationItem.setLeftBarButton(searchButton, animated: true)
     }
     
-    // TODO: Доделать SearchBar
+    /// Action кнопки поиска.
     @objc private func showSearchBar(){
-        if tableView.tableHeaderView != nil {
-            searchBarHeader.animation(.off)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                //self.tableView.tableHeaderView = nil
-                self.navigationItem.leftBarButtonItem!.tintColor = .black
-            }
-        } else{
-            navigationItem.leftBarButtonItem!.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
-            //tableView.tableHeaderView = searchBar
-            searchBarHeader.animation(.on)
-        }
+        searchBarHeader.switchSearchBar()
     }
     
     /// Action кнопки добавления группы.
     @objc private func actionAddGroup(){
-        let AllGroupsVC: AllGroupsListViewController = AllGroupsListViewController()
-        AllGroupsVC.delegate = self
-        navigationController?.pushViewController(AllGroupsVC, animated: true)
+        let AllGroupsVC: CatalogGroupsListViewController = CatalogGroupsListViewController()
+        navigationController?.pushViewController(AllGroupsVC, animated: false)
     }
     
-    /// Перезагрузка данных TableView.
+    /// Обновление данных таблицы.
     private func updateTableView(){
         tableView.reloadData()
     }
     
-    /// Запрос групп юзера из api с анимацией.
+    /// Запрос групп пользователя из api с анимацией.
     private func fetchApiAsync(){
         viewLoad.animationLoad(.on)
         
@@ -115,20 +106,20 @@ class FavoriteGroupsListViewController: UIViewController {
             self?.viewLoad.animationLoad(.off)
         }
     }
-    /// Регистрирует блок, который будет вызываться при каждом изменении данных групп юзера в бд.
+    /// Регистрирует блок, который будет вызываться при каждом изменении данных групп пользователя в бд.
     private func createNotificationToken(){
         // подписка на изменения бд
         // так же можно подписываться на изменения определеного объекта
         token = service.data.observe{ result in
             switch result{
-            // при первом запуске приложения
+                // при первом запуске приложения
             case .initial:
                 self.updateTableView()
-            // при изменение бд
+                // при изменение бд
             case .update( _,
-                         let deletions,
-                         let insertions,
-                         let modifications):
+                          let deletions,
+                          let insertions,
+                          let modifications):
                 let deletionsIndexPath: [IndexPath] = deletions.map { IndexPath(row: $0, section: 0) }
                 let insertionsIndexPath: [IndexPath] = insertions.map { IndexPath(row: $0, section: 0) }
                 let modificationsIndexPath: [IndexPath] = modifications.map { IndexPath(row: $0, section: 0) }
@@ -150,6 +141,7 @@ class FavoriteGroupsListViewController: UIViewController {
     }
 }
 
+// MARK: DataSource
 extension FavoriteGroupsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         service.data.count
@@ -163,12 +155,15 @@ extension FavoriteGroupsListViewController: UITableViewDataSource {
     }
 }
 
+// MARK: Delegate
 extension FavoriteGroupsListViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete: UIContextualAction = deleteAction(at: indexPath)
         return UISwipeActionsConfiguration(actions: [delete])
     }
-    
+    ///  Action удаление группы у ячейки.
+    /// - Parameter indexPath: Индекс группы.
+    /// - Returns: UIContextualAction для tableView SwipeActionsConfigurationForRowAt.
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action: UIContextualAction = UIContextualAction(style: .destructive, title: "Delete") { [self] (action, view, completion) in
             let group: GroupModel = service.data[indexPath.row]
@@ -180,25 +175,23 @@ extension FavoriteGroupsListViewController: UITableViewDelegate{
     }
 }
 
-extension FavoriteGroupsListViewController:AllGroupsListViewControllerDelegate{
-    func selectGroup(_ sender: GroupModel) {
-        //coreData.add(sender)
-        updateTableView()
-    }
-}
-
+// MARK: SearchBarDelegate
 extension FavoriteGroupsListViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        // Если поиск завершен, то сбрасывается поисковое слово в сервисном слое.
         self.service.setSearchText()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // Если текст searchBar пуст, то сбрасывается поисковое слово в сервисном слое.
         if searchText.isEmpty {
             self.service.setSearchText()
             self.updateTableView()
         }else{
             DispatchQueue.main.async { [weak self] in
                 guard let self = self  else { return }
+                
+                // текст поиска передается в сервисный слой
                 self.service.setSearchText(searchText)
                 self.updateTableView()
             }

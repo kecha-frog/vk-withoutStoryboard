@@ -12,7 +12,7 @@ import RealmSwift
 final class FavoriteGroupsService{
     private var realmCacheService: RealmService = RealmService()
     
-    /// Список групп юзера из бд.
+    /// Список групп пользователя из бд.
     var data: Results<GroupModel>{
         if let text: String = searchText {
             // Поиск определенных групп.
@@ -33,7 +33,7 @@ final class FavoriteGroupsService{
         searchText = text
     }
     
-    /// Запрос групп юзера из api.
+    /// Запрос групп пользователя из api.
     /// - Parameter completion: Замыкание.
     ///
     /// Группы сохраняются в бд.
@@ -55,12 +55,12 @@ final class FavoriteGroupsService{
     /// Сохраненние  групп в бд.
     /// - Parameter newGroups: обновленный список групп
     private func savePhotoInRealm(_ newGroups: [GroupModel]){
-        // Группы из которых вышел юзер, но они еще присутсвуют в бд
+        // Группы из которых вышел пользователь, но они еще присутсвуют в бд
         let oldValues: [GroupModel] = realmCacheService.read(GroupModel.self).filter { oldGroup in
             !newGroups.contains { $0.id == oldGroup.id}
         }
         
-        // Удаление групп из которых вышел юзер
+        // Удаление групп из которых вышел пользователь
         if !oldValues.isEmpty{
             realmCacheService.delete(objects: oldValues)
         }
