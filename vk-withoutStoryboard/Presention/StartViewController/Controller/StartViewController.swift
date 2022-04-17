@@ -7,7 +7,10 @@
 
 import UIKit
 
-/// Стартовый контроллер на котором проверяется токен на работоспособность.
+// MARK: Controller
+/// Стартовый экран.
+///
+///Проверяется работоспособность токена.
 class StartViewController: UIViewController {
     /// Сервисный слой.
     private let service: StartViewControllerService =  StartViewControllerService()
@@ -15,7 +18,7 @@ class StartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        service.authInFirebase()
+        //service.authInFirebase()
     }
     
     /// Настройка UI.

@@ -7,23 +7,25 @@
 
 import UIKit
 
+/// Ячейка группы.
 class GroupTableViewCell: UITableViewCell {
     private let nameLabel:UILabel = {
-        let label = UILabel()
+        let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let imageViewCell: UIImageView = {
-        let imageView = UIImageView()
+        let imageView: UIImageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     static let identifier = "GroupsTableViewCell"
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.setupUi()
+        self.setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -36,11 +38,12 @@ class GroupTableViewCell: UITableViewCell {
         imageViewCell.image = nil
     }
     
-    private func setupUi(){
+    /// Настройка UI.
+    private func setupUI(){
         contentView.addSubview(imageViewCell)
-        let topConstraint = imageViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
+        let topConstraint: NSLayoutConstraint = imageViewCell.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
         topConstraint.priority = UILayoutPriority(rawValue: 999)
-        let bottomConstraint = imageViewCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+        let bottomConstraint: NSLayoutConstraint = imageViewCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
         bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         
         NSLayoutConstraint.activate([
@@ -60,8 +63,11 @@ class GroupTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(group:GroupModel, selection: Bool = false){
+    /// Конфигурация ячейки.
+    /// - Parameter group: Экземпляр группы.
+    func configure(group:GroupModel){
         nameLabel.text = group.name
+        // Загрузка изображения группы.
         LoaderImage.standart.load(url: group.photo200) { [weak self] image in
             self?.imageViewCell.image = image
         }

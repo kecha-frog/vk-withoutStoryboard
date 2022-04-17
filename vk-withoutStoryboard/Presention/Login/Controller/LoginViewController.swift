@@ -8,7 +8,8 @@
 import UIKit
 import WebKit
 
-///  логин контроллер
+// MARK: Controller
+/// Экран авторизации пользователя.
 class LoginViewController: UIViewController {
     let logoImageView: UIImageView = {
         let image: UIImage? = UIImage(named: "vkLogo")

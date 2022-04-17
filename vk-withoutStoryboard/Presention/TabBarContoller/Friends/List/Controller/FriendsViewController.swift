@@ -9,6 +9,7 @@ import UIKit
 import RealmSwift
 
 // MARK: Controller
+/// Экран друзей пользователя.
 class FriendsViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView: UITableView = UITableView()
@@ -60,7 +61,7 @@ class FriendsViewController: UIViewController {
         ])
     }
     
-    /// Перезагрузка данных tableView.
+    /// Обновление данных таблицы.
     private func updateTableView(){
         tableView.reloadData()
     }
@@ -86,7 +87,7 @@ class FriendsViewController: UIViewController {
                 // секции которые стали пустые
                 var emptySections: [LetterModel] = []
                 
-                // сортирую секции на удаление и обнавление
+                // сортирую секции на удаление и обновление
                 modifications.forEach { section in
                     let letter: LetterModel = self.service.data[section]
                     if letter.items.isEmpty{
@@ -170,7 +171,7 @@ extension FriendsViewController: UITableViewDelegate{
         return UISwipeActionsConfiguration(actions: [delete])
     }
     
-    ///  Action удаление друга
+    ///  Action удаление друга у ячейки.
     /// - Parameter indexPath: Индекс друга.
     /// - Returns: UIContextualAction для tableView SwipeActionsConfigurationForRowAt.
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{

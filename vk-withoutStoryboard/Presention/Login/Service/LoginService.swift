@@ -6,17 +6,17 @@
 //
 
 import Foundation
-import Firebase
+//import Firebase
 
 /// Сервисный слой для LoginViewController.
 class LoginService{
-    private let ref: DatabaseReference = Database.database().reference(withPath: "Authorized_Id")
+    //private let ref: DatabaseReference = Database.database().reference(withPath: "Authorized_Id")
     
-    /// Отправка  id авторизированных юзеров в firebase.
+    /// Отправка  id авторизированных пользователей в firebase.
     /// - Parameter id: Autorized user id.
-    func firebaseAutorizedId(_ id: String){
-        let autorizedId: LoginAutorized = LoginAutorized(id)
-        let autorizedRef: DatabaseReference = self.ref.child(autorizedId.userId)
-        autorizedRef.setValue(autorizedId.toAnyObject())
-    }
+//    func firebaseAutorizedId(_ id: String){
+//        let autorizedId: LoginAutorized = LoginAutorized(id)
+//        let autorizedRef: DatabaseReference = self.ref.child(autorizedId.userId)
+//        autorizedRef.setValue(autorizedId.toAnyObject())
+//    }
 }

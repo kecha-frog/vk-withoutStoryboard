@@ -24,7 +24,7 @@ extension ApiVK{
         case getPhotos = "/method/photos.get"
         case getGroups = "/method/groups.get"
         case searchGroup = "/method/groups.search"
-        case getAllGroups = "/method/groups.getCatalog"
+        case getCatalogGroups = "/method/groups.getCatalog"
     }
 }
 
