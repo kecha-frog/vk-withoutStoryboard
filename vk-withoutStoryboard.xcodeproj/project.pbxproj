@@ -132,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				F285765F27D61D9F00B6069F /* AppDelegate */,
-				F21B778127AEB1E30032F8B5 /* Common Files */,
+				F21B778127AEB1E30032F8B5 /* CommonFiles */,
 				F285765D27D61CD400B6069F /* Configuration */,
 				F22E015227A6BFCD00B0FB27 /* Model */,
 				F285765E27D61D7700B6069F /* Presention */,
@@ -144,7 +144,7 @@
 			path = "vk-withoutStoryboard";
 			sourceTree = "<group>";
 		};
-		F21B778127AEB1E30032F8B5 /* Common Files */ = {
+		F21B778127AEB1E30032F8B5 /* CommonFiles */ = {
 			isa = PBXGroup;
 			children = (
 				F299703E27E0DD71006684BD /* NetworkService */,
@@ -153,7 +153,7 @@
 				F23556E327B1048A0032E049 /* LoadingView.swift */,
 				F29F4C0F27CF6BED00D766F2 /* Keychain.swift */,
 			);
-			path = "Common Files";
+			path = CommonFiles;
 			sourceTree = "<group>";
 		};
 		F21B778227AEBA7F0032F8B5 /* List */ = {
