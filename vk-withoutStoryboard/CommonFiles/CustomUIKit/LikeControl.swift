@@ -7,16 +7,8 @@
 
 import UIKit
 
-// TODO: Доделать LikeControl
+// TODO: Переделать LikeControl
 class LikeControl: UIControl {
-    private(set) var youLike: Bool = false
-    
-    private var likeCount: Int = 0{
-        didSet{
-            label.text = String(likeCount)
-        }
-    }
-    
     private var imageView: UIImageView = {
         let imageView = UIImageView()
         let image = UIImage(named: "like")
@@ -28,12 +20,20 @@ class LikeControl: UIControl {
     
     private var label: UILabel = {
         let text = UILabel()
-        text.font = UIFont.systemFont(ofSize: 11, weight: .bold)
-        text.textColor = .white
+        text.font = .systemFont(ofSize: 12, weight: .bold)
+        text.textColor = .gray
         text.textAlignment = .center
         text.translatesAutoresizingMaskIntoConstraints = false
         return text
     }()
+    
+    private(set) var youLike: Bool = false
+    
+    private var likeCount: Int = 0{
+        didSet{
+            self.label.text = kilo(self.likeCount)
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,9 +56,8 @@ class LikeControl: UIControl {
         
         self.addSubview(label)
         NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor),
+            label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+            label.trailingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: -4),
         ])
     }
     
@@ -67,10 +66,30 @@ class LikeControl: UIControl {
         addGestureRecognizer(tap)
     }
     
-    func configure(_ likeCount: Int, youLike:Bool){
-        self.youLike = youLike
+    func configure(_ likeCount: Int, youLike:Int){
+        self.youLike = youLike == 1
         self.likeCount = likeCount
-        imageView.tintColor = youLike ? .red : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        imageView.tintColor = youLike == 1 ? .red : #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+    }
+    
+    private func kilo(_ number:Int) -> String {
+        if number >= 1000 && number < 10000 {
+            return String(format: "%.1fK", Double(number/100)/10).replacingOccurrences(of: ".0", with: "")
+        }
+        
+        if number >= 10000 && number < 1000000 {
+            return "\(number/1000)k"
+        }
+        
+        if number >= 1000000 && number < 10000000 {
+            return String(format: "%.1fM", Double(number/100000)/10).replacingOccurrences(of: ".0", with: "")
+        }
+        
+        if number >= 10000000 {
+            return "\(number/1000000)M"
+        }
+        
+        return String(number)
     }
     
     @objc private func likeAction(_ sender: UITapGestureRecognizer){
