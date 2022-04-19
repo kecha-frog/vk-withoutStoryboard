@@ -25,6 +25,7 @@ extension ApiVK{
         case getGroups = "/method/groups.get"
         case searchGroup = "/method/groups.search"
         case getCatalogGroups = "/method/groups.getCatalog"
+        case getNews = "/method/newsfeed.get"
     }
 }
 
@@ -100,6 +101,7 @@ final class ApiVK{
             }catch {
                 DispatchQueue.main.async {
                     completion(.failure(.parseError))
+                    print(error)
                 }
             }
         }
