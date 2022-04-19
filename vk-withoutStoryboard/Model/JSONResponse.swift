@@ -35,7 +35,7 @@ class JSONResponse<T:ModelApiVK>: Decodable{
         
         self.items = try response.decode([T].self, forKey: .items)
         
-        // Проверка является ли ответ новостями
+        // Проверка является ли ответ новостью
         if self.items is [PostModel]{
             self.count = nil
             // Если являеятся то получаем вспомогательные значения
