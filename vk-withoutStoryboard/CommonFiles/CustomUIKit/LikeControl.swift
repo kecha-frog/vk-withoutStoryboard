@@ -7,7 +7,7 @@
 
 import UIKit
 
-// TODO: Переделать LikeControl
+// TODO: Переделать LikeControl и дописать доку.
 class LikeControl: UIControl {
     private var imageView: UIImageView = {
         let imageView = UIImageView()
