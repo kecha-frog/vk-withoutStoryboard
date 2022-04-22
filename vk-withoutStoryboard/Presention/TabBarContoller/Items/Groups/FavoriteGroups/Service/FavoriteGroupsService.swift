@@ -38,7 +38,7 @@ final class FavoriteGroupsService{
     ///
     /// Группы сохраняются в бд.
     func fetchApiFavoriteGroupsAsync(_ completion: @escaping () -> Void){
-        ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] result in
+        ApiVK.standart.requestItems(GroupModel.self, method: .GET, path: .getGroups, params: ["extended":"1"]) { [weak self] result in
             switch result {
             case .success(let success):
                 DispatchQueue.main.async { [weak self] in

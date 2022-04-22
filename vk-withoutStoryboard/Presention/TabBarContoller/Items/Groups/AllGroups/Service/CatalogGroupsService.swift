@@ -23,7 +23,7 @@ class CatalogGroupsService{
     func fetchApiCatalogGroups(searchText: String? = nil, _ completion: @escaping ()-> Void){
         if let searchText: String = searchText {
             // Поиск определенных групп по ключевому слову
-            ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .searchGroup, params: ["q":searchText]) { result in
+            ApiVK.standart.requestItems(GroupModel.self, method: .GET, path: .searchGroup, params: ["q":searchText]) { result in
                 switch result {
                 case .success(let success):
                     self.data = success.items
@@ -35,7 +35,7 @@ class CatalogGroupsService{
             }
         }else{
             // Получение каталога групп
-            ApiVK.standart.reguest(GroupModel.self, method: .GET, path: .getCatalogGroups, params: nil) { result in
+            ApiVK.standart.requestItems(GroupModel.self, method: .GET, path: .getCatalogGroups, params: nil) { result in
                 switch result {
                 case .success(let success):
                     self.data = success.items

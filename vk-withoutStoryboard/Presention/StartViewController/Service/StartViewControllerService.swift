@@ -13,7 +13,7 @@ class StartViewControllerService{
     /// Проверка токена на валидность.
     /// - Parameter completion: Замыкание. Передает: Bool - исходя из валидности токена.
     func fetchApiCheckToken(_ completion: @escaping (_ result: Bool)-> Void){
-        ApiVK.standart.checkToken { result in
+        ApiVK.standart.requestCheckToken { result in
             completion(result)
         }
     }

@@ -27,7 +27,7 @@ final class FriendsService {
     ///
     /// Друзья сохраняются  в бд.
     func fetchApiAsync(_ completion: @escaping ()-> Void){
-        ApiVK.standart.reguest(FriendModel.self, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { result in
+        ApiVK.standart.requestItems(FriendModel.self, method: .GET, path: .getFriends, params: ["fields":"online,photo_100"]) { result in
             switch result {
             case .success(let success):
                 DispatchQueue.main.async { [weak self] in
