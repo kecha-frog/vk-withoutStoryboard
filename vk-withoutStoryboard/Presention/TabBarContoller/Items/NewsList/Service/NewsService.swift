@@ -32,7 +32,7 @@ class NewsService {
             switch result {
             case .success(let response):
                 // Преобразовываем данные с новостями для работы с таблицей.
-                self.getValidDate(response){ news in
+                self.getValidData(response){ news in
                     self.data = news
                     completion()
                 }
@@ -47,7 +47,7 @@ class NewsService {
     /// - Parameter response: Ответ сервера с вспомогательными данными.
     ///
     ///  Собирает данные для секции новости.
-    private func getValidDate(_ response: JSONResponseItems<NewsPostModel>, _ completion: @escaping (_ news: [[postType]] )-> Void){
+    private func getValidData(_ response: JSONResponseItems<NewsPostModel>, _ completion: @escaping (_ news: [[postType]] )-> Void){
         var profiles: [Int: NewsProfileModel]?
         var groups: [Int: NewsGroupModel]?
         
