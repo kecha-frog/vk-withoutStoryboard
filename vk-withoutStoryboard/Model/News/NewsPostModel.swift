@@ -9,7 +9,7 @@ import Foundation
 
 // TODO: Расписать комментарии.
 ///  Модель ответа для новостей.
-class PostModel: ModelApiVK {
+class NewsPostModel: ModelApiVK {
     let sourceId: Int
     let date: Date
     let canDoubtCategory: Bool?
