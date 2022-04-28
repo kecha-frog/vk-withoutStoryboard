@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 
+// Запрос api
 class AsyncOperation: Operation{
     enum State: String {
         case ready, executing, finished
@@ -56,6 +57,7 @@ class AsyncOperation: Operation{
     }
 }
 
+// Запись в реалм.
 class FriendRequestOperation: AsyncOperation {
     var data: [FriendModel]?
     
