@@ -53,22 +53,29 @@ class NewsService {
         
         // Многопоточный парсинг данных.
         let dispatchGroup = DispatchGroup()
-        DispatchQueue.global().async(group: dispatchGroup){
+        
+        // Первый способ работы с DispatchGroup
+        dispatchGroup.enter()
+        DispatchQueue.global().async(){
             profiles = response.helpers?.profiles?.reduce([Int: NewsProfileModel](), { partialResult, profile in
                 var value = partialResult
                 value[profile.id] = profile
                 return value
             }) ?? [:]
+            
+            dispatchGroup.leave()
         }
         
-        DispatchQueue.global().async(group: dispatchGroup){
+        dispatchGroup.enter()
+        DispatchQueue.global().async(){
             groups = response.helpers?.groups?.reduce([Int: NewsGroupModel](), { partialResult, groups in
                 var value = partialResult
                 value[groups.id] = groups
                 return value
             }) ?? [:]
+            
+            dispatchGroup.leave()
         }
-        
         
         dispatchGroup.notify(queue: DispatchQueue.main){
             // Массив секций с новостями

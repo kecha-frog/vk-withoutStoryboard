@@ -149,24 +149,10 @@ final class ApiVK{
                     var profiles: [NewsProfileModel]?
                     var groups: [NewsGroupModel]?
                     
-                    // Многопоточный парсинг данных.
-                    DispatchQueue.global().async(group: dispatchGroup){
-                        
-                        do {
-                            let itemsData = try JSONSerialization.data(withJSONObject: responseJson["items"])
-                            items = try decoder.decode([T].self, from: itemsData)
-                            
-                            count = responseJson["count"] as? Int
-                        }catch {
-                            completion(.failure(.parseError))
-                            print(error)
-                        }
-                        
-                    }
-                    
                     // Если запрос новости, то дополнительно приходят профили и группы
                     if model == NewsPostModel.self{
                         // Многопоточный парсинг данных.
+                        // Второй способ работы с DispatchGroup
                         DispatchQueue.global().async(group: dispatchGroup){
                             do {
                                 let profilesData = try JSONSerialization.data(withJSONObject: responseJson["profiles"])
@@ -188,6 +174,20 @@ final class ApiVK{
                             }
                             
                         }
+                    }
+                    
+                    // Многопоточный парсинг данных.
+                    DispatchQueue.global().async(group: dispatchGroup){
+                        do {
+                            let itemsData = try JSONSerialization.data(withJSONObject: responseJson["items"])
+                            items = try decoder.decode([T].self, from: itemsData)
+                            
+                            count = responseJson["count"] as? Int
+                        }catch {
+                            completion(.failure(.parseError))
+                            print(error)
+                        }
+                        
                     }
                     
                     dispatchGroup.notify(queue: DispatchQueue.main){
