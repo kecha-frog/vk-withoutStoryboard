@@ -17,7 +17,7 @@ class FriendsViewController: UIViewController {
         return tableView
     }()
     
-    private let viewLoad: LoadingView = {
+    let viewLoad: LoadingView = {
         let view: LoadingView = LoadingView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -31,7 +31,7 @@ class FriendsViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         createNotificationToken()
-        fetchFriends()
+        fillData()
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.identifier)
         tableView.register(FriendsHeaderSectionTableView.self, forHeaderFooterViewReuseIdentifier: FriendsHeaderSectionTableView.identifier)
         tableView.delegate = self
@@ -67,11 +67,8 @@ class FriendsViewController: UIViewController {
     }
     
     /// Запрос друзей у api c  анимацией загрузки.
-    private func fetchFriends(){
-        viewLoad.animationLoad(.on)
-        service.fetchApiAsync { [weak self] in
-            self?.viewLoad.animationLoad(.off)
-        }
+    private func fillData(){
+        service.fillFriendsData(viewLoad)
     }
     
     /// Регистрирует блок, который будет вызываться при каждом изменении секкций в бд.

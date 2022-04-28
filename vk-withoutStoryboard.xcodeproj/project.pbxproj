@@ -16,6 +16,7 @@
 		F21EB5A627A7D829003698CD /* FriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EB5A527A7D829003698CD /* FriendCollectionViewCell.swift */; };
 		F21EB5A927A7F0E0003698CD /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EB5A827A7F0E0003698CD /* GroupTableViewCell.swift */; };
 		F21EB5AE27A7FE35003698CD /* CatalogGroupsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21EB5AD27A7FE35003698CD /* CatalogGroupsListViewController.swift */; };
+		F22A0A76281A596600413813 /* OperationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0A75281A596600413813 /* OperationsService.swift */; };
 		F22E014927A6BE1800B0FB27 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E014827A6BE1800B0FB27 /* FriendsViewController.swift */; };
 		F22E014D27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E014C27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift */; };
 		F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22E014F27A6BF5F00B0FB27 /* FriendsTableViewCell.swift */; };
@@ -76,6 +77,7 @@
 		F21EB5A527A7D829003698CD /* FriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewCell.swift; sourceTree = "<group>"; };
 		F21EB5A827A7F0E0003698CD /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
 		F21EB5AD27A7FE35003698CD /* CatalogGroupsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogGroupsListViewController.swift; sourceTree = "<group>"; };
+		F22A0A75281A596600413813 /* OperationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsService.swift; sourceTree = "<group>"; };
 		F22E014827A6BE1800B0FB27 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		F22E014C27A6BE5100B0FB27 /* FavoriteGroupsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGroupsListViewController.swift; sourceTree = "<group>"; };
 		F22E014F27A6BF5F00B0FB27 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				F26C4ABC27F6FAA70081FB66 /* FriendsService.swift */,
+				F22A0A75281A596600413813 /* OperationsService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 				F26C4AC427F70CE50081FB66 /* CatalogGroupsService.swift in Sources */,
 				F21EB5A627A7D829003698CD /* FriendCollectionViewCell.swift in Sources */,
 				F2DCE950280C31D400027EAE /* LoginViewController.swift in Sources */,
+				F22A0A76281A596600413813 /* OperationsService.swift in Sources */,
 				F22E014927A6BE1800B0FB27 /* FriendsViewController.swift in Sources */,
 				F2B76B8327D74BC4006BA2A1 /* LoaderImage.swift in Sources */,
 				F210041127A1352A00073B94 /* SceneDelegate.swift in Sources */,
