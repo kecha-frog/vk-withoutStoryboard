@@ -60,6 +60,7 @@
 		F2DCE951280C31D400027EAE /* LoginViewController+WebViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DCE94B280C31D400027EAE /* LoginViewController+WebViewDelegate.swift */; };
 		F2DCE952280C31D400027EAE /* LoginAutorized.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DCE94D280C31D400027EAE /* LoginAutorized.swift */; };
 		F2DCE953280C31D500027EAE /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DCE94F280C31D400027EAE /* LoginService.swift */; };
+		F2E3BAAE281C3B410047B760 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = F2E3BAAD281C3B410047B760 /* PromiseKit */; };
 		F2FCA71F27E7518E0036209B /* LetterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FCA71E27E7518E0036209B /* LetterModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F25AE76727D1E1FD00AADE0D /* RealmSwift in Frameworks */,
+				F2E3BAAE281C3B410047B760 /* PromiseKit in Frameworks */,
 				F25AE76527D1E1FD00AADE0D /* Realm in Frameworks */,
 				F23838DD27D0C743006D1B2C /* KeychainSwift in Frameworks */,
 			);
@@ -614,6 +616,7 @@
 				F23838DC27D0C743006D1B2C /* KeychainSwift */,
 				F25AE76427D1E1FD00AADE0D /* Realm */,
 				F25AE76627D1E1FD00AADE0D /* RealmSwift */,
+				F2E3BAAD281C3B410047B760 /* PromiseKit */,
 			);
 			productName = "firstApp-withoutStoryboard";
 			productReference = F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */;
@@ -646,6 +649,7 @@
 			packageReferences = (
 				F23838DB27D0C743006D1B2C /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				F25AE76327D1E1FD00AADE0D /* XCRemoteSwiftPackageReference "realm-swift" */,
+				F2E3BAAC281C3B410047B760 /* XCRemoteSwiftPackageReference "PromiseKit" */,
 			);
 			productRefGroup = F210040C27A1352A00073B94 /* Products */;
 			projectDirPath = "";
@@ -951,6 +955,14 @@
 				minimumVersion = 10.23.0;
 			};
 		};
+		F2E3BAAC281C3B410047B760 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mxcl/PromiseKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -968,6 +980,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F25AE76327D1E1FD00AADE0D /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		F2E3BAAD281C3B410047B760 /* PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2E3BAAC281C3B410047B760 /* XCRemoteSwiftPackageReference "PromiseKit" */;
+			productName = PromiseKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -68,10 +68,7 @@ class FriendsViewController: UIViewController {
     
     /// Запрос друзей у api c  анимацией загрузки.
     private func fetchFriends(){
-        viewLoad.animationLoad(.on)
-        service.fetchApiAsync { [weak self] in
-            self?.viewLoad.animationLoad(.off)
-        }
+        service.fillData(viewLoad)
     }
     
     /// Регистрирует блок, который будет вызываться при каждом изменении секкций в бд.
