@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "promisekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mxcl/PromiseKit",
+      "state" : {
+        "revision" : "3fd8c77ded8a4bbee548e3bd6c987ffe8c1e3574",
+        "version" : "6.17.0"
+      }
+    },
+    {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core",
