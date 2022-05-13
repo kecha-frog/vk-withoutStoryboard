@@ -82,7 +82,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
     ///   - cache: Кэш где хранятся фото.
     ///
     ///   Возможность взять изображение из кэша если он там сохранено.
-    func configure(_ image:PhotoModel, cache: PhotoCache){
+    func configure(_ image:PhotoModel, cache: PhotoNSCache){
         guard let url: String = image.sizes.last?.url else { return }
         guard let urlImage: URL = URL(string: url) else { return }
         // Проверяем есть ли фото в кэше

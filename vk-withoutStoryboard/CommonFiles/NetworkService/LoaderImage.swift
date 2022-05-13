@@ -22,6 +22,8 @@ class LoaderImage{
     
     private init(){}
     
+    private let fileCache = PhotoFileCache()
+    
     private let httpSession: URLSession = URLSession(configuration: URLSessionConfiguration.default)
     
     /// Загрузка изображения по url адресу с возможным кэшированием и получение изображения из кэша.
@@ -38,8 +40,10 @@ class LoaderImage{
         }
         
         // если кэширование включено, проверяем есть ли изобюражение в кэше
-        if cache == .on, let imageCache: UIImage = PhotoCache.standart.getImage(for: url) {
+        if cache == .on, let imageCache = fileCache.images[url.absoluteString]{
             completion(imageCache)
+        }else if cache == .on, let imageFileCache: UIImage = fileCache.getImage(url: url) {
+            completion(imageFileCache)
         }else{
             //загрузка изображения по url
             let task: URLSessionDataTask = httpSession.dataTask(with: url) { data, response, error in
@@ -51,7 +55,7 @@ class LoaderImage{
                 }
                 // если кэширование включено, то производим сохранение в кэш
                 if cache == .on{
-                    PhotoCache.standart.saveImage(image, for: url)
+                    self.fileCache.saveImage(url: url, dataImage: validData)
                 }
                 
                 DispatchQueue.main.async{
