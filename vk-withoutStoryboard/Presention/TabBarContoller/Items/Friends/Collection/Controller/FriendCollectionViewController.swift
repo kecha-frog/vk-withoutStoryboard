@@ -37,7 +37,7 @@ class FriendCollectionViewController: UIViewController {
     /// Кэш для изображением
     ///
     ///  Кеш обнуляется при уходе с контроллера.
-    private var cache: PhotoCache = PhotoCache()
+    private var cache: PhotoNSCache = PhotoNSCache()
     
     override func viewDidLoad() {
         super.viewDidLoad()
