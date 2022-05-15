@@ -6,7 +6,7 @@
 //
 
 import Foundation
-// TODO: Расписать комментарии.
+#warning("Расписать комментарии.")
 struct Attachment: Decodable {
     let type: String
     let photo: PhotoModel?
@@ -21,10 +21,10 @@ struct Attachment: Decodable {
     }
 }
 
-// TODO: Исправить на полноценный ответ.
+#warning("Исправить на полноценный ответ.")
 struct Video: Decodable {
     let type: String
-    
+
     enum CodingKeys: String, CodingKey {
         case type
     }

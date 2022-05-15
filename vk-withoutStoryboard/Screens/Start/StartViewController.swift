@@ -9,28 +9,28 @@ import UIKit
 
 /// Стартовый экран.
 ///
-///Проверяется работоспособность токена.
-class StartViewController: UIViewController {
-    // MARK: Private properties
-    /// Сервисный слой.
-    private let service = StartViewControllerService()
+/// Проверяется работоспособность токена.
+final class StartViewController: UIViewController {
+    // MARK: - Private Properties
+    /// Провайдер.
+    private let provider = StartScreenProvider()
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         // service.authInFirebase()
     }
     
-    // MARK: Setting UI
+    // MARK: - Setting UI
     /// Настройка UI.
     private func setupUI() {
         // Анимация загрузки
-        let loadView: LoadingView = LoadingView(.blue)
+        let loadView = LoadingView(.blue)
         loadView.animationLoad(.on)
         view = loadView
         
-        service.fetchApiCheckToken { result in
+        provider.fetchApiAsync { result in
             // Если токен не валидный то перейдёт на контроллер логина
             let controller: UIViewController = result ? TabBarViewController() : LoginViewController()
             controller.modalPresentationStyle = .fullScreen

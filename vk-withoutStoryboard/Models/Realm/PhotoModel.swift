@@ -8,27 +8,27 @@
 import Foundation
 import RealmSwift
 
-class Size: Object, Decodable{
+final class Size: Object, Decodable {
     @objc dynamic var height: Int
     @objc dynamic var url: String
     @objc dynamic var type: String
     @objc dynamic var width: Int
-    
+
     override class func primaryKey() -> String? {
         return "url"
     }
 }
 
 /// Модель фото для Realm.
-class PhotoModel: Object, Decodable, ModelApiVK{
-    @objc dynamic var id:Int = 0
+final class PhotoModel: Object, Decodable, ModelApiVK {
+    @objc dynamic var id: Int = 0
     @objc dynamic var ownerId: Int = 0
     @objc dynamic var text: String = ""
-    @objc dynamic var date: Date = Date()
+    @objc dynamic var date = Date()
     @objc dynamic var albumId: Int = 0
     dynamic var sizes = List<Size>()
-    @objc dynamic var hasTags : Bool = false
-    
+    @objc dynamic var hasTags = false
+
     private enum CodingKeys: String, CodingKey {
         case albumId = "album_id"
         case date
@@ -38,19 +38,19 @@ class PhotoModel: Object, Decodable, ModelApiVK{
         case text
         case hasTags = "has_tags"
     }
-    
+
     override class func primaryKey() -> String? {
         return "id"
     }
-    
+
     override class func ignoredProperties() -> [String] {
         return ["albumId"]
     }
-    
+
     // связь 1 вариант
     @objc dynamic var owner: FriendModel?
-    
+
     // связь 2 вариант
     // автоматически линкует при дабавление в список у хозяина через append
-    //let owner = LinkingObjects(fromType:FriendModel.self, property: "photos")
+    // let owner = LinkingObjects(fromType:FriendModel.self, property: "photos")
 }

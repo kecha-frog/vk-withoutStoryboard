@@ -6,7 +6,7 @@
 //
 
 import Foundation
-// TODO: Расписать комментарии.
+#warning("Расписать комментарии.")
 struct NewsGroupModel: Decodable {
     let id: Int
     let name: String

@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - UIColor
 extension UIColor {
     static let vkColor = UIColor(named: "vk") ?? .blue
 }

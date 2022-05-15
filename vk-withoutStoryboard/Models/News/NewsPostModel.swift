@@ -7,9 +7,9 @@
 
 import Foundation
 
-// TODO: Расписать комментарии.
+#warning("Расписать комментарии") 
 ///  Модель ответа для новостей.
-class NewsPostModel: ModelApiVK {
+final class NewsPostModel: ModelApiVK {
     let sourceId: Int
     let date: Date
     let canDoubtCategory: Bool?
@@ -50,44 +50,44 @@ class NewsPostModel: ModelApiVK {
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.sourceId = try container.decode(Int.self, forKey: .sourceId)
-        
+
         let stamp = try container.decode(Int.self, forKey: .date)
         self.date = Date(timeIntervalSince1970: TimeInterval(stamp))
-        
-        do{
+
+        do {
             self.canDoubtCategory = try container.decode(Bool.self, forKey: .canDoubtCategory)
-        }catch{
+        } catch {
             self.canDoubtCategory = nil
         }
-        do{
+        do {
             self.canSetCategory = try container.decode(Bool.self, forKey: .canSetCategory)
-        }catch{
+        } catch {
             self.canSetCategory = nil
         }
-        
+
         self.isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
         self.postType = try container.decode(String.self, forKey: .postType)
         self.text = try container.decode(String.self, forKey: .text)
-        
-        do{
+
+        do {
             self.attachments = try container.decode([Attachment].self, forKey: .attachments)
-        }catch{
+        } catch {
             self.attachments = nil
         }
-        
+
         self.postSource = try container.decode(PostSource.self, forKey: .postSource)
         self.comments = try container.decode(Comments.self, forKey: .comments)
         self.likes = try container.decode(Likes.self, forKey: .likes)
         self.reposts = try container.decode(Reposts.self, forKey: .reposts)
-        
-        do{
+
+        do {
             self.views = try container.decode(Views.self, forKey: .views)
-        }catch{
+        } catch {
             self.views = nil
         }
-        
+
         self.donut = try container.decode(Donut.self, forKey: .donut)
         self.shortTextRate = try container.decode(Double.self, forKey: .shortTextRate)
         self.donut = try container.decode(Donut.self, forKey: .donut)

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-// MARK: Привести в порядок.
-class Comments: Decodable {
+#warning("Привести в порядок.") 
+final class Comments: Decodable {
     let canPost: Int
     let count: Int
 
@@ -17,7 +17,7 @@ class Comments: Decodable {
     }
 }
 
-class Donut: Decodable {
+final class Donut: Decodable {
     let isDonut: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -25,7 +25,7 @@ class Donut: Decodable {
     }
 }
 
-class Likes: Decodable {
+final class Likes: Decodable {
     let canLike: Int
     let count: Int
     let userLikes: Int
@@ -39,7 +39,7 @@ class Likes: Decodable {
     }
 }
 
-class PostSource: Decodable {
+final class PostSource: Decodable {
     let platform: String?
     let type: String
 
@@ -49,7 +49,7 @@ class PostSource: Decodable {
     }
 }
 
-class Reposts: Decodable {
+final class Reposts: Decodable {
     let count: Int
     let userReposted: Int
 
@@ -57,10 +57,9 @@ class Reposts: Decodable {
         case count
         case userReposted = "user_reposted"
     }
-
 }
 
-class Views: Decodable {
+final class Views: Decodable {
     let count: Int
 
     enum CodingKeys: String, CodingKey {
