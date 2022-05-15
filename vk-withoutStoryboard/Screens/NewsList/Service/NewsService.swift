@@ -8,7 +8,7 @@
 import Foundation
 
 /// Возможные варианты данных новости.
-enum postType{
+enum PostType{
     case profile(NewsProfileModel, Date)
     case group(NewsGroupModel, Date)
     case photo([Attachment])
@@ -23,7 +23,7 @@ enum postType{
 class NewsService {
     
     /// Список новостей.
-    var data: [[postType]] = []
+    var data: [[PostType]] = []
     
     /// Запрос из api новостей.
     /// - Parameter completion: Замыкание.
@@ -47,7 +47,7 @@ class NewsService {
     /// - Parameter response: Ответ сервера с вспомогательными данными.
     ///
     ///  Собирает данные для секции новости.
-    private func getValidData(_ response: JSONResponseItems<NewsPostModel>, _ completion: @escaping (_ news: [[postType]] )-> Void){
+    private func getValidData(_ response: JSONResponseItems<NewsPostModel>, _ completion: @escaping (_ news: [[PostType]] )-> Void){
         var profiles: [Int: NewsProfileModel]?
         var groups: [Int: NewsGroupModel]?
         
@@ -72,12 +72,12 @@ class NewsService {
         
         dispatchGroup.notify(queue: DispatchQueue.main){
             // Массив секций с новостями
-            var validData:[[postType]] = []
+            var validData:[[PostType]] = []
             
             response.items.forEach { news in
                 
                 // Секция с новостью
-                var validNews: [postType] = []
+                var validNews: [PostType] = []
                 
                 // Получаем профиль группы или юзера для хедера.
                 // Отправляем в секцию

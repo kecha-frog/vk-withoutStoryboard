@@ -11,9 +11,7 @@ import UIKit
 class AvatarView: UIView {
     private var imageView: UIImageView = {
         let imageView: UIImageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -31,6 +29,9 @@ class AvatarView: UIView {
     private func setupUI(){
         addSubview(imageView)
         
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.backgroundColor = .white
         // Обрезание изображения за пределами слоя
         imageView.clipsToBounds = true
         layer.borderWidth = 1

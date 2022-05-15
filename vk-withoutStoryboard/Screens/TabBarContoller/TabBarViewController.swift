@@ -50,7 +50,7 @@ class TabBarViewController: UITabBarController {
     
     /// Настройка UI.
     private func setupUI(){
-        tabBar.tintColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
+        tabBar.tintColor = .vkColor
         tabBar.backgroundColor = .white
         viewControllers = [itemFriends, itemNews, itemGroups]
     }

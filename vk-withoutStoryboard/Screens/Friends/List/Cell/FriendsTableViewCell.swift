@@ -26,6 +26,7 @@ class FriendsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        setupSubUI()
     }
     
     required init?(coder: NSCoder) {
@@ -61,6 +62,10 @@ class FriendsTableViewCell: UITableViewCell {
             label.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor),
             label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
+    }
+    
+    private func setupSubUI(){
+        label.backgroundColor = .white
     }
     
     /// Конфигурация ячейки.

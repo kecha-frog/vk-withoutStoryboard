@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import RealmSwift
 
 /// Метка для дженерика.
-protocol ModelApiVK:Decodable{}
+protocol ModelApiVK:Decodable {}
 
 struct HelpersForItems {
     let profiles: [NewsProfileModel]?
@@ -21,27 +20,27 @@ struct HelpersForItems {
 }
 
 /// Дженерик ответ  сервера.
-class JSONResponse<T:ModelApiVK>: Decodable{
+class JSONResponse<T:ModelApiVK>: Decodable {
     let response: T
     
-    private enum CodingKeys:String, CodingKey{
+    private enum CodingKeys: String, CodingKey {
         case response
     }
 }
 
 /// Дженерик ответ  сервера  api для списка.
-class JSONResponseItems<T:ModelApiVK>{
+class JSONResponseItems<T:ModelApiVK> {
     let count: Int?
     let items: [T]
     
     var helpers: HelpersForItems?
     
-    init(_ items: [T], _ count: Int? = nil, _ profiles: [NewsProfileModel]? = nil, _ groups: [NewsGroupModel]? = nil){
+    init(_ items: [T], _ count: Int? = nil, _ profiles: [NewsProfileModel]? = nil, _ groups: [NewsGroupModel]? = nil) {
         self.items = items
         
-        if profiles == nil , groups == nil{
+        if profiles == nil , groups == nil {
             helpers =  nil
-        }else{
+        }else {
             helpers = HelpersForItems(profiles, groups)
         }
         

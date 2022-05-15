@@ -7,22 +7,24 @@
 
 import UIKit
 
-// MARK: Controller
 /// Стартовый экран.
 ///
 ///Проверяется работоспособность токена.
 class StartViewController: UIViewController {
+    // MARK: Private properties
     /// Сервисный слой.
-    private let service: StartViewControllerService =  StartViewControllerService()
+    private let service = StartViewControllerService()
     
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        //service.authInFirebase()
+        // service.authInFirebase()
     }
     
+    // MARK: Setting UI
     /// Настройка UI.
-    private func setupUI(){
+    private func setupUI() {
         // Анимация загрузки
         let loadView: LoadingView = LoadingView(.blue)
         loadView.animationLoad(.on)
@@ -30,7 +32,7 @@ class StartViewController: UIViewController {
         
         service.fetchApiCheckToken { result in
             // Если токен не валидный то перейдёт на контроллер логина
-            let controller:UIViewController = result ? TabBarViewController() : LoginViewController()
+            let controller: UIViewController = result ? TabBarViewController() : LoginViewController()
             controller.modalPresentationStyle = .fullScreen
             self.present(controller, animated: false, completion: nil)
         }

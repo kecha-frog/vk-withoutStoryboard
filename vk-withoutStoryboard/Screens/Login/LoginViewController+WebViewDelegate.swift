@@ -10,8 +10,8 @@ import WebKit
 
 extension LoginViewController: WKNavigationDelegate{
     /// Запуск WebView.
-    func runWebView(){
-        //удаление лого и кнопки
+    func runWebView() {
+        // удаление лого и кнопки
         logoImageView.removeFromSuperview()
         loginButton.removeFromSuperview()
         
@@ -21,7 +21,7 @@ extension LoginViewController: WKNavigationDelegate{
             webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         
         // Данные для загрузки страницы
@@ -30,14 +30,16 @@ extension LoginViewController: WKNavigationDelegate{
         urlComponents.host = "oauth.vk.com"
         urlComponents.path = "/authorize"
         urlComponents.queryItems = [
-            .init(name: "client_id", value:"8088608"),
-            .init(name: "display", value: "mobile"),
-            .init(name: "redirect_uri",value:"https://oauth.vk.com/blank.html"),
-            .init(name: "scope", value:"offline, friends, photos, groups, wall"),
-            .init(name: "response_type",value:"token"),
+            URLQueryItem.init(name: "client_id", value: "8088608"),
+            URLQueryItem.init(name: "display", value: "mobile"),
+            URLQueryItem.init(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
+            URLQueryItem.init(name: "scope", value: "offline, friends, photos, groups, wall"),
+            URLQueryItem.init(name: "response_type", value: "token")
         ]
+        
+        guard let url = urlComponents.url else { return }
         // Загрузка страницы
-        let myRequest: URLRequest = URLRequest(url: urlComponents.url!)
+        let myRequest = URLRequest(url: url)
         webView.load(myRequest)
     }
     
@@ -51,23 +53,23 @@ extension LoginViewController: WKNavigationDelegate{
         decisionHandler(.cancel)
         
         // Полученные параметры из ответа WebView
-        let params: [String:String] = fragment
+        let params: [String: String] = fragment
             .components(separatedBy: "&")
-            .map({$0.components(separatedBy: "=")})
-            .reduce([String:String](), { result, param in
+            .map { $0.components(separatedBy: "=") }
+            .reduce([String: String]()) { result, param in
                 var dict = result
                 let key = param[0]
                 let value = param[1]
                 dict[key] = value
                 return dict
-            })
+            }
         
         // Запись токена и id
         if let token: String = params["access_token"], let id: String = params["user_id"]{
             Keychain.standart.set(token, key: .token)
             Keychain.standart.set(id, key: .id)
             
-            //service.firebaseAutorizedId(id)
+            // service.firebaseAutorizedId(id)
         }
         
         // Переход на контроллер

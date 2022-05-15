@@ -41,6 +41,7 @@ class FriendsViewController: UIViewController {
     private func setupUI(){
         tableView.sectionIndexColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         tableView.sectionHeaderTopPadding = 5
+        tableView.sectionIndexBackgroundColor = .white
         
         title = "Friends"
         

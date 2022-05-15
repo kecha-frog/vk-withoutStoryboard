@@ -89,8 +89,8 @@ class FavoriteGroupsListViewController: UIViewController {
     
     /// Action кнопки добавления группы.
     @objc private func actionAddGroup(){
-        let AllGroupsVC: CatalogGroupsListViewController = CatalogGroupsListViewController()
-        navigationController?.pushViewController(AllGroupsVC, animated: false)
+        let allGroupsVC: CatalogGroupsListViewController = CatalogGroupsListViewController()
+        navigationController?.pushViewController(allGroupsVC, animated: false)
     }
     
     /// Обновление данных таблицы.

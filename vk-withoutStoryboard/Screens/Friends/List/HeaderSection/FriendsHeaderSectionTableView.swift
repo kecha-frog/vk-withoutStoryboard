@@ -12,8 +12,6 @@ class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
     private let label: UILabel = {
         let text:UILabel = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
-        text.alpha = 0.7
-        text.textColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
         return text
     }()
     
@@ -22,6 +20,7 @@ class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupUI()
+        setupSubUI()
     }
     
     required init?(coder: NSCoder) {
@@ -53,5 +52,10 @@ class FriendsHeaderSectionTableView: UITableViewHeaderFooterView{
             label.heightAnchor.constraint(equalToConstant: 20),
             label.widthAnchor.constraint(equalToConstant: 30)
         ])
+    }
+    
+    private func setupSubUI(){
+        label.alpha = 0.7
+        label.textColor = #colorLiteral(red: 0.2624342442, green: 0.4746298194, blue: 0.7327683568, alpha: 1)
     }
 }
