@@ -107,10 +107,10 @@ final class FavoriteGroupsListViewController: UIViewController {
 
     /// Запрос групп пользователя из api с анимацией.
     private func fetchApiAsync() {
-        loadingView.animationLoad(.on)
+        loadingView.animation(.on)
 
         provider.fetchApiAsync { [weak self] in
-            self?.loadingView.animationLoad(.off)
+            self?.loadingView.animation(.off)
         }
     }
     /// Регистрирует блок, который будет вызываться при каждом изменении данных групп пользователя в бд.
@@ -148,7 +148,7 @@ final class FavoriteGroupsListViewController: UIViewController {
     }
 }
 
-// MARK: Data Source
+// MARK: - UITableViewDataSource
 extension FavoriteGroupsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         provider.data.count
@@ -164,7 +164,7 @@ extension FavoriteGroupsListViewController: UITableViewDataSource {
     }
 }
 
-// MARK: Delegate
+// MARK: - UITableViewDelegate
 extension FavoriteGroupsListViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,
@@ -188,7 +188,7 @@ extension FavoriteGroupsListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: Search Bar Delegate
+// MARK: - UISearchBarDelegate
 extension FavoriteGroupsListViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         // Если поиск завершен, то сбрасывается поисковое слово в сервисном слое.

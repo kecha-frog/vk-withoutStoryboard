@@ -14,7 +14,7 @@ final class StartScreenProvider {
     /// Проверка токена на валидность.
     /// - Parameter completion: Замыкание. Передает: Bool - исходя из валидности токена.
     func fetchApiAsync(_ completion: @escaping (_ result: Bool) -> Void) {
-        ApiVK.standart.requestCheckToken { result in
+        ApiLayer.standart.requestCheckToken { result in
             completion(result)
         }
     }

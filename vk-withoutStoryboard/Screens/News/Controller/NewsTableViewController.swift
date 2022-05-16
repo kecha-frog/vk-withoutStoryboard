@@ -68,15 +68,15 @@ final class NewsTableViewController: UIViewController {
     // MARK: - Private Methods
     /// /// Запрос новостей из api с анимацией загрузки.
     private func fetchApi() {
-        loadingView.animationLoad(.on)
+        loadingView.animation(.on)
         provider.fetchApiAsync {
-            self.loadingView.animationLoad(.off)
+            self.loadingView.animation(.off)
             self.tableView.reloadData()
         }
     }
 }
 
-// MARK: - DataSource
+// MARK: - UITableViewDataSource
 extension NewsTableViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         provider.data.count
@@ -130,7 +130,7 @@ extension NewsTableViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - Delegate
+// MARK: - UITableViewDelegate
 extension NewsTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         // Разделитель новостей

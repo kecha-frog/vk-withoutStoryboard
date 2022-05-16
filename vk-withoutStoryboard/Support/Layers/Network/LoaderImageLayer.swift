@@ -1,5 +1,5 @@
 //
-//  LoaderImage.swift
+//  LoaderImageLayer.swift
 //  vk-withoutStoryboard
 //
 //  Created by Ke4a on 08.03.2022.
@@ -7,7 +7,8 @@
 
 import UIKit
 
-extension LoaderImage {
+// MARK: - Extension
+extension LoaderImageLayer {
     // перечисление режимов работы кэширования
     enum CacheWork {
         case on
@@ -16,16 +17,19 @@ extension LoaderImage {
 }
 
 /// Singleton для загрузки изображения  с возможностью кеширования.
-final class LoaderImage {
-    ///  Singleton
-    static var standart = LoaderImage()
-
-    private init() {}
-
-    private let fileCache = PhotoFileCache()
-
+final class LoaderImageLayer {
+    // MARK: - Private Properties
+    private let cacheImage = PhotoFileCacheLayer()
     private let httpSession = URLSession(configuration: URLSessionConfiguration.default)
 
+    // MARK: - Static Properties
+    ///  Singleton
+    static var standart = LoaderImageLayer()
+
+    // MARK: - Private Initializers
+    private init() {}
+
+    // MARK: - Public Methods
     /// Загрузка изображения по url адресу с возможным кэшированием и получение изображения из кэша.
     /// - Parameters:
     ///   - url: Url адрес изображения.
@@ -40,9 +44,9 @@ final class LoaderImage {
         }
 
         // если кэширование включено, проверяем есть ли изобюражение в кэше
-        if cache == .on, let imageCache = fileCache.images[url.absoluteString] {
+        if cache == .on, let imageCache = cacheImage.images[url.absoluteString] {
             completion(imageCache)
-        } else if cache == .on, let imageFileCache: UIImage = fileCache.getImage(url: url) {
+        } else if cache == .on, let imageFileCache: UIImage = cacheImage.getImage(url: url) {
             completion(imageFileCache)
         } else {
             // загрузка изображения по url
@@ -55,7 +59,7 @@ final class LoaderImage {
                 }
                 // если кэширование включено, то производим сохранение в кэш
                 if cache == .on {
-                    self.fileCache.saveImage(url: url, dataImage: validData)
+                    self.cacheImage.saveImage(url: url, dataImage: validData)
                 }
 
                 DispatchQueue.main.async {

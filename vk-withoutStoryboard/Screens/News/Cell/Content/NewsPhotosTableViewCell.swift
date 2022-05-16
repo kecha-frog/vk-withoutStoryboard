@@ -58,9 +58,9 @@ final class NewsPhotosTableViewCell: UITableViewCell {
     // MARK: - Public Methods
     func configure(_ content: [Attachment]) {
         if let photo: Attachment = content.first(where: { $0.type == "photo" }) {
-            // MARK: Доделать поддержку множество фото.
+            #warning("Доделать поддержку множество фото")
             // Временно выводит только одно фото.
-            LoaderImage.standart.load(url: photo.photo?.sizes.last?.url ?? "") { image in
+            LoaderImageLayer.standart.load(url: photo.photo?.sizes.last?.url ?? "") { image in
                 self.imageNewsView.image = image
             }
         }

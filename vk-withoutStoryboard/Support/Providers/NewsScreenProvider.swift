@@ -30,7 +30,7 @@ final class NewsScreenProvider {
     /// Запрос из api новостей.
     /// - Parameter completion: Замыкание.
     func fetchApiAsync(_ completion: @escaping () -> Void) {
-        ApiVK.standart.requestItems(
+        ApiLayer.standart.requestItems(
             NewsPostModel.self,
             method: .POST,
             path: .getNews,

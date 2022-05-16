@@ -37,7 +37,7 @@ final class FriendCollectionViewController: UIViewController {
     /// Кэш для изображением
     ///
     ///  Кеш обнуляется при уходе с контроллера.
-    private var cachePhoto = PhotoNSCache()
+    private var cachePhoto = PhotoRamCacheLayer()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -84,11 +84,11 @@ final class FriendCollectionViewController: UIViewController {
     private func fetchApiAsync() {
         guard let service: FriendPhotosScreenProvider = self.provider else { return }
 
-        loadingView.animationLoad(.on)
+        loadingView.animation(.on)
         service.fetchApiAsync { [weak self] in
             guard let self: FriendCollectionViewController = self else { return }
 
-            self.loadingView.animationLoad(.off)
+            self.loadingView.animation(.off)
         }
     }
 
@@ -139,7 +139,7 @@ extension FriendCollectionViewController: UICollectionViewDataSource {
     }
 }
 
-// MARK: FriendCollectionViewCellDelegate
+// MARK: - FriendCollectionViewCellDelegate
 extension FriendCollectionViewController: FriendCollectionViewCellDelegate {
     // позже восстанавлю делегат
     func actionLikePhoto(_ like: Bool, indexPhoto: Int) {

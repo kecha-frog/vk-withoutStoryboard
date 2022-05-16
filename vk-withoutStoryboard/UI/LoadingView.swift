@@ -6,10 +6,31 @@
 //
 
 import UIKit
+
+// MARK: - Extension
 extension LoadingView {
     enum Color {
         case blue
         case white
+    }
+
+    enum Work {
+        case on
+        case off
+    }
+
+    // MARK: - DotLabel
+    fileprivate class DotLabel: UILabel {
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            translatesAutoresizingMaskIntoConstraints = false
+            font = UIFont.systemFont(ofSize: 16)
+            text = "●"
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
 }
 
@@ -17,30 +38,16 @@ extension LoadingView {
 ///
 ///  Анимация - Три точки.
 final class LoadingView: UIView {
-    private let dot1: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "●"
-        return label
-    }()
+    // MARK: - Private Properties
+    private let dot1 = DotLabel()
+    private let dot2 = DotLabel()
+    private let dot3 = DotLabel()
 
-    private let dot2: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "●"
-        return label
-    }()
+    private var dotArray: [DotLabel] {
+        [dot1, dot2, dot3]
+    }
 
-    private let dot3: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "●"
-        return label
-    }()
-
+    // MARK: - Initializers
     /// Кастомный init. Выбор фона для анимации.
     /// - Parameter background: цвет фона
     init(_ backgroundColor: Color = .white) {
@@ -52,6 +59,7 @@ final class LoadingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Setting UI
     /// Настройка view.
     /// - Parameter color: цвет фона.
     private func setupUI(_ color: Color) {
@@ -69,14 +77,12 @@ final class LoadingView: UIView {
             backgroundColor = .white
         }
 
-        dot1.textColor = dotColor
-        dot2.textColor = dotColor
-        dot3.textColor = dotColor
         self.backgroundColor = backgroundColor
 
-        addSubview(dot1)
-        addSubview(dot2)
-        addSubview(dot3)
+        dotArray.forEach { dot in
+            dot.textColor = dotColor
+            addSubview(dot)
+        }
 
         NSLayoutConstraint.activate([
             dot1.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -89,34 +95,30 @@ final class LoadingView: UIView {
         ])
     }
 
-    enum Work {
-        case on
-        case off
-    }
-
+    // MARK: - Public Methods
     /// Запуск анимации.
     /// - Parameter work: вкл/выкл.
-    func animationLoad(_ work: Work) {
+    func animation(_ work: Work) {
         switch work {
         case .on:
             self.isHidden = false
-            UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat, .autoreverse]) {
-                self.dot1.alpha = 0
-            }
-            UIView.animate(withDuration: 0.4, delay: 0.2, options: [.repeat, .autoreverse]) {
-                self.dot2.alpha = 0
-            }
-            UIView.animate(withDuration: 0.4, delay: 0.4, options: [.repeat, .autoreverse]) {
-                self.dot3.alpha = 0
+
+            var delay: Double = 0
+
+            dotArray.forEach { dot in
+                UIView.animate(withDuration: 0.4, delay: delay, options: [.repeat, .autoreverse]) {
+                    dot.alpha = 0
+                }
+
+                delay += 0.2
             }
         case .off:
             self.isHidden = true
-            self.dot1.layer.removeAllAnimations()
-            self.dot2.layer.removeAllAnimations()
-            self.dot3.layer.removeAllAnimations()
-            self.dot1.alpha = 1
-            self.dot2.alpha = 1
-            self.dot3.alpha = 1
+
+            dotArray.forEach { dot in
+                dot.layer.removeAllAnimations()
+                dot.alpha = 1
+            }
         }
     }
 }

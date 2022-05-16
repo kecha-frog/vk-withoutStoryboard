@@ -29,7 +29,7 @@ final class FriendsListScreenProvider {
     ///  Заполнение данных друзей
     /// - Parameter loadView:  view loading animations
     func fillData(_ loadView: LoadingView) {
-        loadView.animationLoad(.on)
+        loadView.animation(.on)
         
         firstly {
             self.fetchApiAsync()
@@ -38,7 +38,7 @@ final class FriendsListScreenProvider {
             self.saveInRealm(friends)
         }
         .ensure {
-            loadView.animationLoad(.off)
+            loadView.animation(.off)
         }
         .catch { error in
             print(error)
@@ -58,7 +58,7 @@ final class FriendsListScreenProvider {
     /// Друзья сохраняются  в бд.
     private func fetchApiAsync() -> Promise<[FriendModel]> {
         return Promise { seal in
-            ApiVK.standart.requestItems(
+            ApiLayer.standart.requestItems(
                 FriendModel.self,
                 method: .GET,
                 path: .getFriends,

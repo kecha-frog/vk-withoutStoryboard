@@ -47,10 +47,10 @@ final class FavoriteGroupsScreenProvider {
     ///
     /// Группы сохраняются в бд.
     func fetchApiAsync(_ completion: @escaping () -> Void) {
-        ApiVK.standart.requestItems(GroupModel.self,
-                                    method: .GET,
-                                    path: .getGroups,
-                                    params: ["extended": "1"]) { [weak self] result in
+        ApiLayer.standart.requestItems(GroupModel.self,
+                                       method: .GET,
+                                       path: .getGroups,
+                                       params: ["extended": "1"]) { [weak self] result in
             switch result {
             case .success(let success):
                 DispatchQueue.main.async { [weak self] in

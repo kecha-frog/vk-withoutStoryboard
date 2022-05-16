@@ -13,11 +13,11 @@ final class CatalogGroupsScreenProvider {
     // MARK: - Public Properties
     /// Cписок всех групп.
     var data: [GroupModel] = []
-
+    
     // MARK: - Private Properties
     /// Firebase.
     // private let ref: DatabaseReference = Database.database().reference(withPath: "Groups")
-
+    
     // MARK: - Public Methods
     /// Запрос каталога групп из api.
     /// - Parameters:
@@ -26,7 +26,7 @@ final class CatalogGroupsScreenProvider {
     func fetchApiAsync(searchText: String? = nil, _ completion: @escaping () -> Void) {
         if let searchText: String = searchText {
             // Поиск определенных групп по ключевому слову
-            ApiVK.standart.requestItems(
+            ApiLayer.standart.requestItems(
                 GroupModel.self,
                 method: .GET,
                 path: .searchGroup,
@@ -43,7 +43,11 @@ final class CatalogGroupsScreenProvider {
             }
         } else {
             // Получение каталога групп
-            ApiVK.standart.requestItems(GroupModel.self, method: .GET, path: .getCatalogGroups, params: nil) { result in
+            ApiLayer.standart.requestItems(
+                GroupModel.self,
+                method: .GET, path: .getCatalogGroups,
+                params: nil
+            ) { result in
                 switch result {
                 case .success(let success):
                     self.data = success.items
@@ -55,7 +59,7 @@ final class CatalogGroupsScreenProvider {
             }
         }
     }
-
+    
     /// Отправка названия выбранной группы пользователя  в firebase.
     /// - Parameter selectGroup: Выбранная группа.
     //    func firebaseSelectGroup(_ selectGroup: GroupModel){

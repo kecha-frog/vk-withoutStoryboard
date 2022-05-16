@@ -90,7 +90,7 @@ final class FriendCollectionViewCell: UICollectionViewCell {
     ///   - cache: Кэш где хранятся фото.
     ///
     ///   Возможность взять изображение из кэша если он там сохранено.
-    func configure(_ image: PhotoModel, cache: PhotoNSCache) {
+    func configure(_ image: PhotoModel, cache: PhotoRamCacheLayer) {
         guard let url: String = image.sizes.last?.url, let urlImage = URL(string: url) else { return }
 
         // Проверяем есть ли фото в кэше
@@ -99,7 +99,7 @@ final class FriendCollectionViewCell: UICollectionViewCell {
             imageView.image = imageChache
         } else {
             // Если нет, то загружаем изображение из интернета и сохраняем его в кэш.
-            LoaderImage.standart.load(url: url) { [weak self ] image in
+            LoaderImageLayer.standart.load(url: url) { [weak self ] image in
                 cache.saveImage(image, for: urlImage)
                 self?.imageView.image = image
             }

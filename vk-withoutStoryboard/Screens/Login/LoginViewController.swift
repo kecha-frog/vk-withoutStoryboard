@@ -141,8 +141,8 @@ extension LoginViewController: WKNavigationDelegate {
         
         // Запись токена и id
         if let token: String = params["access_token"], let id: String = params["user_id"] {
-            Keychain.standart.set(token, key: .token)
-            Keychain.standart.set(id, key: .id)
+            KeychainLayer.standart.set(token, key: .token)
+            KeychainLayer.standart.set(id, key: .id)
             
             // service.firebaseAutorizedId(id)
         }

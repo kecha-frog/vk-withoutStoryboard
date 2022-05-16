@@ -49,7 +49,7 @@ final class FriendPhotosScreenProvider {
     func fetchApiAsync(_ completion: @escaping () -> Void) {
         guard let friend = self.friend else { return }
 
-        ApiVK.standart.requestItems(PhotoModel.self, method: .GET, path: .getPhotos, params: [
+        ApiLayer.standart.requestItems(PhotoModel.self, method: .GET, path: .getPhotos, params: [
             "owner_id": String(friend.id),
             "album_id": "profile",
             "count": "10",

@@ -48,7 +48,7 @@ final class FriendsTableViewCell: UITableViewCell {
     /// - Parameter friend: Друг.
     func configure(friend: FriendModel) {
         fullNameLabel.text = "\(friend.firstName) \(friend.lastName)"
-        avatarView.loadData(friend.avatar)
+        avatarView.loadImage(friend.avatar)
     }
 
     // MARK: - Setting UI

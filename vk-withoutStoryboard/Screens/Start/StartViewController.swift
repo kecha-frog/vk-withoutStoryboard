@@ -27,7 +27,7 @@ final class StartViewController: UIViewController {
     private func setupUI() {
         // Анимация загрузки
         let loadView = LoadingView(.blue)
-        loadView.animationLoad(.on)
+        loadView.animation(.on)
         view = loadView
         
         provider.fetchApiAsync { result in

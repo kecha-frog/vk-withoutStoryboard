@@ -75,27 +75,27 @@ final class CatalogGroupsListViewController: UIViewController {
     // MARK: - Private Methods
     /// Запрос каталога групп из  api  c анимацией загрузки.
     private func fetchCatalogGroups() {
-        loadingView.animationLoad(.on)
+        loadingView.animation(.on)
 
         provider.fetchApiAsync { [weak self]  in
             guard let self: CatalogGroupsListViewController = self else { return }
 
             self.tableView.reloadData()
-            self.loadingView.animationLoad(.off)
+            self.loadingView.animation(.off)
         }
     }
 }
 
-// MARK: - Delegate
+// MARK: - UITableViewDelegate
 extension CatalogGroupsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectGroup: GroupModel = provider.data[indexPath.row]
+        // let selectGroup: GroupModel = provider.data[indexPath.row]
         // self.service.firebaseSelectGroup(selectGroup)
         navigationController?.popViewController(animated: false)
     }
 }
 
-// MARK: - Data Source
+// MARK: - UITableViewDataSource
 extension CatalogGroupsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         provider.data.count
@@ -110,7 +110,7 @@ extension CatalogGroupsListViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - Search Bar Delegate
+// MARK: - UISearchBarDelegate
 extension CatalogGroupsListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // Eсли текст поиска пустой, то загружается общий каталог групп.
@@ -134,12 +134,12 @@ extension CatalogGroupsListViewController: UISearchBarDelegate {
             return
         }
 
-        loadingView.animationLoad(.on)
+        loadingView.animation(.on)
         provider.fetchApiAsync(searchText: text) { [weak self]  in
             guard let self = self else { return }
 
             self.tableView.reloadData()
-            self.loadingView.animationLoad(.off)
+            self.loadingView.animation(.off)
         }
     }
 }

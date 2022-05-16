@@ -78,7 +78,7 @@ final class GroupTableViewCell: UITableViewCell {
     func configure(group: GroupModel) {
         nameLabel.text = group.name
         // Загрузка изображения группы.
-        LoaderImage.standart.load(url: group.photo200) { [weak self] image in
+        LoaderImageLayer.standart.load(url: group.photo200) { [weak self] image in
             self?.imageViewCell.image = image
         }
     }

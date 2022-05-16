@@ -1,5 +1,5 @@
 //
-//  PhotoCache.swift
+//  PhotoCacheLayer.swift
 //  vk-withoutStoryboard
 //
 //  Created by Ke4a on 05.03.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol PhotoCacheProtocol: AnyObject {
+protocol PhotoCacheLayerProtocol: AnyObject {
     func getImage(for url: URL) -> UIImage?
     func saveImage(_ image: UIImage?, for url: URL)
     func deleteImage(for url: URL)
@@ -19,10 +19,8 @@ protocol PhotoCacheProtocol: AnyObject {
 /// Доступно два вида кеширования:
 /// singleton - cохранение кэша до закрытия приложения.
 /// .init - сохранение на время жизни родительского класса.
-final class PhotoNSCache {
-    /// Singleton: cохранение кэша  до закрытия приложения.
-    static let standart = PhotoNSCache()
-
+final class PhotoRamCacheLayer {
+    // MARK: - Private Properties
     private lazy var imageCache: NSCache<AnyObject, AnyObject> = {
         let cache: NSCache<AnyObject, AnyObject> = NSCache<AnyObject, AnyObject>()
         cache.countLimit = countLimit
@@ -31,6 +29,11 @@ final class PhotoNSCache {
 
     private let countLimit: Int
 
+    // MARK: - Static Properties
+    /// Singleton: cохранение кэша  до закрытия приложения.
+    static let standart = PhotoRamCacheLayer()
+
+    // MARK: - Initializers
     /// Сохранение на время жизни родительского класса.
     /// - Parameter countLimit: лимит на сохранение в кэш.
     ///
@@ -40,7 +43,8 @@ final class PhotoNSCache {
     }
 }
 
-extension PhotoNSCache: PhotoCacheProtocol {
+extension PhotoRamCacheLayer: PhotoCacheLayerProtocol {
+    // MARK: - Public Methods
     /// Получение кэшированного изображения по url адресу.
     /// - Parameter url: url адрес изображения.
     /// - Returns: изображение или nil.
@@ -62,7 +66,8 @@ extension PhotoNSCache: PhotoCacheProtocol {
         guard
             let image: UIImage = image
         else {
-            // MARK: понять для чего сделал удаление
+
+            #warning("понять для чего сделал удаление")
             return deleteImage(for: url)
         }
         imageCache.setObject(image as AnyObject, forKey: url as AnyObject)
@@ -80,7 +85,11 @@ extension PhotoNSCache: PhotoCacheProtocol {
     }
 }
 
-final class PhotoFileCache {
+final class PhotoFileCacheLayer {
+    // MARK: - Public Properties
+    var images = [String: UIImage]()
+    
+    // MARK: - Private Properties
     private static let pathName: String = {
         let pathName = "images"
         guard let cachesDirectory = FileManager.default.urls(
@@ -97,18 +106,7 @@ final class PhotoFileCache {
 
     private let cacheLifeTime: TimeInterval = 30 * 24 * 60 * 60
 
-    var images = [String: UIImage]()
-
-    private func getFilePath(url: URL) -> String? {
-        guard let cachesDirectory = FileManager.default.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask).first
-        else { return nil }
-        let hashName = url.absoluteString.split(separator: "?").first?.split(separator: "/").last ?? "default"
-
-        return cachesDirectory.appendingPathComponent(PhotoFileCache.pathName + "/" + hashName).path
-    }
-
+    // MARK: - Public Methods
     func saveImage(url: URL, dataImage: Data) {
         guard let fileName = getFilePath(url: url) else { return }
         FileManager.default.createFile(atPath: fileName, contents: dataImage, attributes: nil)
@@ -129,5 +127,16 @@ final class PhotoFileCache {
         }
 
         return image
+    }
+
+    // MARK: - Private Methods
+    private func getFilePath(url: URL) -> String? {
+        guard let cachesDirectory = FileManager.default.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask).first
+        else { return nil }
+        let hashName = url.absoluteString.split(separator: "?").first?.split(separator: "/").last ?? "default"
+
+        return cachesDirectory.appendingPathComponent(PhotoFileCacheLayer.pathName + "/" + hashName).path
     }
 }

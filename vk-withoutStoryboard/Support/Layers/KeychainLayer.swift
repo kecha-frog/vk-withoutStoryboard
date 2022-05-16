@@ -1,5 +1,5 @@
 //
-//  Keychain.swift
+//  KeychainLayer.swift
 //  vk-withoutStoryboard
 //
 //  Created by Ke4a on 02.03.2022.
@@ -8,7 +8,8 @@
 import Foundation
 import KeychainSwift
 
-extension Keychain {
+// MARK: - Extension
+extension KeychainLayer {
     /// Варианты ключей.
     enum Keys: String {
         case token
@@ -17,12 +18,18 @@ extension Keychain {
 }
 
 /// Singleton cохранение токена и id пользователя в Keychain.
-final class Keychain {
-    /// Singleton
-    static let standart = Keychain()
+final class KeychainLayer {
+    // MARK: - Private Properties
     private let keychain = KeychainSwift()
+
+    // MARK: - Private Initializers
     private init() {}
 
+    // MARK: - Static Properties
+    /// Singleton
+    static let standart = KeychainLayer()
+
+    // MARK: - Public Methods
     /// Получить данные по ключу.
     /// - Parameter key: Ключ.
     /// - Returns: Возращает данные или nil.

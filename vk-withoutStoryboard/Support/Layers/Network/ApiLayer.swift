@@ -7,7 +7,8 @@
 
 import Foundation
 
-extension ApiVK {
+// MARK: - Helper
+final class HelperApiLayer {
     enum ServiceError: Error {
         case parseError
         case requestError(Error)
@@ -30,14 +31,32 @@ extension ApiVK {
     }
 }
 
-/// Singleton для работы  с Api.
-final class ApiVK {
-    /// Singleton
-    static let standart = ApiVK()
+// MARK: - Protocol
+private protocol ApiLayerProtocol {
+    func request<T: ModelApiVK>(
+        _ model: T.Type,
+        method: HelperApiLayer.Method,
+        path: HelperApiLayer.Path,
+        params: [String: String]?,
+        completion: @escaping (Result<JSONResponse<T>, HelperApiLayer.ServiceError>) -> Void)
 
-    private let httpSession = URLSession(configuration: URLSessionConfiguration.default)
+    func requestItems<T: ModelApiVK>(
+        _ model: T.Type,
+        method: HelperApiLayer.Method,
+        path: HelperApiLayer.Path,
+        params: [String: String]?,
+        completion: @escaping (Result<JSONResponseItems<T>, HelperApiLayer.ServiceError>) -> Void)
 
-    private var urlComponents: URLComponents {
+    func requestCheckToken( _ completion : @escaping (Bool) -> Void )
+}
+
+private extension ApiLayerProtocol {
+    // MARK: - Private Properties
+    private var httpSession: URLSession {
+        URLSession(configuration: URLSessionConfiguration.default)
+    }
+
+    var urlComponents: URLComponents {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.vk.com"
@@ -45,21 +64,20 @@ final class ApiVK {
     }
 
     /// получение токена из Keychain
-    private var token: String? {
-        Keychain.standart.get(.token)
+    var token: String? {
+        KeychainLayer.standart.get(.token)
     }
 
-    private var params: [URLQueryItem] {
+    var params: [URLQueryItem] {
         [.init(name: "v", value: "5.131")]
     }
 
-    private init() {}
-
-    private func _requestPrivate(
-        method: Method,
-        path: Path,
+    // MARK: - Private Methods
+    func _requestPrivate(
+        method: HelperApiLayer.Method,
+        path: HelperApiLayer.Path,
         params: [String: String]?,
-        completion: @escaping (Result<Data, ServiceError>) -> Void) {
+        completion: @escaping (Result<Data, HelperApiLayer.ServiceError>) -> Void) {
         var localParams: [URLQueryItem] = self.params
         if params != nil {
             params?.forEach { key, value in
@@ -96,6 +114,18 @@ final class ApiVK {
         task.resume()
     }
 
+}
+
+/// Singleton для работы  с Api.
+final class ApiLayer: ApiLayerProtocol {
+    // MARK: - Static Properties
+    /// Singleton
+    static let standart = ApiLayer()
+
+    // MARK: - Private Initializers
+    private init() {}
+
+    // MARK: - Public Methods
     /// Запрос на сервер Api.
     /// - Parameters:
     ///   - model: Объект декодирования ответа сервера
@@ -105,10 +135,10 @@ final class ApiVK {
     ///   - completion: Замыкание. Передает: `Result` c декодированным ответом  сервера или ошибку.
     func request<T: ModelApiVK>(
         _ model: T.Type,
-        method: Method,
-        path: Path,
+        method: HelperApiLayer.Method,
+        path: HelperApiLayer.Path,
         params: [String: String]?,
-        completion: @escaping (Result<JSONResponse<T>, ServiceError>) -> Void) {
+        completion: @escaping (Result<JSONResponse<T>, HelperApiLayer.ServiceError>) -> Void) {
         _requestPrivate(method: method, path: path, params: params) { result in
             switch result {
             case .success(let data):
@@ -143,10 +173,10 @@ final class ApiVK {
     ///   - completion: Замыкание. Передает: `Result` c декодированным ответом  сервера или ошибку.
     func requestItems<T: ModelApiVK>(
         _ model: T.Type,
-        method: Method,
-        path: Path,
+        method: HelperApiLayer.Method,
+        path: HelperApiLayer.Path,
         params: [String: String]?,
-        completion: @escaping (Result<JSONResponseItems<T>, ServiceError>) -> Void) {
+        completion: @escaping (Result<JSONResponseItems<T>, HelperApiLayer.ServiceError>) -> Void) {
         _requestPrivate(method: method, path: path, params: params) { result in
             switch result {
             case .success(let data):
@@ -169,7 +199,7 @@ final class ApiVK {
                     // Многопоточный парсинг данных.
                     DispatchQueue.global().async(group: dispatchGroup) {
                         do {
-                            let itemsData = try JSONSerialization.data(withJSONObject: responseJson["items"])
+                            let itemsData = try JSONSerialization.data(withJSONObject: responseJson["items"] as Any)
                             items = try decoder.decode([T].self, from: itemsData)
 
                             count = responseJson["count"] as? Int
@@ -184,7 +214,8 @@ final class ApiVK {
                         // Многопоточный парсинг данных.
                         DispatchQueue.global().async(group: dispatchGroup) {
                             do {
-                                let profilesData = try JSONSerialization.data(withJSONObject: responseJson["profiles"])
+                                let profilesData = try JSONSerialization.data(
+                                    withJSONObject: responseJson["profiles"] as Any)
                                 profiles = try decoder.decode([NewsProfileModel].self, from: profilesData)
                             } catch {
                                 completion(.failure(.parseError))
@@ -194,7 +225,8 @@ final class ApiVK {
                         // Многопоточный парсинг данных.
                         DispatchQueue.global().async(group: dispatchGroup) {
                             do {
-                                let groupsData = try JSONSerialization.data(withJSONObject: responseJson["groups"])
+                                let groupsData = try JSONSerialization.data(
+                                    withJSONObject: responseJson["groups"] as Any)
                                 groups = try decoder.decode([NewsGroupModel].self, from: groupsData)
                             } catch {
                                 completion(.failure(.parseError))

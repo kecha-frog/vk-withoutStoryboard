@@ -7,7 +7,7 @@
 
 // import Firebase
 
-/// Модель для Firebase.
+// Модель для Firebase.
 /*
 final class LoginAutorized{
     let userId: String

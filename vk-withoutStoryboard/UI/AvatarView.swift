@@ -5,16 +5,19 @@
 //  Created by Ke4a on 01.02.2022.
 //
 
+import PromiseKit
 import UIKit
 
 /// View аватар друга.
 final class AvatarView: UIView {
+    // MARK: - Private Properties
     private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
+    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -25,6 +28,7 @@ final class AvatarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Setting UI
     /// Настройка UI.
     private func setupUI() {
         addSubview(imageView)
@@ -53,40 +57,57 @@ final class AvatarView: UIView {
         imageView.frame = bounds
     }
 
+    // MARK: - Prepare For Reuse
     /// Сброс текста при Reuse.
     func prepareForReuse() {
         imageView.image = nil
     }
 
+    // MARK: - Public Methods
     /// Получение изображения по url.
     /// - Parameter url: Адрес изображения.
     ///
-    /// Включено повтороное получение изображение из кэша пока приложение не перезапустилось.
-    func loadData(_ url: String) {
-        LoaderImage.standart.load(url: url, cache: .on) { [weak self ] image in
+    /// Включено повтороное получение изображение из кэша
+    func loadImage(_ url: String) {
+        LoaderImageLayer.standart.load(url: url, cache: .on) { [weak self ] image in
             self?.imageView.image = image
         }
     }
 
+    // MARK: - Private Methods
     /// Добавление действия на тап по аватару.
     private func addGestureRecognizer() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(clickAnimation))
         imageView.addGestureRecognizer(tap)
     }
 
-    /// Анимация аватара.
-    @objc private func clickAnimation() {
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0,
-                       initialSpringVelocity: 0.7, options: [.autoreverse ]) {
-            self.transform = CGAffineTransform(translationX: 1, y: 0)
-        } completion: {_ in
-            self.transform = .identity
+    /// Promise animation
+    ///  Чтоб исправить callback hell
+    /// - Parameter translationX: увеличение
+    /// - Returns:
+    private func animationPromise(translationX: CGFloat) -> Promise<Void> {
+        return Promise { seal in
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0,
                            initialSpringVelocity: 0.7, options: [.autoreverse ]) {
-                self.transform = CGAffineTransform(translationX: -1, y: 0)
-            } completion: {_ in
+                self.transform = CGAffineTransform(translationX: translationX, y: 0)
+            } completion: { _ in
                 self.transform = .identity
+                seal.fulfill(())
             }
+        }
+    }
+
+    // MARK: - Actions
+    /// Анимация аватара.
+    @objc private func clickAnimation() {
+        firstly {
+            self.animationPromise(translationX: 1)
+        }
+        .then {
+            self.animationPromise(translationX: -1)
+        }
+        .catch { error in
+            print(error)
         }
     }
 }

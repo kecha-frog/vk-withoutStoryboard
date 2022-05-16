@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 
+// MARK: - Extension
 extension RealmLayer {
     /// Перечисление ошибок работы с Realm.
     enum Errors: Error {
@@ -20,8 +21,10 @@ extension RealmLayer {
 
 /// Класс для работы с Realm.
 final class RealmLayer {
+    // MARK: - Private Properties
     private var realm: Realm
 
+    // MARK: - Initializers
     /// Создается экземпляр Realm,  представляет базу данных.
     /// - Parameter migration: Если для этого свойства задано значение true, файл удаляется.
     ///
@@ -42,6 +45,7 @@ final class RealmLayer {
         }
     }
 
+    // MARK: - Public Methods
     /// Выводит в консоль локальный адрес файла Realm
     func printUrlFile() {
         guard let url: URL = realm.configuration.fileURL else {
@@ -51,12 +55,8 @@ final class RealmLayer {
         print("#FILE_Realm: \(url)")
     }
 
-    private func printError(_ error: Error) {
-        print("#ERROR_RealmService: \(error)")
-    }
-
     /// Выполняет действия, содержащиеся в данном блоке внутри транзакции записи.
-    /// - Parameter block: Замыкание. 
+    /// - Parameter block: Замыкание.
     func writeTransction(_ block: () -> Void) {
         do {
             try realm.write {
@@ -153,5 +153,10 @@ final class RealmLayer {
         } catch {
             printError(error)
         }
+    }
+
+    // MARK: - Private Methods
+    private func printError(_ error: Error) {
+        print("#ERROR_RealmService: \(error)")
     }
 }

@@ -7,18 +7,20 @@
 
 import UIKit
 
-// TODO: Переделать LikeControl и дописать доку.
+#warning("Переделать LikeControl и дописать доку")
 final class LikeControl: UIControl {
+    // MARK: - Private Properties
     private var imageView: UIImageView = {
+        let imageName = "like"
+        let image = UIImage(named: imageName)
         let imageView = UIImageView()
-        let image = UIImage(named: "like")
         imageView.image = image
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
-    private var label: UILabel = {
+    private var countLabel: UILabel = {
         let text = UILabel()
         text.font = .systemFont(ofSize: 12, weight: .bold)
         text.textColor = .gray
@@ -27,14 +29,15 @@ final class LikeControl: UIControl {
         return text
     }()
 
-    private(set) var youLike = false
+    private(set) var userLike = false
 
-    private var likeCount: Int = 0 {
+    private var count: Int = 0 {
         didSet {
-            self.label.text = kilo(self.likeCount)
+            self.countLabel.text = kilo(self.count)
         }
     }
 
+    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -45,6 +48,7 @@ final class LikeControl: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Setting UI
     private func setupUI() {
         self.addSubview(imageView)
         NSLayoutConstraint.activate([
@@ -54,22 +58,24 @@ final class LikeControl: UIControl {
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor)
         ])
 
-        self.addSubview(label)
+        self.addSubview(countLabel)
         NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-            label.trailingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: -4)
+            countLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+            countLabel.trailingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: -4)
         ])
     }
 
-    private func addGestureRecognizer() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(likeAction))
-        addGestureRecognizer(tap)
+    // MARK: - Public Methods
+    func configure(_ likeCount: Int, youLike: Int) {
+        self.userLike = youLike == 1
+        self.count = likeCount
+        imageView.tintColor = youLike == 1 ? .red : .darkGray
     }
 
-    func configure(_ likeCount: Int, youLike: Int) {
-        self.youLike = youLike == 1
-        self.likeCount = likeCount
-        imageView.tintColor = youLike == 1 ? .red : .darkGray
+    // MARK: - Private Methods
+    private func addGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(likeControlAction))
+        addGestureRecognizer(tap)
     }
 
     private func kilo(_ number: Int) -> String {
@@ -92,24 +98,25 @@ final class LikeControl: UIControl {
         return String(number)
     }
 
-    @objc private func likeAction(_ sender: UITapGestureRecognizer) {
-        self.youLike.toggle()
-        self.likeCount = youLike ? likeCount + 1 : likeCount - 1
-        animationLike()
-        self.sendActions(for: .valueChanged)
-    }
-
-    private func animationLike() {
+    private func clickAnimation() {
         let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.duration = 0.2
         scaleAnimation.fromValue = 1
         scaleAnimation.toValue = 1.3
         scaleAnimation.autoreverses = true
         self.imageView.layer.add(scaleAnimation, forKey: nil)
-        self.label.layer.add(scaleAnimation, forKey: nil)
+        self.countLabel.layer.add(scaleAnimation, forKey: nil)
 
-        UIView.transition(with: label, duration: 0.5, options: [.transitionFlipFromBottom, .curveEaseInOut] ) {
-            self.imageView.tintColor = self.youLike ? .red : .darkGray
+        UIView.transition(with: countLabel, duration: 0.5, options: [.transitionFlipFromBottom, .curveEaseInOut] ) {
+            self.imageView.tintColor = self.userLike ? .red : .darkGray
         }
+    }
+
+    // MARK: - Actions
+    @objc private func likeControlAction(_ sender: UITapGestureRecognizer) {
+        self.userLike.toggle()
+        self.count = userLike ? count + 1 : count - 1
+        clickAnimation()
+        self.sendActions(for: .valueChanged)
     }
 }
