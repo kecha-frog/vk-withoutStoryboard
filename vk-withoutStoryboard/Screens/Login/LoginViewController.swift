@@ -146,8 +146,12 @@ extension LoginViewController: WKNavigationDelegate {
             
             // service.firebaseAutorizedId(id)
         }
-        
-        // Переход на контроллер
+
+        presentController()
+    }
+
+    /// Переход на контроллер
+    private func presentController() {
         let controller = TabBarViewController()
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
