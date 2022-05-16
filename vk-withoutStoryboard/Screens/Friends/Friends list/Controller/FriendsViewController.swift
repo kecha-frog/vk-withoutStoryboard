@@ -161,11 +161,7 @@ extension FriendsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let friend: FriendModel = provider.data[indexPath.section].items[indexPath.row]
-
-        let friendCollectionVC = FriendCollectionViewController()
-        friendCollectionVC.configure(friendId: friend.id)
-        navigationController?.pushViewController(friendCollectionVC, animated: true)
+        didSelectRowAction(indexPath)
     }
 
     func tableView(
@@ -177,6 +173,16 @@ extension FriendsViewController: UITableViewDelegate {
     }
 
     // MARK: - Delegate Actions
+    /// Action для выбранной ячейки
+    /// - Parameter indexPath: индекс выбранной ячейки
+    private func didSelectRowAction(_ indexPath: IndexPath) {
+        let friend: FriendModel = provider.data[indexPath.section].items[indexPath.row]
+
+        let friendCollectionVC = FriendCollectionViewController()
+        friendCollectionVC.configure(friendId: friend.id)
+        navigationController?.pushViewController(friendCollectionVC, animated: true)
+    }
+
     ///  Action удаление друга у ячейки.
     /// - Parameter indexPath: Индекс друга.
     /// - Returns: UIContextualAction для tableView SwipeActionsConfigurationForRowAt.
