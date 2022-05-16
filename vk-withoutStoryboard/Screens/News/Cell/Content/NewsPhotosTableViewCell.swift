@@ -35,7 +35,7 @@ final class NewsPhotosTableViewCell: UITableViewCell {
         imageNewsView.image = nil
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         selectionStyle = .none

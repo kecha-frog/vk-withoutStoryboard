@@ -41,7 +41,7 @@ final class NewsTableViewController: UIViewController {
         tableView.dataSource = self
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка с UI.
     private func setupUI() {
         title = "News"

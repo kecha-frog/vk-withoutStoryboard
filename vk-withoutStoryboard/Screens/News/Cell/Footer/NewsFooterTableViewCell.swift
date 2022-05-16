@@ -44,7 +44,7 @@ final class NewsFooterTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         selectionStyle = .none

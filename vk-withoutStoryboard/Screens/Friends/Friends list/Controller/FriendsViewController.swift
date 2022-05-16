@@ -41,7 +41,7 @@ final class FriendsViewController: UIViewController {
         tableView.dataSource = self
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     private func setupUI() {
         tableView.sectionIndexColor = .vkColor
         tableView.sectionHeaderTopPadding = 5

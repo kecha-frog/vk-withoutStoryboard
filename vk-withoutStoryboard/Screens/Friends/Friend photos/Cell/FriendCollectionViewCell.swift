@@ -55,7 +55,7 @@ final class FriendCollectionViewCell: UICollectionViewCell {
         imageView.image = nil
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         addSubview(imageView)

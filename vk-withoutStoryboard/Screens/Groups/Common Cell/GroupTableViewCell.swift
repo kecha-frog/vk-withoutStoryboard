@@ -42,7 +42,7 @@ final class GroupTableViewCell: UITableViewCell {
         imageViewCell.image = nil
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         contentView.addSubview(imageViewCell)

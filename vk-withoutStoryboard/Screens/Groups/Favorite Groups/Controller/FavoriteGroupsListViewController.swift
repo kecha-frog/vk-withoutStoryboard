@@ -46,7 +46,7 @@ final class FavoriteGroupsListViewController: UIViewController {
         self.tableView.dataSource = self
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Найстройка UI.
     private func setupUI() {
         self.title = "Groups"

@@ -52,7 +52,7 @@ final class FriendCollectionViewController: UIViewController {
         collectionView.dataSource = self
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         view.addSubview(collectionView)

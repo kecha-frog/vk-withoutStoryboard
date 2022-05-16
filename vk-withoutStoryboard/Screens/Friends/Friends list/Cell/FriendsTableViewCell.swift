@@ -51,7 +51,7 @@ final class FriendsTableViewCell: UITableViewCell {
         avatarView.loadImage(friend.avatar)
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка Ui.
     private func setupUI() {
         contentView.addSubview(avatarView)

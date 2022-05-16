@@ -48,7 +48,7 @@ final class LoginViewController: UIViewController {
         webView.navigationDelegate = self
     }
     
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         view.backgroundColor = .vkColor

@@ -48,7 +48,7 @@ final class LikeControl: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     private func setupUI() {
         self.addSubview(imageView)
         NSLayoutConstraint.activate([

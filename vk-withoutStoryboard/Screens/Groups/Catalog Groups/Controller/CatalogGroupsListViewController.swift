@@ -42,7 +42,7 @@ final class CatalogGroupsListViewController: UIViewController {
         tableView.dataSource = self
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         title = "Catalog Groups"

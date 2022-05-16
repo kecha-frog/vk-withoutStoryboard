@@ -59,7 +59,7 @@ final class LoadingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка view.
     /// - Parameter color: цвет фона.
     private func setupUI(_ color: Color) {

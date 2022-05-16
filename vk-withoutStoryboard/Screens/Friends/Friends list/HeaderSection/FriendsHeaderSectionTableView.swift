@@ -37,7 +37,7 @@ final class FriendsHeaderSectionTableView: UITableViewHeaderFooterView {
         letterLabel.text = nil
     }
 
-    // MARK: - Setting UI
+    // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         contentView.addSubview(letterLabel)
