@@ -15,6 +15,7 @@ final class NewsTextTableViewCell: UITableViewCell {
         label.lineBreakMode = .byWordWrapping
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.numberOfLines = 0
+        label.backgroundColor = .white
         return label
     }()
 

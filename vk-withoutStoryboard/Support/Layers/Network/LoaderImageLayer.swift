@@ -51,7 +51,7 @@ final class LoaderImageLayer {
         case .fileCache:
             if let imageCache = cacheFileImage.images[url.absoluteString] {
                 image = imageCache
-            } else if let imageCache: UIImage = cacheFileImage.getImage(url: url) {
+            } else if let imageCache: UIImage = cacheFileImage.getImage(for: url) {
                 image = imageCache
             }
         case .nsCache:

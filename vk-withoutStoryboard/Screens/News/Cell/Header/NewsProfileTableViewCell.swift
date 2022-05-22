@@ -11,9 +11,9 @@ import UIKit
 final class NewsProfileTableViewCell: NewsHeaderTableViewCell {
     static var identifier: String = "NewsProfileTableViewCell"
 
-    func configure(_ profile: NewsProfileModel, _ date: Date) {
+    func configure(_ profile: NewsProfileModel, _ date: Double) {
         avatarView.loadImage(profile.photo100)
         nameLabel.text = profile.firstName + " " + profile.lastName
-        dateLabel.text = date.formatted(date: .numeric, time: .standard)
+        convertDate(date)
     }
 }

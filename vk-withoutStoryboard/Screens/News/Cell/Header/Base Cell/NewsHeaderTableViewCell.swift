@@ -21,6 +21,7 @@ class NewsHeaderTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.backgroundColor = .white
         return label
     }()
 
@@ -28,7 +29,8 @@ class NewsHeaderTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .italicSystemFont(ofSize: 12)
-        label.alpha = 0.5
+        label.textColor = .lightGray
+        label.backgroundColor = .white
         return label
     }()
 
@@ -79,5 +81,9 @@ class NewsHeaderTableViewCell: UITableViewCell {
             dateLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
             dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -constant)
         ])
+    }
+    
+    func convertDate(_ date: Double) {
+        dateLabel.text = DateFormaterHelper.standart.convert(date)
     }
 }

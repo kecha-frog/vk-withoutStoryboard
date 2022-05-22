@@ -13,6 +13,7 @@ final class GroupTableViewCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .white
         return label
     }()
 

@@ -20,6 +20,7 @@ final class NewsFooterTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 12, weight: .semibold)
         label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .white
         return label
     }()
 
@@ -28,6 +29,7 @@ final class NewsFooterTableViewCell: UITableViewCell {
         label.font = .systemFont(ofSize: 12, weight: .semibold)
         label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .white
         return label
     }()
 
