@@ -9,13 +9,23 @@ import Foundation
 // import Firebase
 
 /// Провайдер для StartViewController.
-final class StartScreenProvider {
+final class StartScreenProvider: ApiLayer {
     // MARK: - Public Methods
     /// Проверка токена на валидность.
-    /// - Parameter completion: Замыкание. Передает: Bool - исходя из валидности токена.
-    func fetchApiAsync(_ completion: @escaping (_ result: Bool) -> Void) {
-        ApiLayer.standart.requestCheckToken { result in
-            completion(result)
+    func requestCheckTokenAsync() async -> Bool {
+        do {
+            let data = try await requestBase(endpoint: .getUser)
+
+            let json: [String: Any]? = try JSONSerialization.jsonObject(
+                with: data,
+                options: .mutableContainers
+            ) as? [String: Any]
+
+            let result = json?.keys.contains("response") ?? false
+
+            return result
+        } catch {
+            return false
         }
     }
 

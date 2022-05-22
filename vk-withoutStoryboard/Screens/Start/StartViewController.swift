@@ -43,13 +43,17 @@ final class StartViewController: UIViewController {
     // MARK: - Private Methods
     private func choiceScreen() {
         loadingView.animation(.on)
-
-        provider.fetchApiAsync { [weak self] result in
-            self?.loadingView.animation(.off)
-            // Если токен невалидный то перейдёт на контроллер логина
-            let controller: UIViewController = result ? TabBarViewController() : LoginViewController()
-            controller.modalPresentationStyle = .fullScreen
-            self?.present(controller, animated: false, completion: nil)
+        
+        Task(priority: .background) {
+            let tokenIsValid = await provider.requestCheckTokenAsync()
+            
+            DispatchQueue.main.async {
+                self.loadingView.animation(.off)
+                // Если токен невалидный то перейдёт на контроллер логина
+                let controller: UIViewController = tokenIsValid ? TabBarViewController() : LoginViewController()
+                controller.modalPresentationStyle = .fullScreen
+                self.present(controller, animated: false, completion: nil)
+            }
         }
     }
 }

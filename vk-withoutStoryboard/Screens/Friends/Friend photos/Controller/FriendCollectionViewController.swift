@@ -34,16 +34,11 @@ final class FriendCollectionViewController: UIViewController {
 
     private var token: NotificationToken?
 
-    /// Кэш для изображением
-    ///
-    ///  Кеш обнуляется при уходе с контроллера.
-    private var cachePhoto = PhotoRamCacheLayer()
-
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchApiAsync()
+        fetchPhotos()
         createNotificationToken()
         collectionView.register(
             FriendCollectionViewCell.self,
@@ -81,15 +76,10 @@ final class FriendCollectionViewController: UIViewController {
 
     // MARK: - Private Methods
     /// Запрос фото друга из api с анимацией загрузки.
-    private func fetchApiAsync() {
-        guard let service: FriendPhotosScreenProvider = self.provider else { return }
+    private func fetchPhotos() {
+        guard let provider: FriendPhotosScreenProvider = self.provider else { return }
 
-        loadingView.animation(.on)
-        service.fetchApiAsync { [weak self] in
-            guard let self: FriendCollectionViewController = self else { return }
-
-            self.loadingView.animation(.off)
-        }
+        provider.fetchData(loadingView)
     }
 
     /// Регистрирует блок, который будет вызываться при каждом изменении данных фото друга в бд.
@@ -101,10 +91,10 @@ final class FriendCollectionViewController: UIViewController {
             // второй способ обнавления
             switch result {
             case .initial:
-                self.collectionView.reloadData()
+                break
             case .error(let error):
                 print(error)
-            default:
+            case .update(_, deletions: _, insertions: _, modifications: _):
                 self.collectionView.reloadSections(.init(integer: 0))
             }
         }
@@ -129,11 +119,11 @@ extension FriendCollectionViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         guard let service: FriendPhotosScreenProvider = self.provider else { return UICollectionViewCell() }
 
-        let cell: FriendCollectionViewCell = collectionView.dequeueReusableCell(
+        guard let cell: FriendCollectionViewCell = collectionView.dequeueReusableCell(
             withReuseIdentifier: FriendCollectionViewCell.identifier,
             for: indexPath
-        ) as! FriendCollectionViewCell
-        cell.configure(service.data[indexPath.item], cache: cachePhoto)
+        ) as? FriendCollectionViewCell else { return UICollectionViewCell() }
+        cell.configure(service.data[indexPath.item])
         cell.delegate = self
         return cell
     }

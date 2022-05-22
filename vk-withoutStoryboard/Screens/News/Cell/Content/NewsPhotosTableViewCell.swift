@@ -60,9 +60,16 @@ final class NewsPhotosTableViewCell: UITableViewCell {
         if let photo: Attachment = content.first(where: { $0.type == "photo" }) {
             #warning("Доделать поддержку множество фото")
             // Временно выводит только одно фото.
-            LoaderImageLayer.standart.load(url: photo.photo?.sizes.last?.url ?? "") { image in
-                self.imageNewsView.image = image
-            }
+            loadImage(url: photo.photo?.sizes.last?.url ?? "")
+        }
+    }
+
+    // MARK: - Private Methods
+    private func loadImage(url: String) {
+        Task(priority: .background) {
+            self.imageNewsView.image = await LoaderImageLayer.standart.loadAsync(
+                url: url,
+                cache: .off)
         }
     }
 }

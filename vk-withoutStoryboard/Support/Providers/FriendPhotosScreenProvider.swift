@@ -9,11 +9,11 @@ import Foundation
 import RealmSwift
 
 /// Провайдер для FriendCollectionViewController.
-final class FriendPhotosScreenProvider {
+final class FriendPhotosScreenProvider: ApiLayer {
     // MARK: - Public Properties
     var fullNameFriend: String {
         guard let firstName = friend?.firstName, let lastName = friend?.lastName else { return "#error_name" }
-                return firstName + " " + lastName
+        return firstName + " " + lastName
     }
 
     /// Все фото друга из бд.
@@ -42,52 +42,57 @@ final class FriendPhotosScreenProvider {
     }
 
     // MARK: - Public Methods
-    /// Запрос из api фото друга.
-    /// - Parameter completion: Замыкание.
-    ///
-    /// Фото сохраняются  в бд.
-    func fetchApiAsync(_ completion: @escaping () -> Void) {
-        guard let friend = self.friend else { return }
+    func fetchData(_ loadView: LoadingView) {
+        guard let id = self.friend?.id else { return }
 
-        ApiLayer.standart.requestItems(PhotoModel.self, method: .GET, path: .getPhotos, params: [
-            "owner_id": String(friend.id),
-            "album_id": "profile",
-            "count": "10",
-            "extended": "1"
-        ]) { [weak self] result in
-            guard let self = self else { return }
+        loadView.animation(.on)
+        Task(priority: .background) {
+            guard let result = await requestAsync(id: id) else { return }
 
-            switch result {
-            case .success(let success):
-                self.savePhotoInRealm(success.items)
-                completion()
-            case .failure(let error):
-                print(error)
-            }
+            savePhotoInRealmAsync(result)
+            await loadView.animation(.off)
         }
     }
 
     // MARK: - Private Methods
+    /// Запрос из api фото друга.
+    ///
+    /// Фото сохраняются  в бд.
+    private func requestAsync(id: Int) async -> [PhotoModel]? {
+
+        let result = await sendRequestList(endpoint: .getPhotos(userId: id), responseModel: PhotoModel.self)
+
+        switch result {
+        case .success(let response):
+            return response.items
+        case .failure(let error):
+            print(error)
+            return nil
+        }
+    }
+
     /// Сохранение фото друга в бд.
     /// - Parameter newPhotoFromApi: Список фото друга.
-    private func savePhotoInRealm(_ newPhotoFromApi: [PhotoModel]) {
-        guard let friend = self.friend else { return }
+    private func savePhotoInRealmAsync(_ newPhotoFromApi: [PhotoModel]) {
+        DispatchQueue.main.async {
+            guard let friend = self.friend else { return }
 
-        // список фото друга которые он удалил
-        let oldValues = Array(realm.read(PhotoModel.self)
-            .filter("owner == %@", friend))
-            .filter { oldPhoto in
-                !newPhotoFromApi.contains { $0.id == oldPhoto.id }
+            // список фото друга которые он удалил
+            let oldValues = Array(self.realm.read(PhotoModel.self)
+                .filter("owner == %@", friend))
+                .filter { oldPhoto in
+                    !newPhotoFromApi.contains { $0.id == oldPhoto.id }
+                }
+
+            if !oldValues.isEmpty {
+                self.realm.delete(objects: oldValues)
             }
-
-        if !oldValues.isEmpty {
-            realm.delete(objects: oldValues)
+            // Новый список фото друга
+            let newValue = newPhotoFromApi.map { photo -> PhotoModel in
+                photo.owner = friend
+                return photo
+            }
+            self.realm.create(objects: newValue)
         }
-        // Новый список фото друга
-        let newValue = newPhotoFromApi.map { photo -> PhotoModel in
-            photo.owner = friend
-            return photo
-        }
-        realm.create(objects: newValue)
     }
 }

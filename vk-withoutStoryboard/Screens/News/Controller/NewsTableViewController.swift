@@ -29,7 +29,7 @@ final class NewsTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchApi()
+        fetchNews()
         tableView.register(NewsProfileTableViewCell.self, forCellReuseIdentifier: NewsProfileTableViewCell.identifier)
         tableView.register(
             NewsGroupProfileTableViewCell.self,
@@ -67,9 +67,9 @@ final class NewsTableViewController: UIViewController {
 
     // MARK: - Private Methods
     /// /// Запрос новостей из api с анимацией загрузки.
-    private func fetchApi() {
+    private func fetchNews() {
         loadingView.animation(.on)
-        provider.fetchApiAsync {
+        provider.fetchData {
             self.loadingView.animation(.off)
             self.tableView.reloadData()
         }
@@ -90,39 +90,39 @@ extension NewsTableViewController: UITableViewDataSource {
         // Выбор ячейки изходя из данных новости
         switch provider.data[indexPath.section][indexPath.row] {
         case .group(let group, let date):
-            let cell: NewsGroupProfileTableViewCell = tableView.dequeueReusableCell(
+            guard let cell: NewsGroupProfileTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: NewsGroupProfileTableViewCell.identifier
-            ) as! NewsGroupProfileTableViewCell
+            ) as? NewsGroupProfileTableViewCell else { return UITableViewCell() }
             cell.configure(group, date)
             return cell
         case .profile(let profile, let date):
-            let cell: NewsProfileTableViewCell = tableView.dequeueReusableCell(
+            guard let cell: NewsProfileTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: NewsProfileTableViewCell.identifier
-            ) as! NewsProfileTableViewCell
+            ) as? NewsProfileTableViewCell else { return UITableViewCell() }
             cell.configure(profile, date)
             return cell
         case .photo(let attachments):
-            let cell: NewsPhotosTableViewCell = tableView.dequeueReusableCell(
+            guard let cell: NewsPhotosTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: NewsPhotosTableViewCell.identifier
-            ) as! NewsPhotosTableViewCell
+            ) as? NewsPhotosTableViewCell else { return UITableViewCell() }
             cell.configure(attachments)
             return cell
         case .text(let text):
-            let cell: NewsTextTableViewCell = tableView.dequeueReusableCell(
+            guard let cell: NewsTextTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: NewsTextTableViewCell.identifier
-            ) as! NewsTextTableViewCell
+            ) as? NewsTextTableViewCell else { return UITableViewCell() }
             cell.configure(text)
             return cell
         case .likeAndView(let likes, let views, let commments):
-            let cell: NewsFooterTableViewCell = tableView.dequeueReusableCell(
+            guard let cell: NewsFooterTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: NewsFooterTableViewCell.identifier
-            ) as! NewsFooterTableViewCell
+            ) as? NewsFooterTableViewCell else { return UITableViewCell() }
             cell.configure(likes, views, commments)
             return cell
         default:
-            let cell: NewsTextTableViewCell = tableView.dequeueReusableCell(
+            guard let cell: NewsTextTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: NewsTextTableViewCell.identifier
-            ) as! NewsTextTableViewCell
+            ) as? NewsTextTableViewCell else { return UITableViewCell() }
             // Приложение на данный момент не поддерживает AUDIO/VIDEO/OTHER FILES в новости.
             cell.configure("###  NOT WORK AUDIO/VIDEO/OTHER FILES ###")
             return cell

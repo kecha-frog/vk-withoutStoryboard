@@ -20,7 +20,7 @@ final class Size: Object, Decodable {
 }
 
 /// Модель фото для Realm.
-final class PhotoModel: Object, Decodable, ModelApiVK {
+final class PhotoModel: Object, Decodable, ModelApiMark {
     @objc dynamic var id: Int = 0
     @objc dynamic var ownerId: Int = 0
     @objc dynamic var text: String = ""

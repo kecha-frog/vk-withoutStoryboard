@@ -69,8 +69,8 @@ final class AvatarView: UIView {
     ///
     /// Включено повтороное получение изображение из кэша
     func loadImage(_ url: String) {
-        LoaderImageLayer.standart.load(url: url, cache: .on) { [weak self ] image in
-            self?.imageView.image = image
+        Task(priority: .background) {
+            self.imageView.image = await LoaderImageLayer.standart.loadAsync(url: url, cache: .fileCache)
         }
     }
 

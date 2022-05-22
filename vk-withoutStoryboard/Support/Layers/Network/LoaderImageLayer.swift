@@ -10,8 +10,9 @@ import UIKit
 // MARK: - Extension
 extension LoaderImageLayer {
     // перечисление режимов работы кэширования
-    enum CacheWork {
-        case on
+    enum Cache {
+        case fileCache
+        case nsCache
         case off
     }
 }
@@ -19,7 +20,9 @@ extension LoaderImageLayer {
 /// Singleton для загрузки изображения  с возможностью кеширования.
 final class LoaderImageLayer {
     // MARK: - Private Properties
-    private let cacheImage = PhotoFileCacheLayer()
+    private let cacheFileImage = PhotoFileCacheLayer()
+    private let cacheNSImage = PhotoNSCacheLayer(limit: 40)
+
     private let httpSession = URLSession(configuration: URLSessionConfiguration.default)
 
     // MARK: - Static Properties
@@ -33,40 +36,58 @@ final class LoaderImageLayer {
     /// Загрузка изображения по url адресу с возможным кэшированием и получение изображения из кэша.
     /// - Parameters:
     ///   - url: Url адрес изображения.
-    ///   - cache: включение кэширования.
-    ///   - completion: Замыкание.  Передает:  `UIImage` -  изображение  полученное по url.
+    ///   - cache: режим  кэширования.
     ///
     ///  По умолчанию кэширование изображение отключено.
-    func load(url: String, cache: CacheWork = .off, completion: @escaping (UIImage) -> Void) {
+    func loadAsync(url: String, cache: Cache) async -> UIImage? {
         // Проверяем url
         guard let url = URL(string: url) else {
-            return
+            return nil
         }
+        var image: UIImage?
 
         // если кэширование включено, проверяем есть ли изобюражение в кэше
-        if cache == .on, let imageCache = cacheImage.images[url.absoluteString] {
-            completion(imageCache)
-        } else if cache == .on, let imageFileCache: UIImage = cacheImage.getImage(url: url) {
-            completion(imageFileCache)
-        } else {
-            // загрузка изображения по url
-            let task: URLSessionDataTask = httpSession.dataTask(with: url) { data, _, error in
-                guard let validData: Data = data, let image = UIImage(data: validData), error == nil else {
-                    if let error: Error = error {
-                        print(error)
-                    }
-                    return
-                }
-                // если кэширование включено, то производим сохранение в кэш
-                if cache == .on {
-                    self.cacheImage.saveImage(url: url, dataImage: validData)
+        switch cache {
+        case .fileCache:
+            if let imageCache = cacheFileImage.images[url.absoluteString] {
+                image = imageCache
+            } else if let imageCache: UIImage = cacheFileImage.getImage(url: url) {
+                image = imageCache
+            }
+        case .nsCache:
+            if let imageCache: UIImage = cacheNSImage.getImage(for: url.absoluteURL) {
+                // если есть отдаем фото из кэша
+                image = imageCache
+            }
+        case .off:
+            break
+        }
+
+        if image == nil {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+
+            do {
+                let (data, response) = try await URLSession.shared.data(for: request, delegate: nil)
+
+                guard let response = response as? HTTPURLResponse else {
+                    throw RequestError.noResponse
                 }
 
-                DispatchQueue.main.async {
-                    completion(image)
+                switch response.statusCode {
+                case 200...299:
+                    let imageResponse = UIImage(data: data)
+                    image = imageResponse
+                case 401:
+                    throw RequestError.unauthorized
+                default:
+                    throw RequestError.unexpectedStatusCode
                 }
+            } catch {
+                return nil
             }
-            task.resume()
         }
+        
+        return image
     }
 }

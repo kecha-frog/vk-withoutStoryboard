@@ -9,57 +9,68 @@ import Foundation
 // import Firebase
 
 /// Провайдер для CatalogGroupsListViewController.
-final class CatalogGroupsScreenProvider {
+final class CatalogGroupsScreenProvider: ApiLayer {
     // MARK: - Public Properties
     /// Cписок всех групп.
     var data: [GroupModel] = []
-    
+
     // MARK: - Private Properties
+    private var searchText: String?
+
     /// Firebase.
     // private let ref: DatabaseReference = Database.database().reference(withPath: "Groups")
-    
+
     // MARK: - Public Methods
-    /// Запрос каталога групп из api.
-    /// - Parameters:
-    ///   - searchText: Поиск группы по названию, по умолчанию nil.
-    ///   - completion: Замыкание.  Выполняется даже при ошибке.
-    func fetchApiAsync(searchText: String? = nil, _ completion: @escaping () -> Void) {
-        if let searchText: String = searchText {
-            // Поиск определенных групп по ключевому слову
-            ApiLayer.standart.requestItems(
-                GroupModel.self,
-                method: .GET,
-                path: .searchGroup,
-                params: ["q": searchText]
-            ) { result in
-                switch result {
-                case .success(let success):
-                    self.data = success.items
-                    completion()
-                case .failure(let error):
-                    debugPrint(error)
-                    completion()
-                }
-            }
-        } else {
-            // Получение каталога групп
-            ApiLayer.standart.requestItems(
-                GroupModel.self,
-                method: .GET, path: .getCatalogGroups,
-                params: nil
-            ) { result in
-                switch result {
-                case .success(let success):
-                    self.data = success.items
-                    completion()
-                case .failure(let error):
-                    debugPrint(error)
-                    completion()
-                }
+    func setSearchText(_ text: String? = nil) {
+        searchText = text
+    }
+
+    func fetchData(_ loadView: LoadingView, completion: @escaping () -> Void) {
+        loadView.animation(.on)
+        Task(priority: .background) {
+            guard let response = await requestAsync() else { return }
+            self.data = response
+            DispatchQueue.main.async {
+                completion()
+                loadView.animation(.off)
             }
         }
     }
-    
+
+    // MARK: - Private Methods
+    /// Запрос каталога групп из api.
+    /// - Parameters:
+    ///   - searchText: Поиск группы по названию, по умолчанию nil.
+    private func requestAsync() async -> [GroupModel]? {
+        if let searchText: String = self.searchText {
+            let result = await self.sendRequestList(
+                endpoint: ApiEndpoint.getSearchGroup(searchText: searchText),
+                responseModel: GroupModel.self)
+
+            // Поиск определенных групп по ключевому слову
+            switch result {
+            case .success(let response):
+                return response.items
+            case .failure(let error):
+                print(error)
+                return nil
+            }
+        } else {
+            let result = await self.sendRequestList(
+                endpoint: ApiEndpoint.getCatalogGroups,
+                responseModel: GroupModel.self)
+
+            // Получение каталога групп
+            switch result {
+            case .success(let response):
+                return response.items
+            case .failure(let error):
+                print(error)
+                return nil
+            }
+        }
+    }
+
     /// Отправка названия выбранной группы пользователя  в firebase.
     /// - Parameter selectGroup: Выбранная группа.
     //    func firebaseSelectGroup(_ selectGroup: GroupModel){

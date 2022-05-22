@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 /// Провайдер FavoriteGroupsListViewController.
-final class FavoriteGroupsScreenProvider {
+final class FavoriteGroupsScreenProvider: ApiLayer {
     // MARK: - Public Properties
     /// Список групп пользователя из бд.
     var data: Results<GroupModel> {
@@ -42,43 +42,47 @@ final class FavoriteGroupsScreenProvider {
         realm.delete(object: group)
     }
 
-    /// Запрос групп пользователя из api.
-    /// - Parameter completion: Замыкание.
-    ///
-    /// Группы сохраняются в бд.
-    func fetchApiAsync(_ completion: @escaping () -> Void) {
-        ApiLayer.standart.requestItems(GroupModel.self,
-                                       method: .GET,
-                                       path: .getGroups,
-                                       params: ["extended": "1"]) { [weak self] result in
-            switch result {
-            case .success(let success):
-                DispatchQueue.main.async { [weak self] in
-                    self?.savePhotoInRealm(success.items)
-                    completion()
-                }
-            case .failure(let error):
-                debugPrint(error)
-                completion()
-            }
+    func fetchData(_ loadView: LoadingView) {
+        loadView.animation(.on)
+        Task(priority: .background) {
+            guard let groups = await self.requestAsync() else { return }
+            self.savePhotoInRealmAsync(groups)
+            await loadView.animation(.off)
         }
     }
 
     // MARK: - Private Methods
+    /// Запрос групп пользователя из api.
+    ///
+    /// Группы сохраняются в бд.
+    private func requestAsync() async -> [GroupModel]? {
+        let result = await sendRequestList(endpoint: .getGroups, responseModel: GroupModel.self)
+
+        switch result {
+        case .success(let response):
+            return response.items
+        case .failure(let error):
+            print(error)
+            return nil
+        }
+    }
+
     /// Сохраненние  групп в бд.
     /// - Parameter newGroups: обновленный список групп
-    private func savePhotoInRealm(_ newGroups: [GroupModel]) {
-        // Группы из которых вышел пользователь, но они еще присутсвуют в бд
-        let oldValues: [GroupModel] = realm.read(GroupModel.self).filter { oldGroup in
-            !newGroups.contains { $0.id == oldGroup.id }
-        }
+    private func savePhotoInRealmAsync(_ newGroups: [GroupModel]) {
+        DispatchQueue.main.async {
+            // Группы из которых вышел пользователь, но они еще присутсвуют в бд
+            let oldValues: [GroupModel] = self.realm.read(GroupModel.self).filter { oldGroup in
+                !newGroups.contains { $0.id == oldGroup.id }
+            }
 
-        // Удаление групп из которых вышел пользователь
-        if !oldValues.isEmpty {
-            realm.delete(objects: oldValues)
-        }
+            // Удаление групп из которых вышел пользователь
+            if !oldValues.isEmpty {
+                self.realm.delete(objects: oldValues)
+            }
 
-        // Добавление новых групп или обновление данных старых групп
-        realm.create(objects: newGroups)
+            // Добавление новых групп или обновление данных старых групп
+            self.realm.create(objects: newGroups)
+        }
     }
 }

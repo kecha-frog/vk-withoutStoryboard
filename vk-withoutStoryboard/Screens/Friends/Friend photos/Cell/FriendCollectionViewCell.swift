@@ -90,24 +90,20 @@ final class FriendCollectionViewCell: UICollectionViewCell {
     ///   - cache: Кэш где хранятся фото.
     ///
     ///   Возможность взять изображение из кэша если он там сохранено.
-    func configure(_ image: PhotoModel, cache: PhotoRamCacheLayer) {
-        guard let url: String = image.sizes.last?.url, let urlImage = URL(string: url) else { return }
-
-        // Проверяем есть ли фото в кэше
-        if let imageChache: UIImage = cache.getImage(for: urlImage) {
-            // если есть отдаем фото из кэша
-            imageView.image = imageChache
-        } else {
-            // Если нет, то загружаем изображение из интернета и сохраняем его в кэш.
-            LoaderImageLayer.standart.load(url: url) { [weak self ] image in
-                cache.saveImage(image, for: urlImage)
-                self?.imageView.image = image
-            }
-        }
-
+    func configure(_ image: PhotoModel) {
+        guard let url: String = image.sizes.last?.url else { return }
+        loadImage(url: url)
+        
         // Доделать
         // likeView.configure(image.like, youLike: image.youLike)
         likeView.addTarget(self, action: #selector(likePhotoAction), for: .valueChanged)
+    }
+
+    // MARK: - Private Methods
+    private func loadImage(url: String) {
+        Task(priority: .background) {
+            self.imageView.image = await LoaderImageLayer.standart.loadAsync(url: url, cache: .nsCache)
+        }
     }
 
     // MARK: - Actions

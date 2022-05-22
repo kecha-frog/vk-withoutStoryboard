@@ -38,7 +38,7 @@ final class FavoriteGroupsListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchApiAsync()
+        fetchGroups()
         createNotificationToken()
         searchBarHeader.setDelegate(self)
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
@@ -106,12 +106,8 @@ final class FavoriteGroupsListViewController: UIViewController {
     }
 
     /// Запрос групп пользователя из api с анимацией.
-    private func fetchApiAsync() {
-        loadingView.animation(.on)
-
-        provider.fetchApiAsync { [weak self] in
-            self?.loadingView.animation(.off)
-        }
+    private func fetchGroups() {
+        provider.fetchData(loadingView)
     }
     /// Регистрирует блок, который будет вызываться при каждом изменении данных групп пользователя в бд.
     private func createNotificationToken() {
@@ -121,7 +117,7 @@ final class FavoriteGroupsListViewController: UIViewController {
             switch result {
                 // при первом запуске приложения
             case .initial:
-                self.updateTableView()
+                break
                 // при изменение бд
             case .update(_,
                          let deletions,
@@ -155,9 +151,9 @@ extension FavoriteGroupsListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: GroupTableViewCell = tableView.dequeueReusableCell(
+        guard let cell: GroupTableViewCell = tableView.dequeueReusableCell(
             withIdentifier: GroupTableViewCell.identifier
-        ) as! GroupTableViewCell
+        ) as? GroupTableViewCell else { return UITableViewCell() }
         let group = provider.data[indexPath.row]
         cell.configure(group: group)
         return cell

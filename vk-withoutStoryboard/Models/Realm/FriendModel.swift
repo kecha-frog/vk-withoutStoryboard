@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 /// Модель друга для Realm.
 @objcMembers
-final class FriendModel: Object, Decodable, ModelApiVK {
+final class FriendModel: Object, Decodable, ModelApiMark {
     dynamic var id: Int = 0
     dynamic var firstName: String = ""
     dynamic var lastName: String = ""

@@ -14,12 +14,13 @@ protocol PhotoCacheLayerProtocol: AnyObject {
     func deleteAllImage()
 }
 
+#warning("переписать нскэш")
 /// Класс для кеширования изображений.
 ///
 /// Доступно два вида кеширования:
 /// singleton - cохранение кэша до закрытия приложения.
 /// .init - сохранение на время жизни родительского класса.
-final class PhotoRamCacheLayer {
+final class PhotoNSCacheLayer {
     // MARK: - Private Properties
     private lazy var imageCache: NSCache<AnyObject, AnyObject> = {
         let cache: NSCache<AnyObject, AnyObject> = NSCache<AnyObject, AnyObject>()
@@ -29,21 +30,17 @@ final class PhotoRamCacheLayer {
 
     private let countLimit: Int
 
-    // MARK: - Static Properties
-    /// Singleton: cохранение кэша  до закрытия приложения.
-    static let standart = PhotoRamCacheLayer()
-
     // MARK: - Initializers
     /// Сохранение на время жизни родительского класса.
     /// - Parameter countLimit: лимит на сохранение в кэш.
     ///
     /// по умолчанию лимит 40.
-    init(countLimit: Int = 40) {
-        self.countLimit = countLimit
+    init(limit: Int) {
+        countLimit = limit
     }
 }
 
-extension PhotoRamCacheLayer: PhotoCacheLayerProtocol {
+extension PhotoNSCacheLayer: PhotoCacheLayerProtocol {
     // MARK: - Public Methods
     /// Получение кэшированного изображения по url адресу.
     /// - Parameter url: url адрес изображения.

@@ -20,14 +20,14 @@ final class LoginViewController: UIViewController {
         return imageView
     }()
     
-    fileprivate let loginButton: UIButton = {
+    fileprivate lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Войти", for: .normal)
         button.layer.cornerRadius = 5
         button.backgroundColor = .tertiarySystemBackground
         button.tintColor = .vkColor
-        button.addTarget(LoginViewController.self, action: #selector(loginButtonActions), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loginButtonActions), for: .touchUpInside)
         return button
     }()
     
@@ -47,7 +47,7 @@ final class LoginViewController: UIViewController {
         setupUI()
         webView.navigationDelegate = self
     }
-    
+
     // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
@@ -57,7 +57,7 @@ final class LoginViewController: UIViewController {
         NSLayoutConstraint.activate([
             logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-        
+
         view.addSubview(loginButton)
         NSLayoutConstraint.activate([
             loginButton.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 20),

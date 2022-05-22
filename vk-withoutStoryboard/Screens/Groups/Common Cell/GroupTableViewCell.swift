@@ -78,8 +78,13 @@ final class GroupTableViewCell: UITableViewCell {
     func configure(group: GroupModel) {
         nameLabel.text = group.name
         // Загрузка изображения группы.
-        LoaderImageLayer.standart.load(url: group.photo200) { [weak self] image in
-            self?.imageViewCell.image = image
+        loadImage(url: group.photo200)
+    }
+
+    // MARK: - Private Methods
+    private func loadImage(url: String) {
+        Task(priority: .background) {
+            self.imageViewCell.image = await LoaderImageLayer.standart.loadAsync(url: url, cache: .off)
         }
     }
 }

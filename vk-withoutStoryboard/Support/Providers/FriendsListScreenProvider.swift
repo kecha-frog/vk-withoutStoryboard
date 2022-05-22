@@ -10,8 +10,8 @@ import PromiseKit
 import RealmSwift
 
 /// Провайдер для FriendsViewController.
-final class FriendsListScreenProvider {
-    // MARK: - Properties
+final class FriendsListScreenProvider: ApiLayer {
+    // MARK: - Public Properties
     private var realm = RealmLayer()
     
     /// Получение из бд секции с друзьями.
@@ -28,20 +28,13 @@ final class FriendsListScreenProvider {
     // MARK: - Public Methods
     ///  Заполнение данных друзей
     /// - Parameter loadView:  view loading animations
-    func fillData(_ loadView: LoadingView) {
+    func fetchData(_ loadView: LoadingView) {
         loadView.animation(.on)
-        
-        firstly {
-            self.fetchApiAsync()
-        }
-        .then { friends in
-            self.saveInRealm(friends)
-        }
-        .ensure {
-            loadView.animation(.off)
-        }
-        .catch { error in
-            print(error)
+
+        Task(priority: .background) {
+            guard let friends = await self.requestAsync() else { return }
+            await self.saveInRealmAsync(friends)
+            await loadView.animation(.off)
         }
     }
     
@@ -50,53 +43,45 @@ final class FriendsListScreenProvider {
     func deleteInRealm<T: Object>(objects: [T]) {
         self.realm.delete(objects: objects)
     }
-    
+
     // MARK: - Private Methods
     /// Запрос списка друзей из api.
-    /// - Parameter completion: Замыкание. Выполняется даже при ошибке запроса.
     ///
     /// Друзья сохраняются  в бд.
-    private func fetchApiAsync() -> Promise<[FriendModel]> {
-        return Promise { seal in
-            ApiLayer.standart.requestItems(
-                FriendModel.self,
-                method: .GET,
-                path: .getFriends,
-                params: ["fields": "online,photo_100"]
-            ) { result in
-                switch result {
-                case .success(let success):
-                    seal.fulfill(success.items)
-                case .failure(let error):
-                    seal.reject(error)
-                    print(error)
-                }
-            }
+    private func requestAsync() async -> [FriendModel]? {
+        let result = await sendRequestList(endpoint: ApiEndpoint.getFriends, responseModel: FriendModel.self)
+
+        switch result {
+        case.success(let result):
+            return result.items
+        case .failure(let error):
+            print(error)
+            return nil
         }
     }
-    
+
     /// Сохранение друзей в бд.
     /// - Parameter friendsFromApi: Список друзей.
     ///
     /// Написал сложную логику сохранение друзей, чтоб уменьшить траназцикцию записи.
     /// (на 1500 объектов было 45 сек, стало 4 сек)
-    private func saveInRealm(_ friendsFromApi: [FriendModel]) -> Promise<Void> {
-        return Promise { seal in
+    private func saveInRealmAsync(_ friendsFromApi: [FriendModel]) async {
+        DispatchQueue.main.sync {
             // список для обновления данных старых друзей
             var friendsUpdate: [FriendModel] = []
             // список для обнавления существующих секций
             var alphabetUpdate: [(LetterModel, FriendModel)] = []
             // список секций другом которые надо создать
             var newAlphabet: [LetterModel] = []
-            
+
             // список друзей из бд в данный момент
             let oldDBFriends: Results<FriendModel> = self.realm.read(FriendModel.self)
-            
+
             // список друзей которых надо удалить из бд
             let deleteFriends: [FriendModel] = oldDBFriends.filter { friend in
                 !friendsFromApi.contains { $0.id == friend.id }
             }
-            
+
             // проходим по друзьям из api для распределения по нужным спискам для последующей работы.
             friendsFromApi.forEach { newFriend in
                 // Проверям друга из api в списке друзей из бд
@@ -131,24 +116,22 @@ final class FriendsListScreenProvider {
                     }
                 }
             }
-            
+
             // обновляем данные старых друзей
             self.realm.create(objects: friendsUpdate)
-            
+
             self.realm.writeTransction {
                 // добавляю новых друзей в существующие секции
                 alphabetUpdate.forEach { letter, newfriend in
                     letter.items.append(newfriend)
                 }
             }
-            
+
             // добавляю в бд новые секции с друзьями
             self.realm.create(objects: newAlphabet)
-            
+
             // удаление друзей
             self.deleteInRealm(objects: deleteFriends)
-            
-            seal.fulfill(())
         }
     }
 }

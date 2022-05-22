@@ -67,10 +67,9 @@ final class FriendsViewController: UIViewController {
     }
 
     // MARK: - Private Methods
-
     /// Запрос друзей у api c  анимацией загрузки.
     private func fetchFriends() {
-        provider.fillData(loadingView)
+        provider.fetchData(loadingView)
     }
 
     /// Регистрирует блок, который будет вызываться при каждом изменении секкций в бд.
@@ -141,9 +140,9 @@ extension FriendsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: FriendsTableViewCell = tableView.dequeueReusableCell(
+        guard let cell: FriendsTableViewCell = tableView.dequeueReusableCell(
             withIdentifier: FriendsTableViewCell.identifier
-        ) as! FriendsTableViewCell
+        ) as? FriendsTableViewCell else { return UITableViewCell() }
         cell.configure(friend: provider.data[indexPath.section].items[indexPath.row])
         return cell
     }
@@ -152,9 +151,9 @@ extension FriendsViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension FriendsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header: FriendsHeaderSectionTableView = tableView.dequeueReusableHeaderFooterView(
+        guard let header: FriendsHeaderSectionTableView = tableView.dequeueReusableHeaderFooterView(
             withIdentifier: FriendsHeaderSectionTableView.identifier
-        ) as! FriendsHeaderSectionTableView
+        ) as? FriendsHeaderSectionTableView else { return UITableViewCell() }
         let letter: String = provider.data[section].name.uppercased()
         header.configure(letter)
         return header

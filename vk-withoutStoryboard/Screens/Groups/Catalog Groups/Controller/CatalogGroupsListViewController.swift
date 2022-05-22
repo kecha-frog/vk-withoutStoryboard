@@ -46,6 +46,7 @@ final class CatalogGroupsListViewController: UIViewController {
     /// Настройка UI.
     private func setupUI() {
         title = "Catalog Groups"
+        searchBar.setDelegate(self)
 
         view.addSubview(searchBar)
         NSLayoutConstraint.activate([
@@ -75,13 +76,8 @@ final class CatalogGroupsListViewController: UIViewController {
     // MARK: - Private Methods
     /// Запрос каталога групп из  api  c анимацией загрузки.
     private func fetchCatalogGroups() {
-        loadingView.animation(.on)
-
-        provider.fetchApiAsync { [weak self]  in
-            guard let self: CatalogGroupsListViewController = self else { return }
-
+        provider.fetchData(loadingView) {
             self.tableView.reloadData()
-            self.loadingView.animation(.off)
         }
     }
 }
@@ -102,9 +98,9 @@ extension CatalogGroupsListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: GroupTableViewCell = tableView.dequeueReusableCell(
+        guard let cell: GroupTableViewCell = tableView.dequeueReusableCell(
             withIdentifier: GroupTableViewCell.identifier
-        ) as! GroupTableViewCell
+        ) as? GroupTableViewCell else { return UITableViewCell() }
         cell.configure(group: provider.data[indexPath.row])
         return cell
     }
@@ -114,32 +110,23 @@ extension CatalogGroupsListViewController: UITableViewDataSource {
 extension CatalogGroupsListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // Eсли текст поиска пустой, то загружается общий каталог групп.
-        guard searchText.isEmpty else {
-            fetchCatalogGroups()
-            return
+        if searchText.isEmpty {
+            provider.setSearchText()
+        } else {
+            provider.setSearchText(searchText)
         }
 
         // debounce для текста поиска, выполняется когда прекратится ввод данных
         NSObject.cancelPreviousPerformRequests(
             withTarget: self as Any,
-            selector: #selector(fetchSearchApi),
+            selector: #selector(searchAction),
             object: nil)
-        perform(#selector(fetchSearchApi), with: nil, afterDelay: 0.7)
+        perform(#selector(searchAction), with: nil, afterDelay: 1)
     }
 
     // MARK: - Actions
     /// Запрос на поиск группы по названию.
-    @objc private func fetchSearchApi() {
-        guard let text: String = searchBar.text, !text.isEmpty else {
-            return
-        }
-
-        loadingView.animation(.on)
-        provider.fetchApiAsync(searchText: text) { [weak self]  in
-            guard let self = self else { return }
-
-            self.tableView.reloadData()
-            self.loadingView.animation(.off)
-        }
+    @objc private func searchAction() {
+        fetchCatalogGroups()
     }
 }
