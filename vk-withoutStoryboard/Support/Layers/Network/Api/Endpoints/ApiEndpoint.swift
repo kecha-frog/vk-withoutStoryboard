@@ -13,7 +13,7 @@ enum ApiEndpoint {
     case getGroups
     case getSearchGroup(searchText: String)
     case getCatalogGroups
-    case getNews
+    case getNews(startTime: Double?)
     case getUser
 }
 
@@ -33,7 +33,10 @@ extension ApiEndpoint: EndpointBase {
             base.append(.init(name: "q", value: searchText))
         case .getGroups:
             base.append(.init(name: "extended", value: "1"))
-        case .getNews:
+        case .getNews(let startTime):
+            if let time = startTime {
+                base.append(.init(name: "start_time", value: String(time + 1)))
+            }
             base.append(.init(name: "filters", value: "post"))
         case .getPhotos(let id):
             base.append(.init(name: "owner_id", value: String(id)))

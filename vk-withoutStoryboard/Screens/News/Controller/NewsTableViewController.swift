@@ -29,19 +29,14 @@ final class NewsTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupRefreshControl()
+        registerCells()
         fetchNews()
-        tableView.register(NewsProfileTableViewCell.self, forCellReuseIdentifier: NewsProfileTableViewCell.identifier)
-        tableView.register(
-            NewsGroupProfileTableViewCell.self,
-            forCellReuseIdentifier: NewsGroupProfileTableViewCell.identifier)
-        tableView.register(NewsPhotosTableViewCell.self, forCellReuseIdentifier: NewsPhotosTableViewCell.identifier)
-        tableView.register(NewsTextTableViewCell.self, forCellReuseIdentifier: NewsTextTableViewCell.identifier)
-        tableView.register(NewsFooterTableViewCell.self, forCellReuseIdentifier: NewsFooterTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
     }
 
-    // MARK: - Setting UI Method
+    // MARK: - Setting UI
     /// Настройка с UI.
     private func setupUI() {
         title = "News"
@@ -65,15 +60,50 @@ final class NewsTableViewController: UIViewController {
         ])
     }
 
+    /// Настройка с RefreshControl.
+    private func setupRefreshControl() {
+        // Инициализируем и присваиваем сущность UIRefreshControl
+        tableView.refreshControl = UIRefreshControl()
+        // Настраиваем свойства контрола, как, например,
+        // отображаемый им текст
+        //tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Refreshing...")
+        // Цвет спиннера
+        tableView.refreshControl?.tintColor = .vkColor
+        // И прикрепляем функцию, которая будет вызываться контролом
+        tableView.refreshControl?.addTarget(self, action: #selector(refreshControlAction), for: .valueChanged)
+    }
+
+    // MARK: - Action
+    @objc func refreshControlAction() {
+        // Начинаем обновление новостей
+        self.tableView.refreshControl?.beginRefreshing()
+        // Определяем время самой свежей новости
+        // или берем текущее время
+        let dateLastNews = self.provider.data.first?.date ?? Date().timeIntervalSince1970
+        // отправляем сетевой запрос загрузки новостей
+
+        provider.refreshData(startTime: dateLastNews) { [weak self] section in
+            guard let self = self else { return }
+            // выключаем вращающийся индикатор
+            self.tableView.refreshControl?.endRefreshing()
+
+            // проверяем, что более свежие новости действительно есть
+            guard section > 0 else { return }
+            let indexSet = IndexSet(integersIn: 0..<section)
+            self.tableView.insertSections(indexSet, with: .automatic)
+        }
+    }
+
     // MARK: - Private Methods
     /// /// Запрос новостей из api с анимацией загрузки.
     private func fetchNews() {
         loadingView.animation(.on)
-        provider.fetchData {
+        provider.fetchData {  
             self.loadingView.animation(.off)
             self.tableView.reloadData()
         }
     }
+
 }
 
 // MARK: - UITableViewDataSource
@@ -83,19 +113,35 @@ extension NewsTableViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        provider.data[section].count
+        provider.data[section].constructor.count
+    }
+
+    /// Регистрация ячеек.
+    fileprivate func registerCells(){
+        tableView.register(NewsProfileTableViewCell.self, forCellReuseIdentifier: NewsProfileTableViewCell.identifier)
+        tableView.register(
+            NewsGroupProfileTableViewCell.self,
+            forCellReuseIdentifier: NewsGroupProfileTableViewCell.identifier)
+        tableView.register(NewsPhotosTableViewCell.self, forCellReuseIdentifier: NewsPhotosTableViewCell.identifier)
+        tableView.register(NewsTextTableViewCell.self, forCellReuseIdentifier: NewsTextTableViewCell.identifier)
+        tableView.register(NewsFooterTableViewCell.self, forCellReuseIdentifier: NewsFooterTableViewCell.identifier)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellConstructor = provider.data[indexPath.section].constructor[indexPath.row]
         // Выбор ячейки изходя из данных новости
-        switch provider.data[indexPath.section][indexPath.row] {
-        case .group(let group, let date):
+        switch cellConstructor {
+        case .group(let group):
+            let date = provider.data[indexPath.section].date
+
             guard let cell: NewsGroupProfileTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: NewsGroupProfileTableViewCell.identifier
             ) as? NewsGroupProfileTableViewCell else { return UITableViewCell() }
             cell.configure(group, date)
             return cell
-        case .profile(let profile, let date):
+        case .profile(let profile):
+            let date = provider.data[indexPath.section].date
+
             guard let cell: NewsProfileTableViewCell = tableView.dequeueReusableCell(
                 withIdentifier: NewsProfileTableViewCell.identifier
             ) as? NewsProfileTableViewCell else { return UITableViewCell() }
