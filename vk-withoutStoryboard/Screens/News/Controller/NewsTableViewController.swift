@@ -34,6 +34,7 @@ final class NewsTableViewController: UIViewController {
         fetchNews()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
     }
 
     // MARK: - Setting UI
@@ -66,7 +67,7 @@ final class NewsTableViewController: UIViewController {
         tableView.refreshControl = UIRefreshControl()
         // Настраиваем свойства контрола, как, например,
         // отображаемый им текст
-        //tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Refreshing...")
+        // tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Refreshing...")
         // Цвет спиннера
         tableView.refreshControl?.tintColor = .vkColor
         // И прикрепляем функцию, которая будет вызываться контролом
@@ -77,19 +78,15 @@ final class NewsTableViewController: UIViewController {
     @objc func refreshControlAction() {
         // Начинаем обновление новостей
         self.tableView.refreshControl?.beginRefreshing()
-        // Определяем время самой свежей новости
-        // или берем текущее время
-        let dateLastNews = self.provider.data.first?.date ?? Date().timeIntervalSince1970
+        
         // отправляем сетевой запрос загрузки новостей
-
-        provider.refreshData(startTime: dateLastNews) { [weak self] section in
+        provider.fetchTimeData(time: .time) { [weak self] indexSet in
             guard let self = self else { return }
             // выключаем вращающийся индикатор
             self.tableView.refreshControl?.endRefreshing()
 
             // проверяем, что более свежие новости действительно есть
-            guard section > 0 else { return }
-            let indexSet = IndexSet(integersIn: 0..<section)
+            guard let indexSet = indexSet else { return }
             self.tableView.insertSections(indexSet, with: .automatic)
         }
     }
@@ -117,7 +114,7 @@ extension NewsTableViewController: UITableViewDataSource {
     }
 
     /// Регистрация ячеек.
-    fileprivate func registerCells(){
+    fileprivate func registerCells() {
         tableView.register(NewsProfileTableViewCell.self, forCellReuseIdentifier: NewsProfileTableViewCell.identifier)
         tableView.register(
             NewsGroupProfileTableViewCell.self,
@@ -189,4 +186,21 @@ extension NewsTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         1
     }
+}
+
+// MARK: - UITableViewDataSourcePrefetching
+extension NewsTableViewController: UITableViewDataSourcePrefetching {
+    // infinite scrolling
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        // Выбираем максимальный номер секции, которую нужно будет отобразить в ближайшее время
+        guard let maxSection = indexPaths.map({ $0.section }).max() else { return }
+        // Убеждаемся, что мы уже не в процессе загрузки данных
+        if maxSection > provider.data.count - 3, !provider.isLoading {
+            provider.fetchTimeData(time: .from) { indexSet in
+                guard let indexSet = indexSet else { return }
+                self.tableView.insertSections(indexSet, with: .automatic)
+            }
+        }
+    }
+
 }

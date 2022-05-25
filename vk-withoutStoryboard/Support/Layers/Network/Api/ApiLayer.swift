@@ -60,11 +60,13 @@ extension ApiLayer {
                     return try decoder.decode([T].self, from: data)
                 }
 
+                let nextFrom = responseJson?["next_from"] as? String
+
                 let profiles = try await profilesTask.value
                 let groups = try await groupsTask.value
                 let items = try await itemsTask.value
 
-                return ResponseList(items, profiles, groups)
+                return ResponseList(items, profiles, groups, nextFrom)
             } else {
                 let itemsTask = Task<[T], Error> {
                     let data = try JSONSerialization.data(withJSONObject: responseJson?["items"] as Any)

@@ -7,13 +7,20 @@
 
 import Foundation
 
+/// Точка старта новостей.
+enum StartNewsRequest {
+    case time(String)
+    case from(String)
+    case none
+}
+
 enum ApiEndpoint {
     case getFriends
     case getPhotos(userId: Int)
     case getGroups
     case getSearchGroup(searchText: String)
     case getCatalogGroups
-    case getNews(startTime: Double?)
+    case getNews(StartNewsRequest)
     case getUser
 }
 
@@ -33,10 +40,16 @@ extension ApiEndpoint: EndpointBase {
             base.append(.init(name: "q", value: searchText))
         case .getGroups:
             base.append(.init(name: "extended", value: "1"))
-        case .getNews(let startTime):
-            if let time = startTime {
-                base.append(.init(name: "start_time", value: String(time + 1)))
+        case .getNews(let time):
+            switch time {
+            case .time(let startTime):
+                base.append(.init(name: "start_time", value: startTime))
+            case .from(let startFrom):
+                base.append(.init(name: "start_from", value: startFrom))
+            case .none:
+                base.append(.init(name: "start_from", value: ""))
             }
+            base.append(.init(name: "count", value: "20"))
             base.append(.init(name: "filters", value: "post"))
         case .getPhotos(let id):
             base.append(.init(name: "owner_id", value: String(id)))
