@@ -40,18 +40,20 @@ final class NewsPhotosTableViewCell: UITableViewCell {
     private func setupUI() {
         selectionStyle = .none
 
+        let constant: CGFloat = 2
         contentView.addSubview(imageNewsView)
-        let topConstraint: NSLayoutConstraint = imageNewsView.topAnchor.constraint(equalTo: contentView.topAnchor)
+        let topConstraint: NSLayoutConstraint = imageNewsView.topAnchor.constraint(
+            equalTo: contentView.topAnchor,
+            constant: constant)
         topConstraint.priority = UILayoutPriority(rawValue: 999)
         let bottomConstraint: NSLayoutConstraint = imageNewsView.bottomAnchor.constraint(
-            equalTo: contentView.bottomAnchor)
+            equalTo: contentView.bottomAnchor, constant: -constant)
         bottomConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([
             topConstraint,
             bottomConstraint,
-            imageNewsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageNewsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageNewsView.heightAnchor.constraint(equalToConstant: 400)
+            imageNewsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constant),
+            imageNewsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constant)
         ])
     }
 

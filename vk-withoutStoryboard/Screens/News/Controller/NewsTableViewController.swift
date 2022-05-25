@@ -95,7 +95,7 @@ final class NewsTableViewController: UIViewController {
     /// /// Запрос новостей из api с анимацией загрузки.
     private func fetchNews() {
         loadingView.animation(.on)
-        provider.fetchData {  
+        provider.fetchData {
             self.loadingView.animation(.off)
             self.tableView.reloadData()
         }
@@ -122,6 +122,25 @@ extension NewsTableViewController: UITableViewDataSource {
         tableView.register(NewsPhotosTableViewCell.self, forCellReuseIdentifier: NewsPhotosTableViewCell.identifier)
         tableView.register(NewsTextTableViewCell.self, forCellReuseIdentifier: NewsTextTableViewCell.identifier)
         tableView.register(NewsFooterTableViewCell.self, forCellReuseIdentifier: NewsFooterTableViewCell.identifier)
+    }
+
+    // размер ячейки
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cell = self.provider.data[indexPath.section].constructor[indexPath.row]
+        // Ячейки с фото
+        switch cell {
+        case .photo(let array):
+            // Вычисляем высоту
+            guard let photoAspectRatio = array.first?.photo?.sizes.last?.aspectRatio else {
+                return UITableView.automaticDimension
+            }
+            let tableWidth = tableView.bounds.width
+            let cellHeight = tableWidth * photoAspectRatio
+            return cellHeight
+        default:
+            // Для всех остальных ячеек оставляем автоматически определяемый размер
+            return UITableView.automaticDimension
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

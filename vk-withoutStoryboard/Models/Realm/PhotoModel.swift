@@ -7,12 +7,16 @@
 
 import Foundation
 import RealmSwift
+import UIKit
 
 final class Size: Object, Decodable {
     @objc dynamic var height: Int
     @objc dynamic var url: String
     @objc dynamic var type: String
     @objc dynamic var width: Int
+
+    // вычисляемый параметр aspectRatio для фото
+    var aspectRatio: CGFloat { return CGFloat(height)/CGFloat(width) }
 
     override class func primaryKey() -> String? {
         return "url"

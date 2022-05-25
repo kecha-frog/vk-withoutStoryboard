@@ -210,7 +210,7 @@ final class NewsScreenProvider: ApiLayer {
                     }
                     
                     // Добавляем текст новости в секцию
-                    if news.text.isEmpty {
+                    if !news.text.isEmpty {
                         validNews.constructor.append(.text(news.text))
                     }
                     
