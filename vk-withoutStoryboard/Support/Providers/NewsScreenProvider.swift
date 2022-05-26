@@ -10,8 +10,8 @@ import Foundation
 // MARK: - Enum
 /// Возможные варианты данных новости.
 enum PostType {
-    case profile(NewsProfileModel, Date)
-    case group(NewsGroupModel, Date)
+    case profile(NewsProfileModel, Double)
+    case group(NewsGroupModel, Double)
     case photo([Attachment])
     case audio([Attachment])
     case video([Attachment])

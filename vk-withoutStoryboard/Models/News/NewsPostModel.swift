@@ -11,7 +11,7 @@ import Foundation
 ///  Модель ответа для новостей.
 final class NewsPostModel: ModelApiMark {
     let sourceId: Int
-    let date: Date
+    let date: Double
     let canDoubtCategory: Bool?
     let canSetCategory: Bool?
     let isFavorite: Bool
@@ -52,9 +52,9 @@ final class NewsPostModel: ModelApiMark {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.sourceId = try container.decode(Int.self, forKey: .sourceId)
-
-        let stamp = try container.decode(Int.self, forKey: .date)
-        self.date = Date(timeIntervalSince1970: TimeInterval(stamp))
+    
+        // self.date = Date(timeIntervalSince1970: TimeInterval(stamp))
+        self.date = try container.decode(Double.self, forKey: .date)
 
         do {
             self.canDoubtCategory = try container.decode(Bool.self, forKey: .canDoubtCategory)

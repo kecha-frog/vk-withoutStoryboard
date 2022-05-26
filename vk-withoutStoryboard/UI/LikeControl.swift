@@ -21,12 +21,13 @@ final class LikeControl: UIControl {
     }()
 
     private var countLabel: UILabel = {
-        let text = UILabel()
-        text.font = .systemFont(ofSize: 12, weight: .bold)
-        text.textColor = .gray
-        text.textAlignment = .center
-        text.translatesAutoresizingMaskIntoConstraints = false
-        return text
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .bold)
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .white
+        return label
     }()
 
     private(set) var userLike = false

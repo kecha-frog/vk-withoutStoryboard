@@ -1,13 +1,13 @@
 //
-//  PhotoCacheLayer.swift
+//  PhotoNSCacheLayer.swift
 //  vk-withoutStoryboard
 //
-//  Created by Ke4a on 05.03.2022.
+//  Created by Ke4a on 22.05.2022.
 //
 
 import UIKit
 
-protocol PhotoCacheLayerProtocol: AnyObject {
+protocol PhotoNSCacheLayerProtocol: AnyObject {
     func getImage(for url: URL) -> UIImage?
     func saveImage(_ image: UIImage?, for url: URL)
     func deleteImage(for url: URL)
@@ -40,7 +40,7 @@ final class PhotoNSCacheLayer {
     }
 }
 
-extension PhotoNSCacheLayer: PhotoCacheLayerProtocol {
+extension PhotoNSCacheLayer: PhotoNSCacheLayerProtocol {
     // MARK: - Public Methods
     /// Получение кэшированного изображения по url адресу.
     /// - Parameter url: url адрес изображения.
@@ -79,61 +79,5 @@ extension PhotoNSCacheLayer: PhotoCacheLayerProtocol {
     /// Очистка всего кэша.
     func deleteAllImage() {
         imageCache.removeAllObjects()
-    }
-}
-
-final class PhotoFileCacheLayer {
-    // MARK: - Public Properties
-    var images = [String: UIImage]()
-    
-    // MARK: - Private Properties
-    private static let pathName: String = {
-        let pathName = "images"
-        guard let cachesDirectory = FileManager.default.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask).first
-        else { return pathName }
-        let url = cachesDirectory.appendingPathComponent(pathName, isDirectory: true)
-
-        if !FileManager.default.fileExists(atPath: url.path) {
-            try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
-        }
-        return pathName
-    }()
-
-    private let cacheLifeTime: TimeInterval = 30 * 24 * 60 * 60
-
-    // MARK: - Public Methods
-    func saveImage(url: URL, dataImage: Data) {
-        guard let fileName = getFilePath(url: url) else { return }
-        FileManager.default.createFile(atPath: fileName, contents: dataImage, attributes: nil)
-    }
-
-    func getImage(url: URL) -> UIImage? {
-        guard let fileName = getFilePath(url: url),
-              let info = try? FileManager.default.attributesOfItem(atPath: fileName),
-              let modificationDate = info[FileAttributeKey.modificationDate] as? Date else { return nil }
-
-        let lifeTime = Date().timeIntervalSince(modificationDate)
-
-        guard lifeTime <= cacheLifeTime,
-              let image = UIImage(contentsOfFile: fileName) else { return nil }
-
-        DispatchQueue.main.async {
-            self.images[url.absoluteString] = image
-        }
-
-        return image
-    }
-
-    // MARK: - Private Methods
-    private func getFilePath(url: URL) -> String? {
-        guard let cachesDirectory = FileManager.default.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask).first
-        else { return nil }
-        let hashName = url.absoluteString.split(separator: "?").first?.split(separator: "/").last ?? "default"
-
-        return cachesDirectory.appendingPathComponent(PhotoFileCacheLayer.pathName + "/" + hashName).path
     }
 }
