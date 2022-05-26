@@ -54,7 +54,7 @@ final class NewsFooterTableViewCell: UITableViewCell {
         let constant: CGFloat = 20
         contentView.addSubview(likeControl)
         NSLayoutConstraint.activate([
-            likeControl.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            likeControl.topAnchor.constraint(equalTo: contentView.topAnchor),
             likeControl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             likeControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constant),
             likeControl.heightAnchor.constraint(equalToConstant: constant),

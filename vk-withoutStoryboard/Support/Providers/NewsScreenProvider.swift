@@ -31,8 +31,8 @@ extension NewsScreenProvider {
     struct PostCell {
         let date: Double
         var constructor: [PostConstructor] = []
+        var isExpended = false
     }
-
 }
 
 /// Провайдер для NewsTableViewController.

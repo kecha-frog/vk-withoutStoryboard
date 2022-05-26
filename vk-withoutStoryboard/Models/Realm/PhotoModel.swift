@@ -16,7 +16,7 @@ final class Size: Object, Decodable {
     @objc dynamic var width: Int
 
     // вычисляемый параметр aspectRatio для фото
-    var aspectRatio: CGFloat { return CGFloat(height)/CGFloat(width) }
+    var aspectRatio: CGFloat { return CGFloat(height) / CGFloat(width) }
 
     override class func primaryKey() -> String? {
         return "url"
