@@ -12,21 +12,17 @@ import Foundation
 final class StartScreenProvider: ApiLayer {
     // MARK: - Public Methods
     /// Проверка токена на валидность.
-    func requestCheckTokenAsync() async -> Bool {
-        do {
-            let data = try await requestBase(endpoint: .getUser)
+    func requestCheckTokenAsync() async throws -> Bool {
+        let data = try await requestBase(endpoint: .getUser)
 
-            let json: [String: Any]? = try JSONSerialization.jsonObject(
-                with: data,
-                options: .mutableContainers
-            ) as? [String: Any]
+        let json: [String: Any]? = try JSONSerialization.jsonObject(
+            with: data,
+            options: .mutableContainers
+        ) as? [String: Any]
 
-            let result = json?.keys.contains("response") ?? false
+        let result = json?.keys.contains("response") ?? false
 
-            return result
-        } catch {
-            return false
-        }
+        return result
     }
 
     /// Анонимная авторизация в Firebase.

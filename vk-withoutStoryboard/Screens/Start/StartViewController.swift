@@ -42,18 +42,22 @@ final class StartViewController: UIViewController {
 
     // MARK: - Private Methods
     private func choiceScreen() {
-        loadingView.animation(.on)
-        
-        Task(priority: .background) {
-            let tokenIsValid = await provider.requestCheckTokenAsync()
-            
-            DispatchQueue.main.async {
-                self.loadingView.animation(.off)
-                // Если токен невалидный то перейдёт на контроллер логина
-                let controller: UIViewController = tokenIsValid ? TabBarViewController() : LoginViewController()
-                controller.modalPresentationStyle = .fullScreen
-                self.present(controller, animated: false, completion: nil)
+        Task {
+            let controller: UIViewController
+            loadingView.animation(.on)
+            do {
+                let tokenIsValid = try await provider.requestCheckTokenAsync()
+                if !tokenIsValid {
+                    throw MyError.tokenNotValid
+                }
+                controller  = TabBarViewController()
+            } catch {
+                controller  = LoginViewController()
+                print(error)
             }
+            self.loadingView.animation(.off)
+            controller.modalPresentationStyle = .fullScreen
+            self.present(controller, animated: false, completion: nil)
         }
     }
 }

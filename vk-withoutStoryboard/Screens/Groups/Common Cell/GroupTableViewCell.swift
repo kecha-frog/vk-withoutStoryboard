@@ -85,7 +85,11 @@ final class GroupTableViewCell: UITableViewCell {
     // MARK: - Private Methods
     private func loadImage(url: String) {
         Task(priority: .background) {
-            self.imageViewCell.image = await LoaderImageLayer.standart.loadAsync(url: url, cache: .off)
+            do {
+                self.imageViewCell.image = try await LoaderImageLayer.standart.loadAsync(url: url, cache: .off)
+            } catch {
+                print(error)
+            }
         }
     }
 }
