@@ -19,13 +19,15 @@ final class ResponseItem<T: ModelApiMark>: Decodable {
     }
 }
 
-struct HeaderNewsPost {
+struct ResponseHelper {
     let profiles: [NewsProfileModel]?
     let groups: [NewsGroupModel]?
+    let nextFrom: String?
 
-    init(_ profiles: [NewsProfileModel]?, _ groups: [NewsGroupModel]? ) {
+    init( _ profiles: [NewsProfileModel]?, _ groups: [NewsGroupModel]?, _ nextfrom: String? ) {
         self.profiles = profiles
         self.groups = groups
+        self.nextFrom = nextfrom
     }
 }
 
@@ -33,15 +35,20 @@ struct HeaderNewsPost {
 final class ResponseList<T: ModelApiMark> {
     let items: [T]
 
-    var headerPost: HeaderNewsPost?
+    var helper: ResponseHelper?
 
-    init(_ items: [T], _ profiles: [NewsProfileModel]? = nil, _ groups: [NewsGroupModel]? = nil) {
+    init(
+        _ items: [T],
+        _ profiles: [NewsProfileModel]? = nil,
+        _ groups: [NewsGroupModel]? = nil,
+        _ nextFrom: String? = nil
+    ) {
         self.items = items
 
         if profiles == nil, groups == nil {
-            headerPost = nil
+            helper = nil
         } else {
-            headerPost = HeaderNewsPost(profiles, groups)
+            helper = ResponseHelper(profiles, groups, nextFrom)
         }
     }
 }
