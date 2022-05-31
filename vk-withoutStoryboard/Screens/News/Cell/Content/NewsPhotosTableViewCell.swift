@@ -15,31 +15,31 @@ final class NewsPhotosTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
+    
     // MARK: - Static Properties
     static var identifier: String = "NewsContentTableViewCell"
-
+    
     // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Prepare For Reuse
     override func prepareForReuse() {
         super.prepareForReuse()
         imageNewsView.image = nil
     }
-
+    
     // MARK: - Setting UI Method
     /// Настройка UI.
     private func setupUI() {
         selectionStyle = .none
-
+        
         let constant: CGFloat = 2
         contentView.addSubview(imageNewsView)
         let topConstraint: NSLayoutConstraint = imageNewsView.topAnchor.constraint(
@@ -56,22 +56,26 @@ final class NewsPhotosTableViewCell: UITableViewCell {
             imageNewsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constant)
         ])
     }
-
+    
     // MARK: - Public Methods
     func configure(_ content: [Attachment]) {
         if let photo: Attachment = content.first(where: { $0.type == "photo" }) {
-            #warning("Доделать поддержку множество фото")
+#warning("Доделать поддержку множество фото")
             // Временно выводит только одно фото.
             loadImage(url: photo.photo?.sizes.last?.url ?? "")
         }
     }
-
+    
     // MARK: - Private Methods
     private func loadImage(url: String) {
         Task(priority: .background) {
-            self.imageNewsView.image = await LoaderImageLayer.standart.loadAsync(
-                url: url,
-                cache: .off)
+            do {
+                self.imageNewsView.image = try await LoaderImageLayer.standart.loadAsync(
+                    url: url,
+                    cache: .off)
+            } catch {
+                print(error)
+            }
         }
     }
 }

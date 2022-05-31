@@ -70,7 +70,11 @@ final class AvatarView: UIView {
     /// Включено повтороное получение изображение из кэша
     func loadImage(_ url: String) {
         Task(priority: .background) {
-            self.imageView.image = await LoaderImageLayer.standart.loadAsync(url: url, cache: .fileCache)
+            do {
+                self.imageView.image = try await LoaderImageLayer.standart.loadAsync(url: url, cache: .fileCache)
+            } catch {
+                print(error)
+            }
         }
     }
 
@@ -84,15 +88,18 @@ final class AvatarView: UIView {
     /// Promise animation
     ///  Чтоб исправить callback hell
     /// - Parameter translationX: увеличение
-    /// - Returns:
-    private func animationPromise(translationX: CGFloat) -> Promise<Void> {
-        return Promise { seal in
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0,
-                           initialSpringVelocity: 0.7, options: [.autoreverse ]) {
+    private func animationContinuation(translationX: CGFloat) async {
+        return await withCheckedContinuation { continuation in
+            UIView.animate(
+                withDuration: 0.3,
+                delay: 0,
+                usingSpringWithDamping: 0,
+                initialSpringVelocity: 0.7,
+                options: [.autoreverse ]) {
                 self.transform = CGAffineTransform(translationX: translationX, y: 0)
             } completion: { _ in
                 self.transform = .identity
-                seal.fulfill(())
+                continuation.resume()
             }
         }
     }
@@ -100,14 +107,9 @@ final class AvatarView: UIView {
     // MARK: - Actions
     /// Анимация аватара.
     @objc private func clickAnimation() {
-        firstly {
-            self.animationPromise(translationX: 1)
-        }
-        .then {
-            self.animationPromise(translationX: -1)
-        }
-        .catch { error in
-            print(error)
+        Task(priority: .utility) {
+            await self.animationContinuation(translationX: 1)
+            await self.animationContinuation(translationX: -1)
         }
     }
 }

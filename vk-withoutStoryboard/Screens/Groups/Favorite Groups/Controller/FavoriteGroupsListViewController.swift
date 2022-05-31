@@ -127,9 +127,7 @@ final class FavoriteGroupsListViewController: UIViewController {
                 let insertionsIndexPath: [IndexPath] = insertions.map { IndexPath(row: $0, section: 0) }
                 let modificationsIndexPath: [IndexPath] = modifications.map { IndexPath(row: $0, section: 0) }
 
-                DispatchQueue.main.async { [weak self] in
-                    guard let self: FavoriteGroupsListViewController = self  else { return }
-
+                Task {
                     self.tableView.beginUpdates()
                     self.tableView.deleteRows(at: deletionsIndexPath, with: .automatic)
                     self.tableView.insertRows(at: insertionsIndexPath, with: .automatic)
@@ -197,9 +195,7 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate {
             self.provider.setSearchText()
             self.updateTableView()
         } else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self  else { return }
-
+            Task {
                 // текст поиска передается в Провайдер
                 self.provider.setSearchText(searchText)
                 self.updateTableView()

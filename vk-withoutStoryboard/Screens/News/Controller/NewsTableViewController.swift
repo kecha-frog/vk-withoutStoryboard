@@ -76,31 +76,34 @@ final class NewsTableViewController: UIViewController {
     
     // MARK: - Action
     @objc func refreshControlAction() {
-        // Начинаем обновление новостей
-        self.tableView.refreshControl?.beginRefreshing()
-        
-        // отправляем сетевой запрос загрузки новостей
-        provider.fetchTimeData(time: .time) { [weak self] indexSet in
-            guard let self = self else { return }
-            // выключаем вращающийся индикатор
+        Task {
+            // Начинаем обновление новостей
+            self.tableView.refreshControl?.beginRefreshing()
+            // отправляем сетевой запрос загрузки новостей
+            do {
+                let indexSet = try await provider.fetchTimeDataAsync(time: .time)
+                self.tableView.insertSections(indexSet, with: .automatic)
+            } catch {
+                print(error)
+            }
             self.tableView.refreshControl?.endRefreshing()
-            
-            // проверяем, что более свежие новости действительно есть
-            guard let indexSet = indexSet else { return }
-            self.tableView.insertSections(indexSet, with: .automatic)
         }
     }
     
     // MARK: - Private Methods
     /// /// Запрос новостей из api с анимацией загрузки.
     private func fetchNews() {
-        loadingView.animation(.on)
-        provider.fetchData {
+        Task {
+            loadingView.animation(.on)
+            do {
+                try await provider.fetchDataAsync()
+            } catch {
+                print(error)
+            }
             self.loadingView.animation(.off)
             self.tableView.reloadData()
         }
     }
-    
 }
 
 // MARK: - UITableViewDataSource
@@ -217,9 +220,13 @@ extension NewsTableViewController: UITableViewDataSourcePrefetching {
         guard let maxSection = indexPaths.map({ $0.section }).max() else { return }
         // Убеждаемся, что мы уже не в процессе загрузки данных
         if maxSection > provider.data.count - 3, !provider.isLoading {
-            provider.fetchTimeData(time: .from) { indexSet in
-                guard let indexSet = indexSet else { return }
-                self.tableView.insertSections(indexSet, with: .automatic)
+            Task {
+                do {
+                    let indexSet = try await provider.fetchTimeDataAsync(time: .from)
+                    self.tableView.insertSections(indexSet, with: .automatic)
+                } catch {
+                    print(error)
+                }
             }
         }
     }

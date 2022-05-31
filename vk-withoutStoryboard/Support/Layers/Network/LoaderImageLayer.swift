@@ -39,12 +39,13 @@ final class LoaderImageLayer {
     ///   - cache: режим  кэширования.
     ///
     ///  По умолчанию кэширование изображение отключено.
-    func loadAsync(url: String, cache: Cache) async -> UIImage? {
+    func loadAsync(url: String, cache: Cache) async throws -> UIImage {
         // Проверяем url
         guard let url = URL(string: url) else {
-            return nil
+            throw RequestError.invalidURL
         }
-        var image: UIImage?
+
+        var image: UIImage
 
         // если кэширование включено, проверяем есть ли изобюражение в кэше
         switch cache {
@@ -63,31 +64,25 @@ final class LoaderImageLayer {
             break
         }
 
-        if image == nil {
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
 
-            do {
-                let (data, response) = try await URLSession.shared.data(for: request, delegate: nil)
+        let (data, response) = try await URLSession.shared.data(for: request, delegate: nil)
 
-                guard let response = response as? HTTPURLResponse else {
-                    throw RequestError.noResponse
-                }
-
-                switch response.statusCode {
-                case 200...299:
-                    let imageResponse = UIImage(data: data)
-                    image = imageResponse
-                case 401:
-                    throw RequestError.unauthorized
-                default:
-                    throw RequestError.unexpectedStatusCode
-                }
-            } catch {
-                return nil
-            }
+        guard let response = response as? HTTPURLResponse else {
+            throw RequestError.noResponse
         }
-        
+
+        switch response.statusCode {
+        case 200...299:
+            guard let imageResponse = UIImage(data: data) else { throw MyError.imageError }
+            image = imageResponse
+        case 401:
+            throw RequestError.unauthorized
+        default:
+            throw RequestError.unexpectedStatusCode
+        }
+
         return image
     }
 }

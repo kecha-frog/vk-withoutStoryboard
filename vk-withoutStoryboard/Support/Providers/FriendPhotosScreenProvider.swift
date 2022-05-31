@@ -44,12 +44,14 @@ final class FriendPhotosScreenProvider: ApiLayer {
     // MARK: - Public Methods
     func fetchData(_ loadView: LoadingView) {
         guard let id = self.friend?.id else { return }
-
-        loadView.animation(.on)
         Task(priority: .background) {
-            guard let result = await requestAsync(id: id) else { return }
-
-            savePhotoInRealmAsync(result)
+            await loadView.animation(.on)
+            do {
+                let result = try await requestAsync(id: id)
+                await savePhotoInRealm(result)
+            } catch {
+                print(error)
+            }
             await loadView.animation(.off)
         }
     }
@@ -58,41 +60,38 @@ final class FriendPhotosScreenProvider: ApiLayer {
     /// Запрос из api фото друга.
     ///
     /// Фото сохраняются  в бд.
-    private func requestAsync(id: Int) async -> [PhotoModel]? {
-
+    private func requestAsync(id: Int) async throws -> [PhotoModel] {
         let result = await sendRequestList(endpoint: .getPhotos(userId: id), responseModel: PhotoModel.self)
 
         switch result {
         case .success(let response):
             return response.items
         case .failure(let error):
-            print(error)
-            return nil
+            throw error
         }
     }
 
     /// Сохранение фото друга в бд.
     /// - Parameter newPhotoFromApi: Список фото друга.
-    private func savePhotoInRealmAsync(_ newPhotoFromApi: [PhotoModel]) {
-        DispatchQueue.main.async {
-            guard let friend = self.friend else { return }
+    @MainActor
+    private func savePhotoInRealm(_ newPhotoFromApi: [PhotoModel]) {
+        guard let friend = self.friend else { return }
 
-            // список фото друга которые он удалил
-            let oldValues = Array(self.realm.read(PhotoModel.self)
-                .filter("owner == %@", friend))
-                .filter { oldPhoto in
-                    !newPhotoFromApi.contains { $0.id == oldPhoto.id }
-                }
+        // список фото друга которые он удалил
+        let oldValues = Array(self.realm.read(PhotoModel.self)
+            .filter("owner == %@", friend))
+            .filter { oldPhoto in
+                !newPhotoFromApi.contains { $0.id == oldPhoto.id }
+            }
 
-            if !oldValues.isEmpty {
-                self.realm.delete(objects: oldValues)
-            }
-            // Новый список фото друга
-            let newValue = newPhotoFromApi.map { photo -> PhotoModel in
-                photo.owner = friend
-                return photo
-            }
-            self.realm.create(objects: newValue)
+        if !oldValues.isEmpty {
+            self.realm.delete(objects: oldValues)
         }
+        // Новый список фото друга
+        let newValue = newPhotoFromApi.map { photo -> PhotoModel in
+            photo.owner = friend
+            return photo
+        }
+        self.realm.create(objects: newValue)
     }
 }

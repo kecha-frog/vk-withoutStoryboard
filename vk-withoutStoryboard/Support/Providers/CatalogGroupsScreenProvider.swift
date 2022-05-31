@@ -25,15 +25,13 @@ final class CatalogGroupsScreenProvider: ApiLayer {
         searchText = text
     }
 
-    func fetchData(_ loadView: LoadingView, completion: @escaping () -> Void) {
+    func fetchData(_ loadView: LoadingView, completion: @MainActor @escaping () -> Void) {
         loadView.animation(.on)
         Task(priority: .background) {
-            guard let response = await requestAsync() else { return }
+            let response = try await requestAsync()
             self.data = response
-            DispatchQueue.main.async {
-                completion()
-                loadView.animation(.off)
-            }
+            await completion()
+            await loadView.animation(.off)
         }
     }
 
@@ -41,7 +39,7 @@ final class CatalogGroupsScreenProvider: ApiLayer {
     /// Запрос каталога групп из api.
     /// - Parameters:
     ///   - searchText: Поиск группы по названию, по умолчанию nil.
-    private func requestAsync() async -> [GroupModel]? {
+    private func requestAsync() async throws -> [GroupModel] {
         if let searchText: String = self.searchText {
             let result = await self.sendRequestList(
                 endpoint: ApiEndpoint.getSearchGroup(searchText: searchText),
@@ -53,7 +51,7 @@ final class CatalogGroupsScreenProvider: ApiLayer {
                 return response.items
             case .failure(let error):
                 print(error)
-                return nil
+                throw error
             }
         } else {
             let result = await self.sendRequestList(
@@ -66,7 +64,7 @@ final class CatalogGroupsScreenProvider: ApiLayer {
                 return response.items
             case .failure(let error):
                 print(error)
-                return nil
+                throw error
             }
         }
     }
