@@ -67,7 +67,7 @@ class PhotoFileCacheLayer: PhotoFileCacheLayerProtocol {
         guard lifeTime <= cacheLifeTime,
               let image = UIImage(contentsOfFile: fileName) else { return nil }
 
-        DispatchQueue.main.async {
+        Task {
             self.images[url.absoluteString] = image
         }
 

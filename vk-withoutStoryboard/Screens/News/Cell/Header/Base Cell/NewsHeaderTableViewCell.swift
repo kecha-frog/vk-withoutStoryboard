@@ -84,6 +84,6 @@ class NewsHeaderTableViewCell: UITableViewCell {
     }
     
     func convertDate(_ date: Double) {
-        dateLabel.text = DateFormaterHelper.standart.convert(date)
+        dateLabel.text = DateFormaterHelper.shared.convert(date)
     }
 }

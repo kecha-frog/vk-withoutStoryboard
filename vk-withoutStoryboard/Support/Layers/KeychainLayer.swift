@@ -27,7 +27,7 @@ final class KeychainLayer {
 
     // MARK: - Static Properties
     /// Singleton
-    static let standart = KeychainLayer()
+    static let shared = KeychainLayer()
 
     // MARK: - Public Methods
     /// Получить данные по ключу.

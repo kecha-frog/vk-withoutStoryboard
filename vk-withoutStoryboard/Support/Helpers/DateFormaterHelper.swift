@@ -21,7 +21,7 @@ class DateFormaterHelper {
     private var dateTextCache: [Double: String] = [:]
 
     // MARK: - Static Properties
-    static var standart = DateFormaterHelper()
+    static var shared = DateFormaterHelper()
 
     private init() {}
 

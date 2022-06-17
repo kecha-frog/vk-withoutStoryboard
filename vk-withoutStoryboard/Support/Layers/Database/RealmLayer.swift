@@ -83,12 +83,12 @@ final class RealmLayer {
         _ object: T.Type,
         key: Any,
         completion: @escaping (Result<T, Error>) -> Void) {
-        if let result: T = realm.object(ofType: T.self, forPrimaryKey: key) {
-            completion(.success(result))
-        } else {
-            completion(.failure(Errors.failedToRead("Fail to read object")))
+            if let result: T = realm.object(ofType: T.self, forPrimaryKey: key) {
+                completion(.success(result))
+            } else {
+                completion(.failure(Errors.failedToRead("Fail to read object")))
+            }
         }
-    }
 
     /// Добавляет неуправляемый объект в  Realm.
     /// - Parameter object: Объект, который нужно добавить в Realm.

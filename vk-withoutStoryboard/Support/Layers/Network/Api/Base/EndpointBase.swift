@@ -31,6 +31,6 @@ extension EndpointBase {
 
     /// получение токена из Keychain
     var token: String? {
-        KeychainLayer.standart.get(.token)
+        KeychainLayer.shared.get(.token)
     }
 }
