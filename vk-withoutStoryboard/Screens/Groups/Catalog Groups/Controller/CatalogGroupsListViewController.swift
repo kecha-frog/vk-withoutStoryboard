@@ -101,7 +101,8 @@ extension CatalogGroupsListViewController: UITableViewDataSource {
         guard let cell: GroupTableViewCell = tableView.dequeueReusableCell(
             withIdentifier: GroupTableViewCell.identifier
         ) as? GroupTableViewCell else { return UITableViewCell() }
-        cell.configure(group: provider.data[indexPath.row])
+        #warning("Исправить")
+        //cell.configure(group: provider.data[indexPath.row])
         return cell
     }
 }

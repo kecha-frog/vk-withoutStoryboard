@@ -46,7 +46,7 @@ final class FriendsTableViewCell: UITableViewCell {
     // MARK: - Public Methods
     /// Конфигурация ячейки.
     /// - Parameter friend: Друг.
-    func configure(friend: FriendModel) {
+    func configure(friend: RLMFriend) {
         fullNameLabel.text = "\(friend.firstName) \(friend.lastName)"
         avatarView.loadImage(friend.avatar)
     }

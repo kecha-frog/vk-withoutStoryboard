@@ -10,9 +10,9 @@ import RealmSwift
 
 /// Модель секции с друзьями для Realm.
 @objcMembers
-final class LetterModel: Object {
+final class RLMLetter: Object {
     dynamic var name: String = ""
-    dynamic var items = List<FriendModel>()
+    dynamic var items = List<RLMFriend>()
 
     override class func primaryKey() -> String? {
         return "name"

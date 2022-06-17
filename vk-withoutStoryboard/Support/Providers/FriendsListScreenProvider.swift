@@ -15,8 +15,8 @@ final class FriendsListScreenProvider: ApiLayer {
     private var realm = RealmLayer()
     
     /// Получение из бд секции с друзьями.
-    var data: Results<LetterModel> {
-        self.realm.read(LetterModel.self).sorted(byKeyPath: "name", ascending: true)
+    var data: Results<RLMLetter> {
+        self.realm.read(RLMLetter.self).sorted(byKeyPath: "name", ascending: true)
     }
     
     // MARK: - Initializers
@@ -52,8 +52,8 @@ final class FriendsListScreenProvider: ApiLayer {
     /// Запрос списка друзей из api.
     ///
     /// Друзья сохраняются  в бд.
-    private func requestAsync() async throws -> [FriendModel] {
-        let result = await sendRequestList(endpoint: ApiEndpoint.getFriends, responseModel: FriendModel.self)
+    private func requestAsync() async throws -> [RLMFriend] {
+        let result = await sendRequestList(endpoint: ApiEndpoint.getFriends, responseModel: RLMFriend.self)
 
         switch result {
         case.success(let result):
@@ -69,19 +69,19 @@ final class FriendsListScreenProvider: ApiLayer {
     /// Написал сложную логику сохранение друзей, чтоб уменьшить траназцикцию записи.
     /// (на 1500 объектов было 45 сек, стало 4 сек)
     @MainActor
-    private func saveInRealm(_ friendsFromApi: [FriendModel]) {
+    private func saveInRealm(_ friendsFromApi: [RLMFriend]) {
         // список для обновления данных старых друзей
-        var friendsUpdate: [FriendModel] = []
+        var friendsUpdate: [RLMFriend] = []
         // список для обнавления существующих секций
-        var alphabetUpdate: [(LetterModel, FriendModel)] = []
+        var alphabetUpdate: [(RLMLetter, RLMFriend)] = []
         // список секций другом которые надо создать
-        var newAlphabet: [LetterModel] = []
+        var newAlphabet: [RLMLetter] = []
 
         // список друзей из бд в данный момент
-        let oldDBFriends: Results<FriendModel> = self.realm.read(FriendModel.self)
+        let oldDBFriends: Results<RLMFriend> = self.realm.read(RLMFriend.self)
 
         // список друзей которых надо удалить из бд
-        let deleteFriends: [FriendModel] = oldDBFriends.filter { friend in
+        let deleteFriends: [RLMFriend] = oldDBFriends.filter { friend in
             !friendsFromApi.contains { $0.id == friend.id }
         }
 
@@ -96,7 +96,7 @@ final class FriendsListScreenProvider: ApiLayer {
                 // Получаем первую буквы фамилии друга для секции
                 guard let letterNameFriend: String = newFriend.lastName.first?.lowercased() else { return }
                 // Проверка есть ли уже секция с буквой друга
-                self.realm.read(LetterModel.self, key: letterNameFriend) { result in
+                self.realm.read(RLMLetter.self, key: letterNameFriend) { result in
                     switch result {
                     case .success(let letter):
                         // добавляю друга в список для обновления списка друзей существующих секций
@@ -108,7 +108,7 @@ final class FriendsListScreenProvider: ApiLayer {
                             newAlphabet[indexSection].items.append(newFriend)
                         } else {
                             // создаю секцию
-                            let letter = LetterModel()
+                            let letter = RLMLetter()
                             letter.name = letterNameFriend
                             // добавляю друга в секцию
                             letter.items.append(newFriend)

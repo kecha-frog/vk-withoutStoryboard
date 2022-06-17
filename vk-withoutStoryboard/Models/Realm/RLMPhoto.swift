@@ -24,7 +24,7 @@ final class Size: Object, Decodable {
 }
 
 /// Модель фото для Realm.
-final class PhotoModel: Object, Decodable, ModelApiMark {
+final class RLMPhoto: Object, Decodable, ModelApiMark {
     @objc dynamic var id: Int = 0
     @objc dynamic var ownerId: Int = 0
     @objc dynamic var text: String = ""
@@ -52,7 +52,7 @@ final class PhotoModel: Object, Decodable, ModelApiMark {
     }
 
     // связь 1 вариант
-    @objc dynamic var owner: FriendModel?
+    @objc dynamic var owner: RLMFriend?
 
     // связь 2 вариант
     // автоматически линкует при дабавление в список у хозяина через append

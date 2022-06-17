@@ -90,7 +90,7 @@ final class FriendCollectionViewCell: UICollectionViewCell {
     ///   - cache: Кэш где хранятся фото.
     ///
     ///   Возможность взять изображение из кэша если он там сохранено.
-    func configure(_ image: PhotoModel) {
+    func configure(_ image: RLMPhoto) {
         guard let url: String = image.sizes.last?.url else { return }
         loadImage(url: url)
         
@@ -103,7 +103,7 @@ final class FriendCollectionViewCell: UICollectionViewCell {
     private func loadImage(url: String) {
         Task(priority: .background) {
             do {
-                self.imageView.image = try await LoaderImageLayer.standart.loadAsync(url: url, cache: .nsCache)
+                self.imageView.image = try await LoaderImageLayer.shared.loadAsync(url: url, cache: .nsCache)
             } catch {
                 print(error)
             }

@@ -36,6 +36,7 @@
 		F26C4AC427F70CE50081FB66 /* CatalogGroupsScreenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC327F70CE50081FB66 /* CatalogGroupsScreenProvider.swift */; };
 		F26C4AC727F718290081FB66 /* FavoriteGroupsScreenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26C4AC627F718290081FB66 /* FavoriteGroupsScreenProvider.swift */; };
 		F270D17F2836266C00A26280 /* RequestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F270D17E2836266C00A26280 /* RequestBase.swift */; };
+		F278306C285CE6A900DE5C3D /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F278306B285CE6A900DE5C3D /* GroupModel.swift */; };
 		F281597B27A27C9F0061F2B8 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */; };
 		F285766227D62BAB00B6069F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F285766127D62BAB00B6069F /* StartViewController.swift */; };
 		F286F8FF27FC5BAA008E9B2B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F286F8FE27FC5BAA008E9B2B /* GoogleService-Info.plist */; };
@@ -104,6 +105,7 @@
 		F26C4AC327F70CE50081FB66 /* CatalogGroupsScreenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogGroupsScreenProvider.swift; sourceTree = "<group>"; };
 		F26C4AC627F718290081FB66 /* FavoriteGroupsScreenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGroupsScreenProvider.swift; sourceTree = "<group>"; };
 		F270D17E2836266C00A26280 /* RequestBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBase.swift; sourceTree = "<group>"; };
+		F278306B285CE6A900DE5C3D /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
 		F281597A27A27C9F0061F2B8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		F285766127D62BAB00B6069F /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		F286F8FE27FC5BAA008E9B2B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				F28CD2D0280D79BD002FEBF9 /* News */,
 				F299703D27E0C9EA006684BD /* Realm */,
 				F25580F227CBB930008820DD /* Responses.swift */,
+				F278306B285CE6A900DE5C3D /* GroupModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -728,6 +731,7 @@
 				F28CD2DA280D9627002FEBF9 /* NewsHeaderTableViewCell.swift in Sources */,
 				F28CD2CD280D6490002FEBF9 /* NewsPostModel.swift in Sources */,
 				F2070D0E283378DD0066DEEF /* ApiEndpoint.swift in Sources */,
+				F278306C285CE6A900DE5C3D /* GroupModel.swift in Sources */,
 				F28CD2DD280D9BFB002FEBF9 /* NewsTextTableViewCell.swift in Sources */,
 				F2982B0F27E33E8000186F8D /* RMLGroup.swift in Sources */,
 				F2FCA71F27E7518E0036209B /* RLMLetter.swift in Sources */,

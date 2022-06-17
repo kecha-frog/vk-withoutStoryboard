@@ -9,7 +9,7 @@ import Foundation
 #warning("Расписать комментарии.")
 struct Attachment: Decodable {
     let type: String
-    let photo: PhotoModel?
+    let photo: RLMPhoto?
     let audio: Audio?
     let video: Video?
 

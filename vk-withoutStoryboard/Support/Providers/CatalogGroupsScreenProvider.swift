@@ -12,7 +12,7 @@ import Foundation
 final class CatalogGroupsScreenProvider: ApiLayer {
     // MARK: - Public Properties
     /// Cписок всех групп.
-    var data: [GroupModel] = []
+    var data: [RLMGroup] = []
 
     // MARK: - Private Properties
     private var searchText: String?
@@ -39,11 +39,11 @@ final class CatalogGroupsScreenProvider: ApiLayer {
     /// Запрос каталога групп из api.
     /// - Parameters:
     ///   - searchText: Поиск группы по названию, по умолчанию nil.
-    private func requestAsync() async throws -> [GroupModel] {
+    private func requestAsync() async throws -> [RLMGroup] {
         if let searchText: String = self.searchText {
             let result = await self.sendRequestList(
                 endpoint: ApiEndpoint.getSearchGroup(searchText: searchText),
-                responseModel: GroupModel.self)
+                responseModel: RLMGroup.self)
 
             // Поиск определенных групп по ключевому слову
             switch result {
@@ -56,7 +56,7 @@ final class CatalogGroupsScreenProvider: ApiLayer {
         } else {
             let result = await self.sendRequestList(
                 endpoint: ApiEndpoint.getCatalogGroups,
-                responseModel: GroupModel.self)
+                responseModel: RLMGroup.self)
 
             // Получение каталога групп
             switch result {
@@ -73,7 +73,7 @@ final class CatalogGroupsScreenProvider: ApiLayer {
     /// - Parameter selectGroup: Выбранная группа.
     //    func firebaseSelectGroup(_ selectGroup: GroupModel){
     //        //  Id пользователя
-    //        guard let id: String = Keychain.standart.get(.id) else { return }
+    //        guard let id: String = Keychain.shared.get(.id) else { return }
     //
     //        // Получение данных по id пользователя, отправка id и название группы
     //        ref.child(id).getData { error, snapshot in
