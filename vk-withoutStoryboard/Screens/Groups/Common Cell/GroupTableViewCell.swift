@@ -82,6 +82,12 @@ final class GroupTableViewCell: UITableViewCell {
         loadImage(url: group.photo200)
     }
 
+    func configure(group: CatalogViewModel) {
+        nameLabel.text = group.name
+        // Загрузка изображения группы.
+        loadImage(url: group.photo200)
+    }
+
     // MARK: - Private Methods
     private func loadImage(url: String) {
         Task(priority: .background) {

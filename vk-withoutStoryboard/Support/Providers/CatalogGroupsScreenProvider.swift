@@ -12,10 +12,12 @@ import Foundation
 final class CatalogGroupsScreenProvider: ApiLayer {
     // MARK: - Public Properties
     /// Cписок всех групп.
-    var data: [RLMGroup] = []
+    var viewModels: [CatalogViewModel] = []
 
     // MARK: - Private Properties
     private var searchText: String?
+
+    private let groupFactory = CatalogGroupsViewModelFactory()
 
     /// Firebase.
     // private let ref: DatabaseReference = Database.database().reference(withPath: "Groups")
@@ -29,7 +31,7 @@ final class CatalogGroupsScreenProvider: ApiLayer {
         loadView.animation(.on)
         Task(priority: .background) {
             let response = try await requestAsync()
-            self.data = response
+            self.viewModels = groupFactory.constructViewModels(from: response)
             await completion()
             await loadView.animation(.off)
         }

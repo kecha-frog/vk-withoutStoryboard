@@ -85,6 +85,7 @@ final class FavoriteGroupsScreenProvider: ApiLayer {
                 let modificationsIndexPath: [IndexPath] = modifications.map { IndexPath(row: $0, section: 0) }
 
                 self.fetchData = realmGroup.map { self.getFavoriteGroup($0) }
+                
                 Task {
                     await tableView.beginUpdates()
                     await tableView.deleteRows(at: deletionsIndexPath, with: .automatic)
