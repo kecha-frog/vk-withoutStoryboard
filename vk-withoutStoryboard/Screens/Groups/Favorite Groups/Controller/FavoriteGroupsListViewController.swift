@@ -109,6 +109,7 @@ final class FavoriteGroupsListViewController: UIViewController {
     private func fetchGroups() {
         provider.fetchData(loadingView)
     }
+    
     /// Регистрирует блок, который будет вызываться при каждом изменении данных групп пользователя в бд.
     private func createNotificationToken() {
         // подписка на изменения бд
@@ -173,7 +174,7 @@ extension FavoriteGroupsListViewController: UITableViewDelegate {
     /// - Returns: UIContextualAction для tableView SwipeActionsConfigurationForRowAt.
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Delete") { [self] _, _, _ in
-            let group: GroupModel = provider.data[indexPath.row]
+            let group: RLMGroup = provider.data[indexPath.row]
             self.provider.deleteInRealm(group)
         }
         action.backgroundColor = .red

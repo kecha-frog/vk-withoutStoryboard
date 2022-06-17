@@ -27,7 +27,7 @@ final class LoaderImageLayer {
 
     // MARK: - Static Properties
     ///  Singleton
-    static var standart = LoaderImageLayer()
+    static var shared = LoaderImageLayer()
 
     // MARK: - Private Initializers
     private init() {}

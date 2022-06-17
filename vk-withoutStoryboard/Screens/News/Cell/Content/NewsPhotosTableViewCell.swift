@@ -70,7 +70,7 @@ final class NewsPhotosTableViewCell: UITableViewCell {
     private func loadImage(url: String) {
         Task(priority: .background) {
             do {
-                self.imageNewsView.image = try await LoaderImageLayer.standart.loadAsync(
+                self.imageNewsView.image = try await LoaderImageLayer.shared.loadAsync(
                     url: url,
                     cache: .off)
             } catch {
