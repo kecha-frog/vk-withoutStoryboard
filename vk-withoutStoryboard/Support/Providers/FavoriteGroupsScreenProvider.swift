@@ -74,7 +74,11 @@ final class FavoriteGroupsScreenProvider: ApiLayer {
                 // при первом запуске приложения
             case .initial(let realmGroup):
                 self.fetchData = realmGroup.map { self.getFavoriteGroup($0) }
-                tableView.reloadData()
+                Task {
+                    await MainActor.run {
+                        tableView.reloadData()
+                    }
+                }
                 // при изменение бд
             case .update(let realmGroup,
                          let deletions,
@@ -85,13 +89,14 @@ final class FavoriteGroupsScreenProvider: ApiLayer {
                 let modificationsIndexPath: [IndexPath] = modifications.map { IndexPath(row: $0, section: 0) }
 
                 self.fetchData = realmGroup.map { self.getFavoriteGroup($0) }
-                
                 Task {
-                    await tableView.beginUpdates()
-                    await tableView.deleteRows(at: deletionsIndexPath, with: .automatic)
-                    await tableView.insertRows(at: insertionsIndexPath, with: .automatic)
-                    await tableView.reloadRows(at: modificationsIndexPath, with: .automatic)
-                    await tableView.endUpdates()
+                    await MainActor.run {
+                        tableView.beginUpdates()
+                        tableView.deleteRows(at: deletionsIndexPath, with: .automatic)
+                        tableView.insertRows(at: insertionsIndexPath, with: .automatic)
+                        tableView.reloadRows(at: modificationsIndexPath, with: .automatic)
+                        tableView.endUpdates()
+                    }
                 }
                 // при ошибке
             case .error(let error):
