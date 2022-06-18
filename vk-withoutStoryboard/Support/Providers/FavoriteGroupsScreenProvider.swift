@@ -141,7 +141,6 @@ final class FavoriteGroupsScreenProvider: ApiLayer {
             self.realm.delete(objects: oldValues)
         }
 
-        print(newGroups)
         // Добавление новых групп или обновление данных старых групп
         self.realm.create(objects: newGroups)
     }
