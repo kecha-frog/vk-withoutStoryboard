@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 /// Модель группы для Realm.
-final class GroupModel: Object, Decodable, ModelApiMark {
+final class RLMGroup: Object, Decodable, ModelApiMark {
     @objc dynamic var id: Int = 0
     @objc dynamic var type: String = ""
     @objc dynamic var name: String = ""

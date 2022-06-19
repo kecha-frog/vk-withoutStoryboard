@@ -83,11 +83,11 @@ final class FriendsViewController: UIViewController {
                 // секции в которой надо обновить список друзей
                 var reloadSections: [Int] = []
                 // секции которые стали пустые
-                var emptySections: [LetterModel] = []
+                var emptySections: [RLMLetter] = []
 
                 // сортирую секции на удаление и обновление
                 modifications.forEach { section in
-                    let letter: LetterModel = self.provider.data[section]
+                    let letter: RLMLetter = self.provider.data[section]
                     if letter.items.isEmpty {
                         emptySections.append(letter)
                     } else {
@@ -175,7 +175,7 @@ extension FriendsViewController: UITableViewDelegate {
     /// Action для выбранной ячейки
     /// - Parameter indexPath: индекс выбранной ячейки
     private func didSelectRowAction(_ indexPath: IndexPath) {
-        let friend: FriendModel = provider.data[indexPath.section].items[indexPath.row]
+        let friend: RLMFriend = provider.data[indexPath.section].items[indexPath.row]
 
         let friendCollectionVC = FriendCollectionViewController()
         friendCollectionVC.configure(friendId: friend.id)
@@ -187,7 +187,7 @@ extension FriendsViewController: UITableViewDelegate {
     /// - Returns: UIContextualAction для tableView SwipeActionsConfigurationForRowAt.
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Delete") { [self] _, _, _ in
-            let friend: FriendModel = provider.data[indexPath.section].items[indexPath.row]
+            let friend: RLMFriend = provider.data[indexPath.section].items[indexPath.row]
             provider.deleteInRealm(objects: [friend])
             // В будущем добавлю удаление друга в апи.
         }

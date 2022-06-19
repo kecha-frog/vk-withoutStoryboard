@@ -8,6 +8,8 @@
 import UIKit
 
 // MARK: - UIColor
+
+// pattern flyweight
 extension UIColor {
     static let vkColor = UIColor(named: "vk") ?? .blue
 }

@@ -94,14 +94,14 @@ extension CatalogGroupsListViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension CatalogGroupsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        provider.data.count
+        provider.viewModels.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell: GroupTableViewCell = tableView.dequeueReusableCell(
             withIdentifier: GroupTableViewCell.identifier
         ) as? GroupTableViewCell else { return UITableViewCell() }
-        cell.configure(group: provider.data[indexPath.row])
+        cell.configure(group: provider.viewModels[indexPath.row])
         return cell
     }
 }

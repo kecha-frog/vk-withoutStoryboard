@@ -32,14 +32,12 @@ final class FavoriteGroupsListViewController: UIViewController {
     /// Провайдер.
     private let provider = FavoriteGroupsScreenProvider()
 
-    private var token: NotificationToken?
-
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        fetchGroups()
-        createNotificationToken()
+        provider.createNotificationToken(tableView)
+        provider.fetchData(loadingView)
         searchBarHeader.setDelegate(self)
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: GroupTableViewCell.identifier)
         self.tableView.delegate = self
@@ -98,49 +96,6 @@ final class FavoriteGroupsListViewController: UIViewController {
         let allGroupsVC = CatalogGroupsListViewController()
         navigationController?.pushViewController(allGroupsVC, animated: false)
     }
-
-    // MARK: - Private Methods
-    /// Обновление данных таблицы.
-    private func updateTableView() {
-        tableView.reloadData()
-    }
-
-    /// Запрос групп пользователя из api с анимацией.
-    private func fetchGroups() {
-        provider.fetchData(loadingView)
-    }
-    
-    /// Регистрирует блок, который будет вызываться при каждом изменении данных групп пользователя в бд.
-    private func createNotificationToken() {
-        // подписка на изменения бд
-        // так же можно подписываться на изменения определеного объекта
-        token = provider.data.observe { result in
-            switch result {
-                // при первом запуске приложения
-            case .initial:
-                break
-                // при изменение бд
-            case .update(_,
-                         let deletions,
-                         let insertions,
-                         let modifications):
-                let deletionsIndexPath: [IndexPath] = deletions.map { IndexPath(row: $0, section: 0) }
-                let insertionsIndexPath: [IndexPath] = insertions.map { IndexPath(row: $0, section: 0) }
-                let modificationsIndexPath: [IndexPath] = modifications.map { IndexPath(row: $0, section: 0) }
-
-                Task {
-                    self.tableView.beginUpdates()
-                    self.tableView.deleteRows(at: deletionsIndexPath, with: .automatic)
-                    self.tableView.insertRows(at: insertionsIndexPath, with: .automatic)
-                    self.tableView.reloadRows(at: modificationsIndexPath, with: .automatic)
-                    self.tableView.endUpdates()
-                }
-                // при ошибке
-            case .error(let error):
-                print(error)
-            }
-        }
-    }
 }
 
 // MARK: - UITableViewDataSource
@@ -174,7 +129,7 @@ extension FavoriteGroupsListViewController: UITableViewDelegate {
     /// - Returns: UIContextualAction для tableView SwipeActionsConfigurationForRowAt.
     private func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Delete") { [self] _, _, _ in
-            let group: RLMGroup = provider.data[indexPath.row]
+            let group: GroupModel = provider.data[indexPath.row]
             self.provider.deleteInRealm(group)
         }
         action.backgroundColor = .red
@@ -194,12 +149,12 @@ extension FavoriteGroupsListViewController: UISearchBarDelegate {
         // Если текст searchBar пуст, то сбрасывается поисковое слово в сервисном слое.
         if searchText.isEmpty {
             self.provider.setSearchText()
-            self.updateTableView()
+            tableView.reloadData()
         } else {
             Task {
                 // текст поиска передается в Провайдер
                 self.provider.setSearchText(searchText)
-                self.updateTableView()
+                tableView.reloadData()
             }
         }
     }
