@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         // Стартовый контроллер
-        let controller = StartScreenModuleBuilder.startScreenBuild()
+        let controller = ScreenModuleBuilder.startScreenBuild()
         window?.rootViewController = controller
         window?.makeKeyAndVisible()
     }

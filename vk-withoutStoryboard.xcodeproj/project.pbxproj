@@ -13,7 +13,7 @@
 		F2070D0A283377AD0066DEEF /* ApiLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2070D09283377AD0066DEEF /* ApiLayer.swift */; };
 		F2070D0E283378DD0066DEEF /* ApiEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2070D0D283378DD0066DEEF /* ApiEndpoint.swift */; };
 		F20791F8288AA7C2000A9BB3 /* StartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20791F7288AA7C2000A9BB3 /* StartPresenter.swift */; };
-		F20791FB288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20791FA288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift */; };
+		F20791FB288AAA5E000A9BB3 /* ScreenModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20791FA288AAA5E000A9BB3 /* ScreenModuleBuilder.swift */; };
 		F20791FE288AABCF000A9BB3 /* StartInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20791FD288AABCF000A9BB3 /* StartInteractor.swift */; };
 		F2079201288AC53D000A9BB3 /* StartRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2079200288AC53D000A9BB3 /* StartRouter.swift */; };
 		F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210040E27A1352A00073B94 /* AppDelegate.swift */; };
@@ -70,7 +70,6 @@
 		F29C66AD280EF17E0030245D /* OtherForPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C66AC280EF17E0030245D /* OtherForPostModel.swift */; };
 		F29F4C1027CF6BED00D766F2 /* KeychainLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29F4C0F27CF6BED00D766F2 /* KeychainLayer.swift */; };
 		F2B76B8327D74BC4006BA2A1 /* LoaderImageLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B76B8227D74BC4006BA2A1 /* LoaderImageLayer.swift */; };
-		F2D042B327F83D94006DC948 /* StartScreenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D042B227F83D94006DC948 /* StartScreenProvider.swift */; };
 		F2D15E62286838B200364076 /* LoaderImageLayerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D15E61286838B200364076 /* LoaderImageLayerProxy.swift */; };
 		F2D2876D283F722C00F8B8D1 /* NewsStubTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D2876C283F722C00F8B8D1 /* NewsStubTableViewCell.swift */; };
 		F2DCE950280C31D400027EAE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DCE94A280C31D400027EAE /* LoginViewController.swift */; };
@@ -89,7 +88,7 @@
 		F2070D09283377AD0066DEEF /* ApiLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLayer.swift; sourceTree = "<group>"; };
 		F2070D0D283378DD0066DEEF /* ApiEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndpoint.swift; sourceTree = "<group>"; };
 		F20791F7288AA7C2000A9BB3 /* StartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPresenter.swift; sourceTree = "<group>"; };
-		F20791FA288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreenModuleBuilder.swift; sourceTree = "<group>"; };
+		F20791FA288AAA5E000A9BB3 /* ScreenModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenModuleBuilder.swift; sourceTree = "<group>"; };
 		F20791FD288AABCF000A9BB3 /* StartInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartInteractor.swift; sourceTree = "<group>"; };
 		F2079200288AC53D000A9BB3 /* StartRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartRouter.swift; path = ../../../../../../Desktop/StartRouter.swift; sourceTree = "<group>"; };
 		F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vk-withoutStoryboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,7 +144,6 @@
 		F29C66AC280EF17E0030245D /* OtherForPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherForPostModel.swift; sourceTree = "<group>"; };
 		F29F4C0F27CF6BED00D766F2 /* KeychainLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainLayer.swift; sourceTree = "<group>"; };
 		F2B76B8227D74BC4006BA2A1 /* LoaderImageLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderImageLayer.swift; sourceTree = "<group>"; };
-		F2D042B227F83D94006DC948 /* StartScreenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreenProvider.swift; sourceTree = "<group>"; };
 		F2D15E61286838B200364076 /* LoaderImageLayerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderImageLayerProxy.swift; sourceTree = "<group>"; };
 		F2D2876C283F722C00F8B8D1 /* NewsStubTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStubTableViewCell.swift; sourceTree = "<group>"; };
 		F2DCE94A280C31D400027EAE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -219,7 +217,7 @@
 		F20791F9288AAA41000A9BB3 /* Builder */ = {
 			isa = PBXGroup;
 			children = (
-				F20791FA288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift */,
+				F20791FA288AAA5E000A9BB3 /* ScreenModuleBuilder.swift */,
 			);
 			path = Builder;
 			sourceTree = "<group>";
@@ -275,6 +273,7 @@
 		F21B778127AEB1E30032F8B5 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				F20791F9288AAA41000A9BB3 /* Builder */,
 				F2F88052285CFBC40028BE85 /* Factory */,
 				F287CA0B283A569C000AF975 /* Helpers */,
 				F2AE37952831286900D2E76C /* Layers */,
@@ -461,7 +460,6 @@
 		F286F8F727FC37C5008E9B2B /* Start */ = {
 			isa = PBXGroup;
 			children = (
-				F20791F9288AAA41000A9BB3 /* Builder */,
 				F20791F6288AA7A1000A9BB3 /* Presenter */,
 				F20791FF288AC521000A9BB3 /* Router */,
 				F20791FC288AABAA000A9BB3 /* Interactor */,
@@ -473,7 +471,6 @@
 		F286F8F827FC37ED008E9B2B /* Providers */ = {
 			isa = PBXGroup;
 			children = (
-				F2D042B227F83D94006DC948 /* StartScreenProvider.swift */,
 				F2DCE94F280C31D400027EAE /* LoginScreenProvider.swift */,
 				F26C4ABC27F6FAA70081FB66 /* FriendsListScreenProvider.swift */,
 				F26C4AC027F706A10081FB66 /* FriendPhotosScreenProvider.swift */,
@@ -799,7 +796,7 @@
 				F299704127E0DEEE006684BD /* RealmLayer.swift in Sources */,
 				F28CD2C8280D57FC002FEBF9 /* NewsTableViewController.swift in Sources */,
 				F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */,
-				F20791FB288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift in Sources */,
+				F20791FB288AAA5E000A9BB3 /* ScreenModuleBuilder.swift in Sources */,
 				F26C4AC127F706A10081FB66 /* FriendPhotosScreenProvider.swift in Sources */,
 				F2079201288AC53D000A9BB3 /* StartRouter.swift in Sources */,
 				F20791FE288AABCF000A9BB3 /* StartInteractor.swift in Sources */,
@@ -810,7 +807,6 @@
 				F28C8E6128323807003C648D /* CatalogGroupsListViewController.swift in Sources */,
 				F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */,
 				F2070D062833775E0066DEEF /* RequestMethod.swift in Sources */,
-				F2D042B327F83D94006DC948 /* StartScreenProvider.swift in Sources */,
 				F2DCE952280C31D400027EAE /* LoginAutorized.swift in Sources */,
 				F2D15E62286838B200364076 /* LoaderImageLayerProxy.swift in Sources */,
 				F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */,

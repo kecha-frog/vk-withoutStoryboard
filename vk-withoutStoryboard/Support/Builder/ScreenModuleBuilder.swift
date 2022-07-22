@@ -1,5 +1,5 @@
 //
-//  StartScreenModuleBuilder.swift
+//  ScreenModuleBuilder.swift
 //  vk-withoutStoryboard
 //
 //  Created by Ke4a on 22.07.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StartScreenModuleBuilder {
+class ScreenModuleBuilder {
     
     // MARK: - Static Methods
 
