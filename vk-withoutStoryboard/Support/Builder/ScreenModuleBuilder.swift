@@ -23,4 +23,22 @@ class ScreenModuleBuilder {
 
         return viewController
     }
+
+    static func loginScreenBuild() -> (UIViewController & LoginViewInput) {
+        let interactor = LoginInteractor()
+        let router = LoginRouter()
+        let presenter = LoginPresenter(interactor, router)
+
+        let viewController = LoginViewController(presenter: presenter)
+
+        router.viewController = viewController
+        presenter.viewInput = viewController
+
+        return viewController
+    }
+
+    static func mainScreenBuild() -> UIViewController {
+        let viewController = TabBarViewController()
+        return viewController
+    }
 }
