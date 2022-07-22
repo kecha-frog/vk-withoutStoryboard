@@ -12,6 +12,10 @@
 		F2070D082833777A0066DEEF /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2070D072833777A0066DEEF /* RequestError.swift */; };
 		F2070D0A283377AD0066DEEF /* ApiLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2070D09283377AD0066DEEF /* ApiLayer.swift */; };
 		F2070D0E283378DD0066DEEF /* ApiEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2070D0D283378DD0066DEEF /* ApiEndpoint.swift */; };
+		F20791F8288AA7C2000A9BB3 /* StartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20791F7288AA7C2000A9BB3 /* StartPresenter.swift */; };
+		F20791FB288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20791FA288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift */; };
+		F20791FE288AABCF000A9BB3 /* StartInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20791FD288AABCF000A9BB3 /* StartInteractor.swift */; };
+		F2079201288AC53D000A9BB3 /* StartRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2079200288AC53D000A9BB3 /* StartRouter.swift */; };
 		F210040F27A1352A00073B94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210040E27A1352A00073B94 /* AppDelegate.swift */; };
 		F210041127A1352A00073B94 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F210041027A1352A00073B94 /* SceneDelegate.swift */; };
 		F210041827A1352B00073B94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F210041727A1352B00073B94 /* Assets.xcassets */; };
@@ -84,6 +88,10 @@
 		F2070D072833777A0066DEEF /* RequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
 		F2070D09283377AD0066DEEF /* ApiLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLayer.swift; sourceTree = "<group>"; };
 		F2070D0D283378DD0066DEEF /* ApiEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndpoint.swift; sourceTree = "<group>"; };
+		F20791F7288AA7C2000A9BB3 /* StartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPresenter.swift; sourceTree = "<group>"; };
+		F20791FA288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreenModuleBuilder.swift; sourceTree = "<group>"; };
+		F20791FD288AABCF000A9BB3 /* StartInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartInteractor.swift; sourceTree = "<group>"; };
+		F2079200288AC53D000A9BB3 /* StartRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StartRouter.swift; path = ../../../../../../Desktop/StartRouter.swift; sourceTree = "<group>"; };
 		F210040B27A1352A00073B94 /* vk-withoutStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vk-withoutStoryboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F210040E27A1352A00073B94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F210041027A1352A00073B94 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -190,6 +198,46 @@
 				F2070D0D283378DD0066DEEF /* ApiEndpoint.swift */,
 			);
 			path = Endpoints;
+			sourceTree = "<group>";
+		};
+		F20791F5288AA78E000A9BB3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F285766127D62BAB00B6069F /* StartViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		F20791F6288AA7A1000A9BB3 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				F20791F7288AA7C2000A9BB3 /* StartPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		F20791F9288AAA41000A9BB3 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				F20791FA288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		F20791FC288AABAA000A9BB3 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				F20791FD288AABCF000A9BB3 /* StartInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		F20791FF288AC521000A9BB3 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				F2079200288AC53D000A9BB3 /* StartRouter.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		F210040227A1352A00073B94 = {
@@ -413,7 +461,11 @@
 		F286F8F727FC37C5008E9B2B /* Start */ = {
 			isa = PBXGroup;
 			children = (
-				F285766127D62BAB00B6069F /* StartViewController.swift */,
+				F20791F9288AAA41000A9BB3 /* Builder */,
+				F20791F6288AA7A1000A9BB3 /* Presenter */,
+				F20791FF288AC521000A9BB3 /* Router */,
+				F20791FC288AABAA000A9BB3 /* Interactor */,
+				F20791F5288AA78E000A9BB3 /* Controller */,
 			);
 			path = Start;
 			sourceTree = "<group>";
@@ -735,6 +787,7 @@
 				F2F88056285CFC180028BE85 /* CatalogViewModel.swift in Sources */,
 				F2070D04283376FE0066DEEF /* EndpointBase.swift in Sources */,
 				F29F4C1027CF6BED00D766F2 /* KeychainLayer.swift in Sources */,
+				F20791F8288AA7C2000A9BB3 /* StartPresenter.swift in Sources */,
 				F28CD2DA280D9627002FEBF9 /* NewsHeaderTableViewCell.swift in Sources */,
 				F28CD2CD280D6490002FEBF9 /* NewsPostModel.swift in Sources */,
 				F2070D0E283378DD0066DEEF /* ApiEndpoint.swift in Sources */,
@@ -746,7 +799,10 @@
 				F299704127E0DEEE006684BD /* RealmLayer.swift in Sources */,
 				F28CD2C8280D57FC002FEBF9 /* NewsTableViewController.swift in Sources */,
 				F22E015027A6BF5F00B0FB27 /* FriendsTableViewCell.swift in Sources */,
+				F20791FB288AAA5E000A9BB3 /* StartScreenModuleBuilder.swift in Sources */,
 				F26C4AC127F706A10081FB66 /* FriendPhotosScreenProvider.swift in Sources */,
+				F2079201288AC53D000A9BB3 /* StartRouter.swift in Sources */,
+				F20791FE288AABCF000A9BB3 /* StartInteractor.swift in Sources */,
 				F29C66AD280EF17E0030245D /* OtherForPostModel.swift in Sources */,
 				F25580F327CBB930008820DD /* Responses.swift in Sources */,
 				F245ADE8282FEB0F006ADDD1 /* UIColor.swift in Sources */,

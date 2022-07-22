@@ -11,17 +11,32 @@ import UIKit
 ///
 /// Проверяется работоспособность токена.
 final class StartViewController: UIViewController {
-    // MARK: - Private Properties
-    /// Провайдер.
-    private let provider = StartScreenProvider()
+
+    // MARK: - Computed Properties
 
     private let loadingView: LoadingView = {
         let view = LoadingView(.blue)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+
+    // MARK: - Private Properties
+
+    private let presenter: StartViewOutput
+
+    // MARK: - Initialization
+
+    init(presenter: StartViewOutput) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -29,6 +44,7 @@ final class StartViewController: UIViewController {
     }
 
     // MARK: - Setting UI Method
+
     /// Настройка UI.
     private func setupUI() {
         view.addSubview(loadingView)
@@ -41,23 +57,22 @@ final class StartViewController: UIViewController {
     }
 
     // MARK: - Private Methods
+
     private func choiceScreen() {
-        Task {
-            let controller: UIViewController
-            loadingView.animation(.on)
-            do {
-                let tokenIsValid = try await provider.requestCheckTokenAsync()
-                if !tokenIsValid {
-                    throw MyError.tokenNotValid
-                }
-                controller  = TabBarViewController()
-            } catch {
-                controller  = LoginViewController()
-                print(error)
+        presenter.choiceScreen()
+    }
+}
+
+// MARK: - StartViewInput
+
+extension StartViewController: StartViewInput {
+    func loadAnimation(_ on: Bool) {
+        Task { @MainActor in
+            if on {
+                self.loadingView.animation(.on)
+            } else {
+                self.loadingView.animation(.off)
             }
-            self.loadingView.animation(.off)
-            controller.modalPresentationStyle = .fullScreen
-            self.present(controller, animated: false, completion: nil)
         }
     }
 }
