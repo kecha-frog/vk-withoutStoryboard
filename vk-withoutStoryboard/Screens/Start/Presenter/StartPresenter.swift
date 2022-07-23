@@ -12,10 +12,10 @@ protocol StartViewInput {
 }
 
 protocol StartViewOutput {
-    func choiceScreen()
+    func viewDidSelectScreen()
 }
 
-class StartPresenter: StartViewOutput {
+class StartPresenter {
     
     // MARK: - Public Properties
 
@@ -35,10 +35,8 @@ class StartPresenter: StartViewOutput {
 
     // MARK: - Public Methods
 
-    func choiceScreen() {
+    private func selectScreen() {
         Task { @MainActor in
-            viewInput?.loadAnimation(true)
-            
             do {
                 let tokenIsValid = try await interactor.checkToken()
                 if tokenIsValid {
@@ -52,5 +50,12 @@ class StartPresenter: StartViewOutput {
             }
             viewInput?.loadAnimation(false)
         }
+    }
+}
+
+extension StartPresenter: StartViewOutput {
+    func viewDidSelectScreen() {
+        viewInput?.loadAnimation(true)
+        selectScreen()
     }
 }

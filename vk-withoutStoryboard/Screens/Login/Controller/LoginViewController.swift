@@ -107,7 +107,7 @@ final class LoginViewController: UIViewController {
     /// Запуск WebView с страницей логина  VK.
     @objc private  func loginButtonActions() {
         setupWebView()
-        presenter.prepareDataForLoadWebView()
+        presenter.viewDidLoadWebView()
     }
 }
 
@@ -127,8 +127,8 @@ extension LoginViewController: WKNavigationDelegate {
         
         decisionHandler(.cancel)
 
-        presenter.saveToken(fragment)
-        presenter.openMainScreen()
+        presenter.viewDidSaveToken(fragment)
+        presenter.viewDidOpenMainScreen()
     }
 }
 

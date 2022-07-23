@@ -33,6 +33,9 @@
 		F245ADE6282FE6BD006ADDD1 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F245ADE5282FE6BD006ADDD1 /* .swiftlint.yml */; };
 		F245ADE8282FEB0F006ADDD1 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F245ADE7282FEB0F006ADDD1 /* UIColor.swift */; };
 		F24E7A7327AC12D400E12148 /* FriendsHeaderSectionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24E7A7227AC12D400E12148 /* FriendsHeaderSectionTableView.swift */; };
+		F24EA139288BF32E00324056 /* CatalogGroupsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24EA138288BF32E00324056 /* CatalogGroupsPresenter.swift */; };
+		F24EA13C288BF34800324056 /* CatalogGroupsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24EA13B288BF34800324056 /* CatalogGroupsInteractor.swift */; };
+		F24EA13F288BF37500324056 /* CatalogGroupsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24EA13E288BF37500324056 /* CatalogGroupsRouter.swift */; };
 		F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F252990C27A93EB200E10CEF /* AvatarView.swift */; };
 		F25580F327CBB930008820DD /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25580F227CBB930008820DD /* Responses.swift */; };
 		F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25869EC27A934F100A86D87 /* LikeControl.swift */; };
@@ -51,7 +54,7 @@
 		F287CA0F283A674B000AF975 /* PhotoNSCacheLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F287CA0E283A674B000AF975 /* PhotoNSCacheLayer.swift */; };
 		F2890BDE27AD22E80038AF8F /* SearchBarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2890BDD27AD22E80038AF8F /* SearchBarHeaderView.swift */; };
 		F28C8E6028323807003C648D /* FavoriteGroupsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28C8E5C28323807003C648D /* FavoriteGroupsListViewController.swift */; };
-		F28C8E6128323807003C648D /* CatalogGroupsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28C8E5F28323807003C648D /* CatalogGroupsListViewController.swift */; };
+		F28C8E6128323807003C648D /* CatalogGroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28C8E5F28323807003C648D /* CatalogGroupsViewController.swift */; };
 		F28CD2C8280D57FC002FEBF9 /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CD2C7280D57FC002FEBF9 /* NewsTableViewController.swift */; };
 		F28CD2CB280D5B42002FEBF9 /* NewsScreenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CD2CA280D5B42002FEBF9 /* NewsScreenProvider.swift */; };
 		F28CD2CD280D6490002FEBF9 /* NewsPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CD2CC280D6490002FEBF9 /* NewsPostModel.swift */; };
@@ -111,6 +114,9 @@
 		F245ADE5282FE6BD006ADDD1 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F245ADE7282FEB0F006ADDD1 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		F24E7A7227AC12D400E12148 /* FriendsHeaderSectionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsHeaderSectionTableView.swift; sourceTree = "<group>"; };
+		F24EA138288BF32E00324056 /* CatalogGroupsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogGroupsPresenter.swift; sourceTree = "<group>"; };
+		F24EA13B288BF34800324056 /* CatalogGroupsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogGroupsInteractor.swift; sourceTree = "<group>"; };
+		F24EA13E288BF37500324056 /* CatalogGroupsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogGroupsRouter.swift; sourceTree = "<group>"; };
 		F252990C27A93EB200E10CEF /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		F25580F227CBB930008820DD /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
 		F25869EC27A934F100A86D87 /* LikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeControl.swift; sourceTree = "<group>"; };
@@ -127,7 +133,7 @@
 		F287CA0E283A674B000AF975 /* PhotoNSCacheLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNSCacheLayer.swift; sourceTree = "<group>"; };
 		F2890BDD27AD22E80038AF8F /* SearchBarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarHeaderView.swift; sourceTree = "<group>"; };
 		F28C8E5C28323807003C648D /* FavoriteGroupsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteGroupsListViewController.swift; sourceTree = "<group>"; };
-		F28C8E5F28323807003C648D /* CatalogGroupsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogGroupsListViewController.swift; sourceTree = "<group>"; };
+		F28C8E5F28323807003C648D /* CatalogGroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogGroupsViewController.swift; sourceTree = "<group>"; };
 		F28CD2C7280D57FC002FEBF9 /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		F28CD2CA280D5B42002FEBF9 /* NewsScreenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScreenProvider.swift; sourceTree = "<group>"; };
 		F28CD2CC280D6490002FEBF9 /* NewsPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPostModel.swift; sourceTree = "<group>"; };
@@ -443,6 +449,30 @@
 			path = "SearchBar Header";
 			sourceTree = "<group>";
 		};
+		F24EA137288BF30900324056 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				F24EA138288BF32E00324056 /* CatalogGroupsPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		F24EA13A288BF33700324056 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				F24EA13B288BF34800324056 /* CatalogGroupsInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		F24EA13D288BF34C00324056 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				F24EA13E288BF37500324056 /* CatalogGroupsRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		F252990B27A93E9600E10CEF /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,6 +600,9 @@
 		F28C8E5D28323807003C648D /* Catalog Groups */ = {
 			isa = PBXGroup;
 			children = (
+				F24EA13D288BF34C00324056 /* Router */,
+				F24EA13A288BF33700324056 /* Interactor */,
+				F24EA137288BF30900324056 /* Presenter */,
 				F28C8E5E28323807003C648D /* Controller */,
 			);
 			path = "Catalog Groups";
@@ -578,7 +611,7 @@
 		F28C8E5E28323807003C648D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F28C8E5F28323807003C648D /* CatalogGroupsListViewController.swift */,
+				F28C8E5F28323807003C648D /* CatalogGroupsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -683,9 +716,9 @@
 		F2DCE948280C31D400027EAE /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				F2079203288AD62B000A9BB3 /* Presenter */,
 				F207920A288AD7C9000A9BB3 /* Interactor */,
 				F2079209288AD6D1000A9BB3 /* Router */,
-				F2079203288AD62B000A9BB3 /* Presenter */,
 				F2079202288AD61E000A9BB3 /* Controller */,
 			);
 			path = Login;
@@ -820,6 +853,7 @@
 				F2912AD82840E36E009D3193 /* MyError.swift in Sources */,
 				F24E7A7327AC12D400E12148 /* FriendsHeaderSectionTableView.swift in Sources */,
 				F2079208288AD6CD000A9BB3 /* LoginRouter.swift in Sources */,
+				F24EA139288BF32E00324056 /* CatalogGroupsPresenter.swift in Sources */,
 				F2F88056285CFC180028BE85 /* CatalogViewModel.swift in Sources */,
 				F2070D04283376FE0066DEEF /* EndpointBase.swift in Sources */,
 				F29F4C1027CF6BED00D766F2 /* KeychainLayer.swift in Sources */,
@@ -844,12 +878,13 @@
 				F25580F327CBB930008820DD /* Responses.swift in Sources */,
 				F245ADE8282FEB0F006ADDD1 /* UIColor.swift in Sources */,
 				F29C66A5280ED15F0030245D /* NewsFooterTableViewCell.swift in Sources */,
-				F28C8E6128323807003C648D /* CatalogGroupsListViewController.swift in Sources */,
+				F28C8E6128323807003C648D /* CatalogGroupsViewController.swift in Sources */,
 				F252990D27A93EB200E10CEF /* AvatarView.swift in Sources */,
 				F2070D062833775E0066DEEF /* RequestMethod.swift in Sources */,
 				F2079206288AD647000A9BB3 /* LoginPresenter.swift in Sources */,
 				F2DCE952280C31D400027EAE /* LoginAutorized.swift in Sources */,
 				F2D15E62286838B200364076 /* LoaderImageLayerProxy.swift in Sources */,
+				F24EA13F288BF37500324056 /* CatalogGroupsRouter.swift in Sources */,
 				F25869ED27A934F100A86D87 /* LikeControl.swift in Sources */,
 				F26C4AC727F718290081FB66 /* FavoriteGroupsScreenProvider.swift in Sources */,
 				F28CD2D2280D79DE002FEBF9 /* NewsGroupModel.swift in Sources */,
@@ -876,6 +911,7 @@
 				F28C8E6028323807003C648D /* FavoriteGroupsListViewController.swift in Sources */,
 				F2B76B8327D74BC4006BA2A1 /* LoaderImageLayer.swift in Sources */,
 				F210041127A1352A00073B94 /* SceneDelegate.swift in Sources */,
+				F24EA13C288BF34800324056 /* CatalogGroupsInteractor.swift in Sources */,
 				F287CA0F283A674B000AF975 /* PhotoNSCacheLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

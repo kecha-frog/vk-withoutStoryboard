@@ -12,12 +12,12 @@ protocol LoginViewInput {
 }
 
 protocol LoginViewOutput {
-    func prepareDataForLoadWebView()
-    func saveToken(_ fragmant: String)
-    func openMainScreen()
+    func viewDidLoadWebView()
+    func viewDidSaveToken(_ fragmant: String)
+    func viewDidOpenMainScreen()
 }
 
-class LoginPresenter: LoginViewOutput {
+class LoginPresenter{
     // MARK: - Public Properties
 
     weak var viewInput: (UIViewController & LoginViewInput)?
@@ -36,17 +36,22 @@ class LoginPresenter: LoginViewOutput {
 
     // MARK: - Public Methods
     
-    func prepareDataForLoadWebView() {
-        guard let request = interactor.getUrlRequest() else { return }
-        
+    private func getURLRequest() -> URLRequest? {
+        return interactor.getUrlRequest()
+    }
+}
+
+extension LoginPresenter:  LoginViewOutput {
+    func viewDidLoadWebView() {
+        guard let request = getURLRequest() else { return }
         viewInput?.loadWebView(request)
     }
 
-    func saveToken(_ fragmant: String) {
+    func viewDidSaveToken(_ fragmant: String) {
         interactor.saveToken(fragmant)
     }
 
-    func openMainScreen() {
+    func viewDidOpenMainScreen() {
         router.openMainScreen()
     }
 }
